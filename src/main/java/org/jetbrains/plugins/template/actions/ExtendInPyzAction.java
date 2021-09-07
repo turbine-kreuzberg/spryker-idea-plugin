@@ -54,14 +54,18 @@ public class ExtendInPyzAction extends AnAction
         return "";
     }
 
-    @Override
+   /* @Override
     public void update(@NotNull AnActionEvent e) {
         VirtualFile vFile = e.getData(PlatformDataKeys.VIRTUAL_FILE);
+        if (vFile == null) {
+            e.getPresentation().setVisible(false);
+            return;
+        }
 
         if(vFile.getFileType() == UnknownFileType.INSTANCE || getClassPath(e) == "") {
             e.getPresentation().setVisible(false);
         } else {
             e.getPresentation().setVisible(true);
         }
-    }
+    }*/
 }
