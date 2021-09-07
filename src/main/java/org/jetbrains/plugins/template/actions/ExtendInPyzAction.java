@@ -3,6 +3,7 @@ package org.jetbrains.plugins.template.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.fileEditor.impl.LoadTextUtil;
 import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -11,11 +12,15 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.file.PsiDirectoryFactory;
+import com.intellij.util.ResourceUtil;
 import com.jetbrains.php.lang.PhpFileType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 public class ExtendInPyzAction extends AnAction
 {
@@ -34,8 +39,11 @@ public class ExtendInPyzAction extends AnAction
             VirtualFile pyzDirectory = VfsUtil.createDirectoryIfMissing(targetPath);
             Messages.showMessageDialog(project,"Directory added" + targetPath , "Greeting", Messages.getInformationIcon());
 
+            InputStream inputStream = ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "templates", "phpClass.txt");
+            String content = ResourceUtil.loadText(inputStream);
+
             final PsiFileFactory factory = PsiFileFactory.getInstance(project);
-            final PsiFile file = factory.createFileFromText(e.getData(PlatformDataKeys.VIRTUAL_FILE).getName(), PhpFileType.INSTANCE, "charSequence");
+            final PsiFile file = factory.createFileFromText(e.getData(PlatformDataKeys.VIRTUAL_FILE).getName(), PhpFileType.INSTANCE, content);
 
             PsiDirectory baseDir = PsiDirectoryFactory.getInstance(project).createDirectory(pyzDirectory);
             baseDir.add(file);
@@ -54,7 +62,7 @@ public class ExtendInPyzAction extends AnAction
         return "";
     }
 
-   /* @Override
+    @Override
     public void update(@NotNull AnActionEvent e) {
         VirtualFile vFile = e.getData(PlatformDataKeys.VIRTUAL_FILE);
         if (vFile == null) {
@@ -67,5 +75,5 @@ public class ExtendInPyzAction extends AnAction
         } else {
             e.getPresentation().setVisible(true);
         }
-    }*/
+    }
 }

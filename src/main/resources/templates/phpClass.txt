@@ -1,0 +1,7 @@
+<?php
+
+namespace {{namspace}};
+
+class {{className}} extends Spryker{{className}} {
+
+}
