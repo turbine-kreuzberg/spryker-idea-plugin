@@ -3,6 +3,7 @@ package org.jetbrains.plugins.template.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VfsUtil;
@@ -14,21 +15,12 @@ import com.intellij.psi.impl.file.PsiDirectoryFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ExtendInPyzAction extends AnAction
 {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         Project project = e.getProject();
-
-        final PsiFileFactory factory = PsiFileFactory.getInstance(project);
-        final PsiFile file = factory.createFileFromText("test.txt", "charSequence");
-
-
-        PsiDirectory baseDir = PsiDirectoryFactory.getInstance(project).createDirectory(project.getBaseDir());
-        // baseDir.add(file);
 
         // dateiname = e.getData(PlatformDataKeys.VIRTUAL_FILE).getName();
         // ordner = e.getData(PlatformDataKeys.VIRTUAL_FILE).getParent().getCanonicalPath()
@@ -38,8 +30,15 @@ public class ExtendInPyzAction extends AnAction
         String targetPath = project.getBasePath() + "/src/Pyz/" + originalPath;
 
         try {
-            VirtualFile myDir = VfsUtil.createDirectoryIfMissing(targetPath);
+            VirtualFile pyzDirectory = VfsUtil.createDirectoryIfMissing(targetPath);
             Messages.showMessageDialog(project,"Directory added" + targetPath , "Greeting", Messages.getInformationIcon());
+
+            final PsiFileFactory factory = PsiFileFactory.getInstance(project);
+            final PsiFile file = factory.createFileFromText(e.getData(PlatformDataKeys.VIRTUAL_FILE).getName(), "charSequence");
+
+            PsiDirectory baseDir = PsiDirectoryFactory.getInstance(project).createDirectory(pyzDirectory);
+            baseDir.add(file);
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -57,7 +56,8 @@ public class ExtendInPyzAction extends AnAction
     @Override
     public void update(@NotNull AnActionEvent e) {
         VirtualFile vFile = e.getData(PlatformDataKeys.VIRTUAL_FILE);
-        if( vFile.getFileType() == null && getClassPath(e) == "") {
+
+        if(vFile.getFileType() == UnknownFileType.INSTANCE || getClassPath(e) == "") {
             e.getPresentation().setVisible(false);
         } else {
             e.getPresentation().setVisible(true);
