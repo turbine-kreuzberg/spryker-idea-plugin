@@ -14,6 +14,8 @@ import com.intellij.psi.impl.file.PsiDirectoryFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExtendInPyzAction extends AnAction
 {
@@ -32,22 +34,11 @@ public class ExtendInPyzAction extends AnAction
         // ordner = e.getData(PlatformDataKeys.VIRTUAL_FILE).getParent().getCanonicalPath()
         // projektordner = project.getBasePath()
 
-        String[] array = e.getData(PlatformDataKeys.VIRTUAL_FILE).getParent().getCanonicalPath().split("/");
-
-        int position = 0;
-        for (int i = 0; i < array.length; i++) {
-            if (array[i].compareTo("vendor") == 0) {
-                position = i;
-            }
-        }
-
-        String targetPath = "/src/Pyz/";
-        for (int i = position + 5; i < array.length; i++) {
-            targetPath += array[i] + "/";
-        }
+        String[] regexArray = e.getData(PlatformDataKeys.VIRTUAL_FILE).getParent().getCanonicalPath().split("(vendor\\/spryker[a-z-]*\\/[a-z-]*\\/src\\/Spryker[A-z]*\\/)");
+        String targetPath = project.getBasePath() + "/src/Pyz/" + regexArray[1];
 
         try {
-            VirtualFile myDir = VfsUtil.createDirectoryIfMissing(project.getBasePath() + targetPath);
+            VirtualFile myDir = VfsUtil.createDirectoryIfMissing(targetPath);
             Messages.showMessageDialog(project,"Directory added" + targetPath , "Greeting", Messages.getInformationIcon());
         } catch (IOException ex) {
             ex.printStackTrace();
