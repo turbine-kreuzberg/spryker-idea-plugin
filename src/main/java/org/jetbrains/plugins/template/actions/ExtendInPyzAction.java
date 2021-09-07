@@ -34,14 +34,33 @@ public class ExtendInPyzAction extends AnAction
         // ordner = e.getData(PlatformDataKeys.VIRTUAL_FILE).getParent().getCanonicalPath()
         // projektordner = project.getBasePath()
 
-        String[] regexArray = e.getData(PlatformDataKeys.VIRTUAL_FILE).getParent().getCanonicalPath().split("(vendor\\/spryker[a-z-]*\\/[a-z-]*\\/src\\/Spryker[A-z]*\\/)");
-        String targetPath = project.getBasePath() + "/src/Pyz/" + regexArray[1];
+        String originalPath = getClassPath(e);
+        String targetPath = project.getBasePath() + "/src/Pyz/" + originalPath;
 
         try {
             VirtualFile myDir = VfsUtil.createDirectoryIfMissing(targetPath);
             Messages.showMessageDialog(project,"Directory added" + targetPath , "Greeting", Messages.getInformationIcon());
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private String getClassPath(@NotNull AnActionEvent e) {
+        String[] regexArray = e.getData(PlatformDataKeys.VIRTUAL_FILE).getParent().getCanonicalPath().split("(vendor\\/spryker[a-z-]*\\/[a-z-]*\\/src\\/Spryker[A-z]*\\/)");
+        if(regexArray.length == 2) {
+            return regexArray[1];
+        }
+
+        return "";
+    }
+
+    @Override
+    public void update(@NotNull AnActionEvent e) {
+        VirtualFile vFile = e.getData(PlatformDataKeys.VIRTUAL_FILE);
+        if( vFile.getFileType() == null && getClassPath(e) == "") {
+            e.getPresentation().setVisible(false);
+        } else {
+            e.getPresentation().setVisible(true);
         }
     }
 }
