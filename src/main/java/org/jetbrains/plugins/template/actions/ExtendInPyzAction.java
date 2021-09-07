@@ -12,6 +12,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.impl.file.PsiDirectoryFactory;
+import com.jetbrains.php.lang.PhpFileType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class ExtendInPyzAction extends AnAction
             Messages.showMessageDialog(project,"Directory added" + targetPath , "Greeting", Messages.getInformationIcon());
 
             final PsiFileFactory factory = PsiFileFactory.getInstance(project);
-            final PsiFile file = factory.createFileFromText(e.getData(PlatformDataKeys.VIRTUAL_FILE).getName(), "charSequence");
+            final PsiFile file = factory.createFileFromText(e.getData(PlatformDataKeys.VIRTUAL_FILE).getName(), PhpFileType.INSTANCE, "charSequence");
 
             PsiDirectory baseDir = PsiDirectoryFactory.getInstance(project).createDirectory(pyzDirectory);
             baseDir.add(file);
