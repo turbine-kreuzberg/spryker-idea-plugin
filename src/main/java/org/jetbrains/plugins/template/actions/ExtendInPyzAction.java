@@ -3,6 +3,8 @@ package org.jetbrains.plugins.template.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileEditor.impl.LoadTextUtil;
 import com.intellij.openapi.fileTypes.UnknownFileType;
@@ -43,13 +45,20 @@ public class ExtendInPyzAction extends AnAction
             InputStream inputStream = ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "templates", "phpClass.txt");
             String content = ResourceUtil.loadText(inputStream);
 
+            String contentWithClassName = content.replace("{{className}}",e.getData(PlatformDataKeys.VIRTUAL_FILE).getNameWithoutExtension());
+            String namespace = originalPath.replace("/", "\\");
+            String contentWithClassNameAndNamespace = contentWithClassName.replace("{{namespace}}", namespace);
+
             final PsiFileFactory factory = PsiFileFactory.getInstance(project);
-            final PsiFile file = factory.createFileFromText(e.getData(PlatformDataKeys.VIRTUAL_FILE).getName(), PhpFileType.INSTANCE, content);
+            final PsiFile file = factory.createFileFromText(e.getData(PlatformDataKeys.VIRTUAL_FILE).getName(), PhpFileType.INSTANCE, contentWithClassNameAndNamespace);
 
             PsiDirectory baseDir = PsiDirectoryFactory.getInstance(project).createDirectory(pyzDirectory);
             baseDir.add(file);
 
-            new OpenFileDescriptor(project, file.getVirtualFile()).navigate(true);
+//            OpenFileDescriptor openFileDescriptor = new OpenFileDescriptor(project, file.getVirtualFile());
+//            openFileDescriptor.navigate(true);
+//
+//            Editor fem = FileEditorManager.getInstance(project).openTextEditor(openFileDescriptor, true);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
