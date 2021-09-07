@@ -3,6 +3,7 @@ package org.jetbrains.plugins.template.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileEditor.impl.LoadTextUtil;
 import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.project.Project;
@@ -48,6 +49,7 @@ public class ExtendInPyzAction extends AnAction
             PsiDirectory baseDir = PsiDirectoryFactory.getInstance(project).createDirectory(pyzDirectory);
             baseDir.add(file);
 
+            new OpenFileDescriptor(project, file.getVirtualFile()).navigate(true);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
