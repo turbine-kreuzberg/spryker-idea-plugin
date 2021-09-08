@@ -8,15 +8,6 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.jetbrains.php</depends>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.senordingdong.sprykerideaplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.senordingdong.sprykerideaplugin.services.MyProjectService"/>
-    </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.senordingdong.sprykerideaplugin.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
     <actions>
         <action id="org.jetbrains.plugins.template.actions.ExtendInPyzAction"
                 class="org.jetbrains.plugins.template.actions.ExtendInPyzAction" text="Extend in Pyz">
