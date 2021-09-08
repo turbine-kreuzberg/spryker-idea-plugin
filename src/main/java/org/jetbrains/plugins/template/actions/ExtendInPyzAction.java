@@ -3,8 +3,6 @@ package org.jetbrains.plugins.template.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.application.Application;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileTypes.UnknownFileType;
@@ -101,9 +99,21 @@ public class ExtendInPyzAction extends AnAction
 
         String sprykerNamespace = ((PhpNamespaceImpl) originalFile.getFirstChild().getLastChild()).getPresentation().getPresentableText();
 
+        contentWithClassName = contentWithClassName.replace("{{type}}", getType(file));
         contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
 
         return contentWithClassName.replace("{{namespace}}", namespace);
+    }
+
+    @NotNull
+    private String getType(@NotNull VirtualFile file) {
+        String type = "class";
+
+        if (file.getName().endsWith("Interface.php")) {
+            type = "interface";
+        }
+
+        return type;
     }
 
     private String getClassPath(@NotNull VirtualFile file) {

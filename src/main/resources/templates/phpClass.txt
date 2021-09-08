@@ -4,7 +4,7 @@ namespace Pyz\{{namespace}};
 
 use {{sprykerNamespace}}\{{className}} as Spryker{{className}};
 
-class {{className}} extends Spryker{{className}}
+{{type}} {{className}} extends Spryker{{className}}
 {
 
 }
