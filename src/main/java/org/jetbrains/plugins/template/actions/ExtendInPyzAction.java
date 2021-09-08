@@ -84,9 +84,10 @@ public class ExtendInPyzAction extends AnAction
         PsiManager psiManager = PsiManager.getInstance(project);
         PsiFile originalFile = psiManager.findFile(file);
 
-        String sprykerNamespace = ((PhpFileImpl) originalFile).getMainNamespaceName();
+        String sprykerNamespace = ((PhpNamespaceImpl) ((PhpFileImpl) originalFile).getFirstChild().getLastChild()).getPresentation().getPresentableText();
 
         contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
+
         return contentWithClassName.replace("{{namespace}}", namespace);
     }
 
