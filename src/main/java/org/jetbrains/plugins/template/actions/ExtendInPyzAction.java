@@ -3,6 +3,7 @@ package org.jetbrains.plugins.template.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VfsUtil;
@@ -11,7 +12,6 @@ import com.intellij.psi.*;
 import com.intellij.psi.impl.file.PsiDirectoryFactory;
 import com.intellij.util.ResourceUtil;
 import com.jetbrains.php.lang.PhpFileType;
-import com.jetbrains.php.lang.psi.PhpFileImpl;
 import com.jetbrains.php.lang.psi.elements.impl.PhpNamespaceImpl;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,11 +34,21 @@ public class ExtendInPyzAction extends AnAction
         try {
             VirtualFile virtualPyzDirectory = VfsUtil.createDirectoryIfMissing(targetPath);
             PsiDirectory pyzDirectory = PsiDirectoryFactory.getInstance(project).createDirectory(virtualPyzDirectory);
-            pyzDirectory.add(pyzFile);
+
+            if (pyzDirectory.findFile(pyzFile.getName()) == null) {
+                pyzDirectory.add(pyzFile);
+            }
+
+            findFileInDirectoryAndOpenInEditor(project, pyzDirectory, pyzFile.getName());
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
 
+    private void findFileInDirectoryAndOpenInEditor(Project project, PsiDirectory pyzDirectory, String fileName) {
+        PsiFile foundFile = pyzDirectory.findFile(fileName);
+        new OpenFileDescriptor(project, foundFile.getVirtualFile()).navigate(true);
     }
 
     @Override
@@ -84,7 +94,7 @@ public class ExtendInPyzAction extends AnAction
         PsiManager psiManager = PsiManager.getInstance(project);
         PsiFile originalFile = psiManager.findFile(file);
 
-        String sprykerNamespace = ((PhpNamespaceImpl) ((PhpFileImpl) originalFile).getFirstChild().getLastChild()).getPresentation().getPresentableText();
+        String sprykerNamespace = ((PhpNamespaceImpl) originalFile.getFirstChild().getLastChild()).getPresentation().getPresentableText();
 
         contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
 
