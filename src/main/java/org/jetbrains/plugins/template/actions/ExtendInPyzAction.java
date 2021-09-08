@@ -7,12 +7,12 @@ import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.*;
 import com.intellij.psi.impl.file.PsiDirectoryFactory;
 import com.intellij.util.ResourceUtil;
 import com.jetbrains.php.lang.PhpFileType;
+import com.jetbrains.php.lang.psi.PhpFileImpl;
+import com.jetbrains.php.lang.psi.elements.impl.PhpNamespaceImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class ExtendInPyzAction extends AnAction
         String originalPath = getClassPath(currentFile);
         String targetPath = project.getBasePath() + "/src/Pyz/" + originalPath;
 
-        String renderedContent = getRenderedContent(currentFile, originalPath);
+        String renderedContent = getRenderedContent(currentFile, originalPath, project);
         PsiFile pyzFile = createFile(currentFile, project, renderedContent);
 
         try {
@@ -69,7 +69,7 @@ public class ExtendInPyzAction extends AnAction
     }
 
     @NotNull
-    private String getRenderedContent(@NotNull VirtualFile file, String originalPath) {
+    private String getRenderedContent(@NotNull VirtualFile file, String originalPath, Project project) {
         InputStream inputStream = ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "templates", "phpClass.txt");
         String content = null;
         try {
@@ -81,6 +81,12 @@ public class ExtendInPyzAction extends AnAction
         String contentWithClassName = content.replace("{{className}}", file.getNameWithoutExtension());
         String namespace = originalPath.replace("/", "\\");
 
+        PsiManager psiManager = PsiManager.getInstance(project);
+        PsiFile originalFile = psiManager.findFile(file);
+
+        String sprykerNamespace = ((PhpFileImpl) originalFile).getMainNamespaceName();
+
+        contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
         return contentWithClassName.replace("{{namespace}}", namespace);
     }
 
