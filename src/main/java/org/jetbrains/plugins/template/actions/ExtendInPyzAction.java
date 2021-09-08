@@ -3,6 +3,9 @@ package org.jetbrains.plugins.template.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.project.Project;
@@ -36,7 +39,9 @@ public class ExtendInPyzAction extends AnAction
             PsiDirectory pyzDirectory = PsiDirectoryFactory.getInstance(project).createDirectory(virtualPyzDirectory);
 
             if (pyzDirectory.findFile(pyzFile.getName()) == null) {
-                pyzDirectory.add(pyzFile);
+                WriteCommandAction.runWriteCommandAction(project, () -> {
+                    pyzDirectory.add(pyzFile);
+                });
             }
 
             findFileInDirectoryAndOpenInEditor(project, pyzDirectory, pyzFile.getName());
