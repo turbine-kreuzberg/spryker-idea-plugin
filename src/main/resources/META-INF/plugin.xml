@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.turbinekreuzberg.extendInPyz</id>
-    <name>Extend in PYZ</name>
+    <name>PYZ</name>
     <vendor>Turbine Kreuzberg</vendor>
 
     <!-- Product and plugin compatibility requirements -->

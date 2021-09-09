@@ -12,6 +12,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.file.PsiDirectoryFactory;
 import com.jetbrains.php.lang.PhpFileType;
+import com.turbinekreuzberg.plugins.utils.SprykerRelativeClassPathCreator;
 import com.turbinekreuzberg.plugins.utils.PhpContentCreator;
 import com.turbinekreuzberg.plugins.utils.GenericContentCreator;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +20,13 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 
 public class ExtendInPyzAction extends AnAction {
+
+    SprykerRelativeClassPathCreator sprykerRelativeClassPathCreator;
+    public ExtendInPyzAction() {
+        sprykerRelativeClassPathCreator = new SprykerRelativeClassPathCreator();
+
+    }
+
     @Override
     public void actionPerformed(@NotNull AnActionEvent actionEvent) {
         Project project = actionEvent.getProject();
@@ -31,12 +39,10 @@ public class ExtendInPyzAction extends AnAction {
             processFile(project, selectedVirtualFile);
         }
 
-        return;
-
     }
 
     private void processFile(Project project, VirtualFile selectedVirtualFile) {
-        String relativeClassPath = getRelativeClassPath(selectedVirtualFile);
+        String relativeClassPath = sprykerRelativeClassPathCreator.getRelativeClassPath(selectedVirtualFile);
         String targetPath = project.getBasePath() + "/src/Pyz/" + relativeClassPath;
 
         PsiManager psiManager = PsiManager.getInstance(project);
@@ -84,7 +90,7 @@ public class ExtendInPyzAction extends AnAction {
     }
 
     private boolean isNotFileInSprykerVendor(@NotNull VirtualFile vFile) {
-        return vFile.getFileType() == UnknownFileType.INSTANCE || getRelativeClassPath(vFile) == "";
+        return vFile.getFileType() == UnknownFileType.INSTANCE || !sprykerRelativeClassPathCreator.isLocatedInSprykerVendor(vFile);
     }
 
     @NotNull
@@ -101,14 +107,5 @@ public class ExtendInPyzAction extends AnAction {
         }
 
         return new GenericContentCreator().create(file);
-    }
-
-    private String getRelativeClassPath(@NotNull VirtualFile file) {
-        String[] regexArray = file.getParent().getCanonicalPath().split("(vendor\\/spryker[a-z-]*\\/[a-z-]*\\/src\\/Spryker[A-z]*\\/)");
-        if (regexArray.length == 2) {
-            return regexArray[1];
-        }
-
-        return "";
     }
 }

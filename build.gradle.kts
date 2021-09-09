@@ -22,6 +22,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
+    implementation("org.junit.jupiter:junit-jupiter:5.7.0")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.17.1")
 }
 
