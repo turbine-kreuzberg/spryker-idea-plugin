@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.github.senordingdong.sprykerideaplugin</id>
-    <name>spryker-idea-plugin</name>
+    <name>SprykerIdea</name>
     <vendor>senor-dingdong</vendor>
 
     <!-- Product and plugin compatibility requirements -->
@@ -9,9 +9,11 @@
     <depends>com.jetbrains.php</depends>
 
     <actions>
-        <action id="org.jetbrains.plugins.template.actions.ExtendInPyzAction"
+        <action id="org.jetbrains.plugins.template.actions.ExtendInPyzAction" 
                 class="org.jetbrains.plugins.template.actions.ExtendInPyzAction" text="Extend in Pyz">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <keyboard-shortcut first-keystroke="control alt e" keymap="$default" />
         </action>
     </actions>
 </idea-plugin>
