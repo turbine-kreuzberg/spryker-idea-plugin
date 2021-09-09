@@ -1,0 +1,41 @@
+package com.turbinekreuzberg.plugins.utils;
+
+import com.intellij.psi.PsiFile;
+import com.intellij.util.ResourceUtil;
+import com.jetbrains.php.lang.psi.elements.impl.PhpNamespaceImpl;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class PhpContentCreator {
+    public String create(PsiFile file, String relativePath) {
+        InputStream inputStream = ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "templates", "phpClass.txt");
+        String content = null;
+        try {
+            content = ResourceUtil.loadText(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String contentWithClassName = content.replace("{{className}}", file.getVirtualFile().getNameWithoutExtension());
+        String namespace = relativePath.replace("/", "\\");
+        String sprykerNamespace = ((PhpNamespaceImpl) file.getFirstChild().getLastChild()).getPresentation().getPresentableText();
+
+        contentWithClassName = contentWithClassName.replace("{{type}}", getType(file));
+        contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
+
+        return contentWithClassName.replace("{{namespace}}", namespace);
+    }
+
+    @NotNull
+    private String getType(@NotNull PsiFile file) {
+        String type = "class";
+
+        if (file.getName().endsWith("Interface.php")) {
+            type = "interface";
+        }
+
+        return type;
+    }
+}

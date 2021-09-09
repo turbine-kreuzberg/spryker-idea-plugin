@@ -1,5 +1,6 @@
 package com.turbinekreuzberg.plugins.actions;
 
+import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -11,13 +12,11 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.file.PsiDirectoryFactory;
-import com.intellij.util.ResourceUtil;
 import com.jetbrains.php.lang.PhpFileType;
-import com.jetbrains.php.lang.psi.elements.impl.PhpNamespaceImpl;
+import com.turbinekreuzberg.plugins.utils.PhpContentCreator;
+import com.turbinekreuzberg.plugins.utils.XmlContentCreator;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
-import java.io.InputStream;
 
 public class ExtendInPyzAction extends AnAction
 {
@@ -25,12 +24,15 @@ public class ExtendInPyzAction extends AnAction
     public void actionPerformed(@NotNull AnActionEvent actionEvent) {
         Project project = actionEvent.getProject();
 
-        VirtualFile currentFile = actionEvent.getData(PlatformDataKeys.VIRTUAL_FILE);
-        String originalPath = getClassPath(currentFile);
-        String targetPath = project.getBasePath() + "/src/Pyz/" + originalPath;
+        VirtualFile selectedVirtualFile = actionEvent.getData(PlatformDataKeys.VIRTUAL_FILE);
+        String relativeClassPath = getRelativeClassPath(selectedVirtualFile);
+        String targetPath = project.getBasePath() + "/src/Pyz/" + relativeClassPath;
 
-        String renderedContent = getRenderedContent(currentFile, originalPath, project);
-        PsiFile pyzFile = createFile(currentFile, project, renderedContent);
+        PsiManager psiManager = PsiManager.getInstance(project);
+        PsiFile selectedFile = psiManager.findFile(selectedVirtualFile);
+
+        String renderedContent = getRenderedContent(selectedFile, relativeClassPath);
+        PsiFile pyzFile = createFile(selectedVirtualFile, project, renderedContent);
 
         try {
             VirtualFile virtualPyzDirectory = VfsUtil.createDirectoryIfMissing(targetPath);
@@ -71,7 +73,7 @@ public class ExtendInPyzAction extends AnAction
     }
 
     private boolean isFileInSprykerVendor(@NotNull VirtualFile vFile) {
-        return vFile.getFileType() == UnknownFileType.INSTANCE || getClassPath(vFile) == "";
+        return vFile.getFileType() == UnknownFileType.INSTANCE || getRelativeClassPath(vFile) == "";
     }
 
     @NotNull
@@ -82,41 +84,15 @@ public class ExtendInPyzAction extends AnAction
     }
 
     @NotNull
-    private String getRenderedContent(@NotNull VirtualFile file, String originalPath, Project project) {
-        InputStream inputStream = ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "templates", "phpClass.txt");
-        String content = null;
-        try {
-            content = ResourceUtil.loadText(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private String getRenderedContent(@NotNull PsiFile file, String relativePath) {
+        if (file.getFileType() == XmlFileType.INSTANCE) {
+            return new XmlContentCreator().create(file);
         }
 
-        String contentWithClassName = content.replace("{{className}}", file.getNameWithoutExtension());
-        String namespace = originalPath.replace("/", "\\");
-
-        PsiManager psiManager = PsiManager.getInstance(project);
-        PsiFile originalFile = psiManager.findFile(file);
-
-        String sprykerNamespace = ((PhpNamespaceImpl) originalFile.getFirstChild().getLastChild()).getPresentation().getPresentableText();
-
-        contentWithClassName = contentWithClassName.replace("{{type}}", getType(file));
-        contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
-
-        return contentWithClassName.replace("{{namespace}}", namespace);
+        return new PhpContentCreator().create(file, relativePath);
     }
 
-    @NotNull
-    private String getType(@NotNull VirtualFile file) {
-        String type = "class";
-
-        if (file.getName().endsWith("Interface.php")) {
-            type = "interface";
-        }
-
-        return type;
-    }
-
-    private String getClassPath(@NotNull VirtualFile file) {
+    private String getRelativeClassPath(@NotNull VirtualFile file) {
         String[] regexArray = file.getParent().getCanonicalPath().split("(vendor\\/spryker[a-z-]*\\/[a-z-]*\\/src\\/Spryker[A-z]*\\/)");
         if(regexArray.length == 2) {
             return regexArray[1];
