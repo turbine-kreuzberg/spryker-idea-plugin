@@ -10,7 +10,7 @@
 
     <actions>
         <action id="com.turbinekreuzberg.plugins.actions.ExtendInPyzAction"
-                class="com.turbinekreuzberg.plugins.actions.ExtendInPyzAction" text="Extend in Pyz">
+                class="com.turbinekreuzberg.plugins.actions.ExtendInPyzAction" text="Extend in Pyz" icon="AllIcons.Diff.MagicResolve">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <keyboard-shortcut first-keystroke="control alt e" keymap="$default" />
