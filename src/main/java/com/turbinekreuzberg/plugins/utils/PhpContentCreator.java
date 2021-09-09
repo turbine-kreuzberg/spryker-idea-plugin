@@ -40,6 +40,10 @@ public class PhpContentCreator {
             return "abstract class";
         }
 
+        if (phpClassExtractor.extractClass(file).isTrait()) {
+            return "trait";
+        }
+
         return "class";
     }
 }

@@ -15,15 +15,27 @@ import com.jetbrains.php.lang.PhpFileType;
 import com.turbinekreuzberg.plugins.utils.PhpContentCreator;
 import com.turbinekreuzberg.plugins.utils.GenericContentCreator;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
-public class ExtendInPyzAction extends AnAction
-{
+public class ExtendInPyzAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent actionEvent) {
         Project project = actionEvent.getProject();
 
-        VirtualFile selectedVirtualFile = actionEvent.getData(PlatformDataKeys.VIRTUAL_FILE);
+        VirtualFile[] selectedVirtualFiles = actionEvent.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY);
+
+        assert selectedVirtualFiles != null;
+
+        for (VirtualFile selectedVirtualFile : selectedVirtualFiles) {
+            processFile(project, selectedVirtualFile);
+        }
+
+        return;
+
+    }
+
+    private void processFile(Project project, VirtualFile selectedVirtualFile) {
         String relativeClassPath = getRelativeClassPath(selectedVirtualFile);
         String targetPath = project.getBasePath() + "/src/Pyz/" + relativeClassPath;
 
@@ -63,7 +75,7 @@ public class ExtendInPyzAction extends AnAction
             return;
         }
 
-        if(isFileInSprykerVendor(vFile)) {
+        if (isNotFileInSprykerVendor(vFile)) {
             actionEvent.getPresentation().setVisible(false);
             return;
         }
@@ -71,7 +83,7 @@ public class ExtendInPyzAction extends AnAction
         actionEvent.getPresentation().setVisible(true);
     }
 
-    private boolean isFileInSprykerVendor(@NotNull VirtualFile vFile) {
+    private boolean isNotFileInSprykerVendor(@NotNull VirtualFile vFile) {
         return vFile.getFileType() == UnknownFileType.INSTANCE || getRelativeClassPath(vFile) == "";
     }
 
@@ -93,7 +105,7 @@ public class ExtendInPyzAction extends AnAction
 
     private String getRelativeClassPath(@NotNull VirtualFile file) {
         String[] regexArray = file.getParent().getCanonicalPath().split("(vendor\\/spryker[a-z-]*\\/[a-z-]*\\/src\\/Spryker[A-z]*\\/)");
-        if(regexArray.length == 2) {
+        if (regexArray.length == 2) {
             return regexArray[1];
         }
 
