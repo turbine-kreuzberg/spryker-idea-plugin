@@ -30,12 +30,16 @@ public class PhpContentCreator {
 
     @NotNull
     private String getType(@NotNull PsiFile file) {
-        String type = "class";
+        PhpClassExtractor phpClassExtractor = new PhpClassExtractor();
 
-        if (file.getName().endsWith("Interface.php")) {
-            type = "interface";
+        if (phpClassExtractor.extractClass(file).isInterface()) {
+            return "interface";
         }
 
-        return type;
+        if (phpClassExtractor.extractClass(file).isAbstract()) {
+            return "abstract class";
+        }
+
+        return "class";
     }
 }

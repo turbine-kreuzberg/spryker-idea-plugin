@@ -1,6 +1,5 @@
 package com.turbinekreuzberg.plugins.actions;
 
-import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -14,7 +13,7 @@ import com.intellij.psi.*;
 import com.intellij.psi.impl.file.PsiDirectoryFactory;
 import com.jetbrains.php.lang.PhpFileType;
 import com.turbinekreuzberg.plugins.utils.PhpContentCreator;
-import com.turbinekreuzberg.plugins.utils.XmlContentCreator;
+import com.turbinekreuzberg.plugins.utils.GenericContentCreator;
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 
@@ -85,11 +84,11 @@ public class ExtendInPyzAction extends AnAction
 
     @NotNull
     private String getRenderedContent(@NotNull PsiFile file, String relativePath) {
-        if (file.getFileType() == XmlFileType.INSTANCE) {
-            return new XmlContentCreator().create(file);
+        if (file.getFileType() == PhpFileType.INSTANCE) {
+            return new PhpContentCreator().create(file, relativePath);
         }
 
-        return new PhpContentCreator().create(file, relativePath);
+        return new GenericContentCreator().create(file);
     }
 
     private String getRelativeClassPath(@NotNull VirtualFile file) {
