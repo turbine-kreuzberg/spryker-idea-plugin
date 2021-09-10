@@ -40,7 +40,48 @@ public class PathToGatewayReference extends PsiReferenceBase {
     }
 
     @Override
+    public Object @NotNull [] getVariants() {
+        return super.getVariants();
+    }
+
+    @Override
     public @Nullable PsiElement resolve() {
+        String[] urlParts = getUrlParts();
+
+        String moduleName = urlParts[1];
+        String targetMethod = urlParts[3] + "Action";
+
+        String[] paths = {
+            "/src/Pyz/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
+            "/vendor/spryker/" + moduleName + "/src/Spryker/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
+            "/vendor/spryker-shop/" + moduleName + "/src/Spryker/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
+            "/vendor/spryker-eco/" + moduleName + "/src/Spryker/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
+        };
+
+        for (String path:paths) {
+            Path pyzPath = Paths.get(getElement().getProject().getBasePath() + path);
+            VirtualFile virtualFile = VfsUtil.findFile(pyzPath, true);
+
+            if (virtualFile != null) {
+                PsiManager psiManager = PsiManager.getInstance(getElement().getProject());
+                PsiFile targetFile = psiManager.findFile(virtualFile);
+                Collection <MethodImpl> methodCollection = PsiTreeUtil.findChildrenOfType(targetFile, MethodImpl.class);
+
+                for (MethodImpl method: methodCollection) {
+                    if (targetMethod.equals(method.getName())) {
+                        return method;
+                    }
+                }
+
+                return targetFile;
+            }
+
+        }
+        return null;
+    }
+
+    @NotNull
+    private String[] getUrlParts() {
         String url = getCanonicalText();
 
         StringBuilder stringBuilder = new StringBuilder(url);
@@ -52,43 +93,6 @@ public class PathToGatewayReference extends PsiReferenceBase {
             }
         }
 
-        String[] urlParts = stringBuilder.toString().split("/");
-
-        String sprykerModule = urlParts[1];
-        String method = urlParts[3] + "Action";
-
-        String[] paths = {
-                "/src/Pyz/Zed/" + StringUtils.capitalize(sprykerModule) + "/Communication/Controller/GatewayController.php",
-                "/vendor/spryker/" + sprykerModule + "/src/Spryker/Zed/" + StringUtils.capitalize(sprykerModule) + "/Communication/Controller/GatewayController.php",
-                "/vendor/spryker-shop/" + sprykerModule + "/src/Spryker/Zed/" + StringUtils.capitalize(sprykerModule) + "/Communication/Controller/GatewayController.php",
-                "/vendor/spryker-eco/" + sprykerModule + "/src/Spryker/Zed/" + StringUtils.capitalize(sprykerModule) + "/Communication/Controller/GatewayController.php",
-        };
-
-        for (String path:paths) {
-            Path pyzPath = Paths.get(getElement().getProject().getBasePath() + path);
-            VirtualFile virtualFile = VfsUtil.findFile(pyzPath, true);
-
-
-            if (virtualFile != null) {
-                PsiManager psiManager = PsiManager.getInstance(getElement().getProject());
-                PsiFile selectedFile = psiManager.findFile(virtualFile);
-                Collection <MethodImpl> dingens = PsiTreeUtil.findChildrenOfType(selectedFile, MethodImpl.class);
-
-                for (MethodImpl ding: dingens) {
-                    if (method.equals(ding.getName())) {
-                        return ding;
-                    }
-                }
-
-                return selectedFile;
-            }
-
-        }
-        return null;
-    }
-
-    @Override
-    public Object @NotNull [] getVariants() {
-        return super.getVariants();
+       return stringBuilder.toString().split("/");
     }
 }
