@@ -19,5 +19,6 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <psi.referenceContributor implementation="com.turbinekreuzberg.plugins.contributors.PsiPathToGatewayControllerContributor"/>
+        <referencesSearch implementation="com.turbinekreuzberg.plugins.search.PathToStubReferencesSearcher"/>
     </extensions>
 </idea-plugin>
