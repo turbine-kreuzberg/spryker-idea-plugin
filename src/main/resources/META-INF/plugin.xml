@@ -16,4 +16,8 @@
             <keyboard-shortcut first-keystroke="control alt e" keymap="$default" />
         </action>
     </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <psi.referenceContributor implementation="com.turbinekreuzberg.plugins.contributors.PsiPathToGatewayControllerContributor"/>
+    </extensions>
 </idea-plugin>
