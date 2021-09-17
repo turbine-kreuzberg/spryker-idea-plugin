@@ -1,7 +1,11 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 # spryker-idea-plugin Changelog
-
-## [Unreleased]
+## [0.2.0] - 2021-09-17
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- GoTo Stub from GatewayController 
+
+## [0.1.0] - 2021-09-10
+### Added
+- Extend classes in PYZ
+- GoTo GatewayController from Stub call

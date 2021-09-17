@@ -3,8 +3,7 @@ package com.turbinekreuzberg.plugins.search;
 import com.intellij.openapi.application.QueryExecutorBase;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
-import com.intellij.psi.search.SearchRequestCollector;
-import com.intellij.psi.search.UsageSearchContext;
+import com.intellij.psi.search.*;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.util.Processor;
 import com.jetbrains.php.lang.psi.elements.impl.MethodImpl;
@@ -18,7 +17,6 @@ public class PathToStubReferencesSearcher extends QueryExecutorBase<PsiReference
     public void processQuery(ReferencesSearch.@NotNull SearchParameters queryParameters, @NotNull Processor<? super PsiReference> consumer) {
         PsiElement elementToSearch = queryParameters.getElementToSearch();
         if (elementToSearch instanceof MethodImpl && ((MethodImpl) elementToSearch).getName().endsWith("Action")) {
-
             String moduleName = convertCamelCaseToKebabCase(getModuleName((MethodImpl) elementToSearch));
             String methodName = convertCamelCaseToKebabCase(getMethodName((MethodImpl) elementToSearch));
             String word = "/" + String.join("/", moduleName, "gateway", methodName);
