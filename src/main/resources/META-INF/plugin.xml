@@ -7,6 +7,7 @@
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.jetbrains.php</depends>
+    <depends>com.jetbrains.twig</depends>
 
     <actions>
         <action id="com.turbinekreuzberg.plugins.actions.ExtendInPyzAction"
