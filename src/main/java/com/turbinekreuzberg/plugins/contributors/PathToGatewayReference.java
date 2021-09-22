@@ -72,8 +72,6 @@ public class PathToGatewayReference extends PsiReferenceBase {
                         return method;
                     }
                 }
-
-                return targetFile;
             }
 
         }
