@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 # spryker-idea-plugin Changelog
+## [0.2.1] - 2021-12-03
+### Fixed
+- Remove PhpStorm version constraint
+
 ## [0.2.0] - 2021-09-17
 ### Added
 - GoTo Stub from GatewayController 
