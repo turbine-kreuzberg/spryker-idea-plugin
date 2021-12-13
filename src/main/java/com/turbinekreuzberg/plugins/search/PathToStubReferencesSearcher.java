@@ -1,5 +1,6 @@
 package com.turbinekreuzberg.plugins.search;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.QueryExecutorBase;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
@@ -15,15 +16,17 @@ public class PathToStubReferencesSearcher extends QueryExecutorBase<PsiReference
 
     @Override
     public void processQuery(ReferencesSearch.@NotNull SearchParameters queryParameters, @NotNull Processor<? super PsiReference> consumer) {
-        PsiElement elementToSearch = queryParameters.getElementToSearch();
-        if (elementToSearch instanceof MethodImpl && ((MethodImpl) elementToSearch).getName().endsWith("Action")) {
-            String moduleName = convertCamelCaseToKebabCase(getModuleName((MethodImpl) elementToSearch));
-            String methodName = convertCamelCaseToKebabCase(getMethodName((MethodImpl) elementToSearch));
-            String word = "/" + String.join("/", moduleName, "gateway", methodName);
+        ApplicationManager.getApplication().runReadAction(() -> {
+            PsiElement elementToSearch = queryParameters.getElementToSearch();
+            if (elementToSearch instanceof MethodImpl && ((MethodImpl) elementToSearch).getName().endsWith("Action")) {
+                String moduleName = convertCamelCaseToKebabCase(getModuleName((MethodImpl) elementToSearch));
+                String methodName = convertCamelCaseToKebabCase(getMethodName((MethodImpl) elementToSearch));
+                String word = "/" + String.join("/", moduleName, "gateway", methodName);
 
-            SearchRequestCollector collector = queryParameters.getOptimizer();
-            collector.searchWord(word, elementToSearch.getUseScope(),  UsageSearchContext.IN_STRINGS, false, elementToSearch);
-        }
+                SearchRequestCollector collector = queryParameters.getOptimizer();
+                collector.searchWord(word, elementToSearch.getUseScope(),  UsageSearchContext.IN_STRINGS, false, elementToSearch);
+            }
+        });
     }
 
     private String getModuleName(MethodImpl elementToSearch) {

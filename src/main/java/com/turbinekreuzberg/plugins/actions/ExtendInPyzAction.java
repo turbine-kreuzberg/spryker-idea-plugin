@@ -3,7 +3,7 @@ package com.turbinekreuzberg.plugins.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.project.Project;
@@ -24,7 +24,6 @@ public class ExtendInPyzAction extends AnAction {
     SprykerRelativeClassPathCreator sprykerRelativeClassPathCreator;
     public ExtendInPyzAction() {
         sprykerRelativeClassPathCreator = new SprykerRelativeClassPathCreator();
-
     }
 
     @Override
@@ -38,7 +37,6 @@ public class ExtendInPyzAction extends AnAction {
         for (VirtualFile selectedVirtualFile : selectedVirtualFiles) {
             processFile(project, selectedVirtualFile);
         }
-
     }
 
     private void processFile(Project project, VirtualFile selectedVirtualFile) {
@@ -51,21 +49,22 @@ public class ExtendInPyzAction extends AnAction {
         String renderedContent = getRenderedContent(selectedFile, relativeClassPath);
         PsiFile pyzFile = createFile(selectedVirtualFile, project, renderedContent);
 
-        try {
-            VirtualFile virtualPyzDirectory = VfsUtil.createDirectoryIfMissing(targetPath);
-            PsiDirectory pyzDirectory = PsiDirectoryFactory.getInstance(project).createDirectory(virtualPyzDirectory);
-
-            if (pyzDirectory.findFile(pyzFile.getName()) == null) {
-                WriteCommandAction.runWriteCommandAction(project, () -> {
-                    pyzDirectory.add(pyzFile);
-                });
+        ApplicationManager.getApplication().runWriteAction(() -> {
+            VirtualFile virtualPyzDirectory = null;
+            try {
+                virtualPyzDirectory = VfsUtil.createDirectoryIfMissing(targetPath);
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
 
-            findFileInDirectoryAndOpenInEditor(project, pyzDirectory, pyzFile.getName());
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+            if (virtualPyzDirectory != null) {
+                PsiDirectory pyzDirectory = PsiDirectoryFactory.getInstance(project).createDirectory(virtualPyzDirectory);
+                if (pyzDirectory.findFile(pyzFile.getName()) == null) {
+                    pyzDirectory.add(pyzFile);
+                }
+                findFileInDirectoryAndOpenInEditor(project, pyzDirectory, pyzFile.getName());
+            }
+        });
     }
 
     private void findFileInDirectoryAndOpenInEditor(Project project, PsiDirectory pyzDirectory, String fileName) {
