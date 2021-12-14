@@ -1,38 +1,18 @@
-# spryker-idea-plugin
+# PYZ
 
 ![Build](https://github.com/senor-dingdong/spryker-idea-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Verify the [pluginGroup](/gradle.properties), [plugin ID](/src/main/resources/META-INF/plugin.xml) and [sources package](/src/main/kotlin).
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the Plugin ID in the above README badges.
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
-
 <!-- Plugin description -->
-This plugin eases your dev life (if you would work on a Spryker project). 
+## PYZ - The PhpStorm Plugin for Spryker Developers
+- Extend Spryker core classes, interfaces and xml files on project level (right-click -> extend in PYZ / CTRL-ALT-E)
+- Goto-handling for Zed stub calls and their gateway controller actions (URLs are clickable)  
+- Resolve usages of gateway controller actions in Zed stub calls
 
-Just right-click on classes, interfaces and xml files in Spryker vendor folder to extend them on project level.
- 
+## About
+This plugin was created during the _Turbine Kreuzberg Breakout Week_ by a bunch of PHP developers. It is far from perfect. You are welcome to contribute! Feel free to create a pull request, or leave an issue if something does not work.  
 <!-- Plugin description end -->
-
-## Installation
-
-- Using IDE built-in plugin system:
-  
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "spryker-idea-plugin"</kbd> >
-  <kbd>Install Plugin</kbd>
-  
-- Manually:
-
-  Download the [latest release](https://github.com/senor-dingdong/spryker-idea-plugin/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
-
 ---
 Plugin based on the [IntelliJ Platform Plugin Template][template].
 

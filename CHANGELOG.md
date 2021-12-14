@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.2.3] - 2021-12-15
+### Changed
+- Make the plugin release-ready
+
 ## [0.2.2] - 2021-12-03
 ### Fixed
 - Error messages in read and write actions
