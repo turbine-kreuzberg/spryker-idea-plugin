@@ -1,6 +1,7 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# spryker-idea-plugin Changelog
+## [Unreleased]
+
 ## [0.2.2] - 2021-12-03
 ### Fixed
 - Error messages in read and write actions
