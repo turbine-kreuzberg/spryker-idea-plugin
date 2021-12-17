@@ -21,5 +21,9 @@
     <extensions defaultExtensionNs="com.intellij">
         <psi.referenceContributor implementation="com.turbinekreuzberg.plugins.contributors.PsiPathToGatewayControllerContributor"/>
         <referencesSearch implementation="com.turbinekreuzberg.plugins.search.PathToStubReferencesSearcher"/>
+        <applicationConfigurable parentId="tools" instance="com.turbinekreuzberg.plugins.settings.AppSettingsConfigurable"
+                                 id="org.intellij.sdk.settings.AppSettingsConfigurable"
+                                 displayName="PYZ Plugin"/>
+        <applicationService serviceImplementation="com.turbinekreuzberg.plugins.settings.AppSettingsState"/>
     </extensions>
 </idea-plugin>

@@ -89,7 +89,11 @@ tasks {
         )
 
         // Get the latest available change notes from the changelog file
-        changeNotes.set(provider { changelog.getLatest().toHTML() })
+        changeNotes.set(provider {
+            changelog.run {
+                getLatest()
+            }.toHTML()
+        })
     }
 
     runPluginVerifier {

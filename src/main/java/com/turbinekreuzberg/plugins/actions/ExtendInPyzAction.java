@@ -12,6 +12,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.file.PsiDirectoryFactory;
 import com.jetbrains.php.lang.PhpFileType;
+import com.turbinekreuzberg.plugins.settings.AppSettingsState;
 import com.turbinekreuzberg.plugins.utils.SprykerRelativeClassPathCreator;
 import com.turbinekreuzberg.plugins.utils.PhpContentCreator;
 import com.turbinekreuzberg.plugins.utils.GenericContentCreator;
@@ -41,7 +42,7 @@ public class ExtendInPyzAction extends AnAction {
 
     private void processFile(Project project, VirtualFile selectedVirtualFile) {
         String relativeClassPath = sprykerRelativeClassPathCreator.getRelativeClassPath(selectedVirtualFile);
-        String targetPath = project.getBasePath() + "/src/Pyz/" + relativeClassPath;
+        String targetPath = project.getBasePath() + AppSettingsState.getInstance().pyzDirectory + relativeClassPath;
 
         PsiManager psiManager = PsiManager.getInstance(project);
         PsiFile selectedFile = psiManager.findFile(selectedVirtualFile);

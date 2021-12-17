@@ -3,6 +3,7 @@ package com.turbinekreuzberg.plugins.utils;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.ResourceUtil;
 import com.jetbrains.php.lang.psi.elements.impl.PhpNamespaceImpl;
+import com.turbinekreuzberg.plugins.settings.AppSettingsState;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class PhpContentCreator {
         contentWithClassName = contentWithClassName.replace("{{type}}", getType(file));
         contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
 
-        return contentWithClassName.replace("{{namespace}}", namespace);
+        return contentWithClassName.replace("{{namespace}}", AppSettingsState.getInstance().pyzNamespace + "\\" + namespace);
     }
 
     @NotNull

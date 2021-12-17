@@ -9,6 +9,7 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiReferenceBase;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.impl.MethodImpl;
+import com.turbinekreuzberg.plugins.settings.AppSettingsState;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,6 +53,7 @@ public class PathToGatewayReference extends PsiReferenceBase {
         String targetMethod = urlParts[3] + "Action";
 
         String[] paths = {
+            AppSettingsState.getInstance().pyzDirectory + "Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
             "/src/Pyz/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
             "/vendor/spryker/" + moduleName + "/src/Spryker/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
             "/vendor/spryker-shop/" + moduleName + "/src/Spryker/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",

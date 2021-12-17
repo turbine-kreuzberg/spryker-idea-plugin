@@ -1,6 +1,6 @@
 <?php
 
-namespace Pyz\{{namespace}};
+namespace {{namespace}};
 
 use {{sprykerNamespace}}\{{className}} as Spryker{{className}};
 
