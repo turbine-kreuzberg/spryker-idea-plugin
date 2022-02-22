@@ -16,6 +16,12 @@
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <keyboard-shortcut first-keystroke="control alt e" keymap="$default" />
         </action>
+        <action id="com.turbinekreuzberg.plugins.actions.ViewOnGithubAction"
+                class="com.turbinekreuzberg.plugins.actions.ViewOnGithubAction" text="View on GitHub" icon="AllIcons.Vcs.Vendors.Github">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="com.turbinekreuzberg.plugins.actions.ExtendInPyzAction"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="com.turbinekreuzberg.plugins.actions.ExtendInPyzAction"/>
+            <keyboard-shortcut first-keystroke="control alt g" keymap="$default" />
+        </action>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">

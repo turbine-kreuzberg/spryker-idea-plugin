@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.4.0] - 2022-02-22
+### Added
+- View file on GitHub
+
 ## [0.3.0] - 2021-12-17
 ### Added
 - PYZ directory and base namespace are configurable in Settings -> Tools -> PYZ Plugin

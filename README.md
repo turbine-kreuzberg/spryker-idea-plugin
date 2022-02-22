@@ -4,7 +4,8 @@
 
 <!-- Plugin description -->
 ## PYZ - a PhpStorm Plugin for Spryker Developers
-- Extend Spryker core classes, interfaces and xml files on project level (right-click -> extend in PYZ / CTRL-ALT-E)
+- Extend Spryker core classes, interfaces and xml files on project level (right-click -> Extend in PYZ / CTRL-ALT-E)
+- Open Spryker files on github.com (right-click -> View on GitHub / CTRL-ALT-G)
 - Goto-handling for Zed stub calls and their gateway controller actions (URLs are clickable)  
 - Resolve usages of gateway controller actions in Zed stub calls
 
@@ -13,6 +14,7 @@ This plugin was created during the _Turbine Kreuzberg Breakout Week_ as a learni
 
 ## How to use
 - To extend files on project level, use the context menu item "Extend in PYZ". It will appear for files located in one of the Spryker vendor directories only.
+- "View on GitHub" will try to parse your composer.lock file and open your currently installed version in the browser.
 - Files can be extended in batches, just select multiple files at once.
 - You can configure the PYZ directory and the base-namespace in Settings->Tools->PYZ Plugin.
 <!-- Plugin description end -->

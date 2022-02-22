@@ -1,10 +1,7 @@
 package com.turbinekreuzberg.plugins.utils;
 
-import com.intellij.mock.MockVirtualFile;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.regex.Pattern;
 
 public class SprykerRelativeClassPathCreator {
 
