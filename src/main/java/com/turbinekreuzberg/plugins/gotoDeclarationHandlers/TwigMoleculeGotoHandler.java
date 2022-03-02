@@ -3,6 +3,7 @@ package com.turbinekreuzberg.plugins.gotoDeclarationHandlers;
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -19,26 +20,36 @@ public class TwigMoleculeGotoHandler implements GotoDeclarationHandler {
     public PsiElement @Nullable [] getGotoDeclarationTargets(@Nullable PsiElement sourceElement, int offset, Editor editor) {
 
         if (sourceElement == null) {
-            return new PsiElement[0];
-        }
-        if (sourceElement.getText().equals("product-content")) {
-            if (sourceElement.getPrevSibling().getPrevSibling().getPrevSibling().getText().equals("molecule")) {
-                String path = "/src/Pyz/Client/Cart/CartClient.php";
-
-                Path pyzPath = Paths.get(sourceElement.getProject().getBasePath() + path);
-                VirtualFile virtualFile = VfsUtil.findFile(pyzPath, true);
-
-                if (virtualFile != null) {
-                    PsiManager psiManager = PsiManager.getInstance(sourceElement.getProject());
-                    PsiElement targetFile = psiManager.findFile(virtualFile);
-
-                    return new PsiElement[]{targetFile};
-                }
-                return new PsiElement[0];
-            }
+            return null;
         }
 
-        return new PsiElement[0];
+        String fileType = ((EditorImpl) editor).getVirtualFile().getFileType().getName();
+
+        if (!fileType.equals("Twig")) {
+            return null;
+        }
+
+        if (!sourceElement.getPrevSibling().getPrevSibling().getPrevSibling().getText().equals("molecule")) {
+            return null;
+        }
+
+        String moleculeName = sourceElement.getText();
+
+
+        String path = "/src/Pyz/Yves/ShopUi/Theme/default/components/molecules/" + moleculeName + "/" + moleculeName + ".twig";
+
+        Path pyzPath = Paths.get(sourceElement.getProject().getBasePath() + path);
+        VirtualFile virtualFile = VfsUtil.findFile(pyzPath, true);
+
+        if (virtualFile == null) {
+            return null;
+        }
+
+        PsiManager psiManager = PsiManager.getInstance(sourceElement.getProject());
+        PsiElement targetFile = psiManager.findFile(virtualFile);
+
+        return new PsiElement[]{targetFile};
+
     }
 
     @Override
