@@ -8,6 +8,7 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiManager;
+import com.jetbrains.twig.TwigFileType;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,9 +24,7 @@ public class TwigMoleculeGotoHandler implements GotoDeclarationHandler {
             return null;
         }
 
-        String fileType = ((EditorImpl) editor).getVirtualFile().getFileType().getName();
-
-        if (!fileType.equals("Twig")) {
+        if (((EditorImpl) editor).getVirtualFile().getFileType() != TwigFileType.INSTANCE) {
             return null;
         }
 
