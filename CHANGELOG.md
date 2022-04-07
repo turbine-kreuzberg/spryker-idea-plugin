@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.5.0] - 2022-04-07
+### Added
+- Navigation in OMS XML files
+
 ## [0.4.0] - 2022-02-22
 ### Added
 - View file on GitHub

@@ -1,9 +1,10 @@
-package com.turbinekreuzberg.plugins.contributors;
+package com.turbinekreuzberg.plugins.contributors.gateway;
 
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReferenceContributor;
 import com.intellij.psi.PsiReferenceRegistrar;
+import com.turbinekreuzberg.plugins.contributors.gateway.GatewayControllerPathPsiElementProvider;
 import org.jetbrains.annotations.NotNull;
 
 public class PsiPathToGatewayControllerContributor extends PsiReferenceContributor {

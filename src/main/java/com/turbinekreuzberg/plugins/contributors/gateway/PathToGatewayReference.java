@@ -1,4 +1,4 @@
-package com.turbinekreuzberg.plugins.contributors;
+package com.turbinekreuzberg.plugins.contributors.gateway;
 
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VfsUtil;

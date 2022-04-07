@@ -25,7 +25,8 @@
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <psi.referenceContributor implementation="com.turbinekreuzberg.plugins.contributors.PsiPathToGatewayControllerContributor"/>
+        <psi.referenceContributor implementation="com.turbinekreuzberg.plugins.contributors.gateway.PsiPathToGatewayControllerContributor"/>
+        <psi.referenceContributor implementation="com.turbinekreuzberg.plugins.contributors.oms.OmsXmlToDependencyControllerContributor"/>
         <referencesSearch implementation="com.turbinekreuzberg.plugins.search.PathToStubReferencesSearcher"/>
         <applicationConfigurable parentId="tools" instance="com.turbinekreuzberg.plugins.settings.AppSettingsConfigurable"
                                  id="org.intellij.sdk.settings.AppSettingsConfigurable"
