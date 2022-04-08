@@ -4,7 +4,9 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
+import com.intellij.psi.impl.cache.CacheManager;
 import com.intellij.psi.search.FilenameIndex;
+import com.intellij.psi.search.UsageSearchContext;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.impl.StringLiteralExpressionImpl;
 import com.turbinekreuzberg.plugins.settings.AppSettingsState;
@@ -46,22 +48,45 @@ public class OmsXmlToDependencyReference extends PsiReferenceBase {
     public @Nullable PsiElement resolve() {
         String commandName = "'" + getCanonicalText() + "'";
 
-        String filePath = AppSettingsState.getInstance().pyzDirectory + "Zed/Oms/OmsDependencyProvider.php";
-        Path pyzPath = Paths.get(getElement().getProject().getBasePath() + filePath);
-        VirtualFile virtualFile = VfsUtil.findFile(pyzPath, true);
+        String[] relativeFilePaths = {
+            AppSettingsState.getInstance().pyzDirectory + "Zed/Oms/OmsDependencyProvider.php",
+            AppSettingsState.getInstance().pyzDirectory + "Zed/MerchantOms/MerchantOmsDependencyProvider.php",
+        };
 
-        if (virtualFile != null) {
-            PsiManager psiManager = PsiManager.getInstance(getElement().getProject());
-            PsiFile targetFile = psiManager.findFile(virtualFile);
-            StringLiteralExpressionImpl result = this.searchForUsageInFile(commandName, targetFile);
+        // search in oms and merchant-oms dependency providers
+        for (String relativeFilePath:relativeFilePaths) {
+            Path fullPath = Paths.get(getElement().getProject().getBasePath() + relativeFilePath);
+            VirtualFile virtualFile = VfsUtil.findFile(fullPath, true);
+
+            if (virtualFile != null) {
+                PsiManager psiManager = PsiManager.getInstance(getElement().getProject());
+                PsiFile targetFile = psiManager.findFile(virtualFile);
+                StringLiteralExpressionImpl result = this.searchForUsageInFile(commandName, targetFile);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+
+        // search in oms dependency injectors
+        PsiFile[] injectorPsiFiles = FilenameIndex.getFilesByName(getElement().getProject(), "OmsDependencyInjector.php", getElement().getResolveScope());
+        for (PsiFile injectorPsiFile:injectorPsiFiles) {
+            StringLiteralExpressionImpl result = this.searchForUsageInFile(commandName, injectorPsiFile);
             if (result != null) {
                 return result;
             }
         }
 
-        PsiFile[] injectorPsiFiles =  FilenameIndex.getFilesByName(getElement().getProject(), "OmsDependencyInjector.php", getElement().getResolveScope());
-        for (PsiFile injectorPsiFile:injectorPsiFiles) {
-            StringLiteralExpressionImpl result = this.searchForUsageInFile(commandName, injectorPsiFile);
+        // still not found? search everywhere
+        PsiFile[] psiFiles = CacheManager.getInstance(getElement().getProject()).getFilesWithWord(
+            commandName,
+            UsageSearchContext.IN_STRINGS,
+            getElement().getResolveScope(),
+            true
+        );
+
+        for (PsiFile psiFile:psiFiles) {
+            StringLiteralExpressionImpl result = this.searchForUsageInFile(commandName, psiFile);
             if (result != null) {
                 return result;
             }

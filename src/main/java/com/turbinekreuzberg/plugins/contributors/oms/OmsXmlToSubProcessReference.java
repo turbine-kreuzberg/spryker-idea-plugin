@@ -1,21 +1,11 @@
 package com.turbinekreuzberg.plugins.contributors.oms;
 
 import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
-import com.intellij.psi.impl.file.PsiDirectoryImpl;
 import com.intellij.psi.search.FilenameIndex;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ArrayUtil;
-import com.jetbrains.php.lang.psi.elements.impl.StringLiteralExpressionImpl;
-import com.turbinekreuzberg.plugins.settings.AppSettingsState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collection;
 
 public class OmsXmlToSubProcessReference extends PsiReferenceBase {
     public OmsXmlToSubProcessReference(@NotNull PsiElement element, TextRange rangeInElement, boolean soft) {
@@ -48,16 +38,24 @@ public class OmsXmlToSubProcessReference extends PsiReferenceBase {
     public @Nullable PsiElement resolve() {
         PsiDirectory psiDirectory = getElement().getContainingFile().getContainingDirectory();
 
-        String pathToXmlFile = getCanonicalText();
+        String xmlFilePath = this.getXmlFilePath();
 
-        if (pathToXmlFile.contains("/")) {
-            String[] filePathParts = pathToXmlFile.split("/");
+        if (xmlFilePath.contains("/")) {
+            String[] filePathParts = xmlFilePath.split("/");
             String fileName = ArrayUtil.getLastElement(filePathParts);
-            PsiFile[] injectorPsiFiles = FilenameIndex.getFilesByName(getElement().getProject(), fileName, getElement().getResolveScope());
+            PsiFile[] psiFiles = FilenameIndex.getFilesByName(getElement().getProject(), fileName, getElement().getResolveScope());
 
-            return ArrayUtil.getLastElement(injectorPsiFiles);
+            return ArrayUtil.getLastElement(psiFiles);
         }
 
-        return psiDirectory.findFile(pathToXmlFile);
+        return psiDirectory.findFile(xmlFilePath);
+    }
+
+    private String getXmlFilePath() {
+        if (!getCanonicalText().contains(".xml")) {
+            return getCanonicalText() + ".xml";
+        }
+
+        return getCanonicalText();
     }
 }
