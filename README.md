@@ -9,6 +9,7 @@
 - Goto-handling for Zed stub calls and their gateway controller actions (URLs are clickable)  
 - Resolve usages of gateway controller actions in Zed stub calls
 - Navigate from OMS XML files to included sub-processes and the definitions of commands/conditions 
+- Navigate from Twig files to included, embedded and extended files and widgets
 
 ## About
 This plugin was created during the _Turbine Kreuzberg Breakout Week_ as a learning project by a bunch of PHP developers. It is far from perfect. You are welcome to contribute! Feel free to create a pull request, or leave an issue if something does not work.  
@@ -19,6 +20,7 @@ This plugin was created during the _Turbine Kreuzberg Breakout Week_ as a learni
 - Files can be extended in batches, just select multiple files at once.
 - You can configure the PYZ directory and the base-namespace in Settings->Tools->PYZ Plugin.
 - In OMS XML files you can click command and condition names (e.g. "Oms/SendOrderConfirmation") to get to the definition in either OmsDependencyProvider or any OmsDependencyInjector. You can also click the name of a subprocess to open the file (e.g. "DummySubprocess/DummyRefund01.xml").
+- In Twig files you can click the names of included files (e.g. molecules, atoms, widgets etc...).
 <!-- Plugin description end -->
 
 ---

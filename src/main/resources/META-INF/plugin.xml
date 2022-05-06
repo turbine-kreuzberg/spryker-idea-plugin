@@ -28,6 +28,7 @@
         <psi.referenceContributor implementation="com.turbinekreuzberg.plugins.contributors.gateway.PsiPathToGatewayControllerContributor"/>
         <psi.referenceContributor implementation="com.turbinekreuzberg.plugins.contributors.oms.OmsXmlToDependencyControllerContributor"/>
         <referencesSearch implementation="com.turbinekreuzberg.plugins.search.PathToStubReferencesSearcher"/>
+        <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.TwigGotoHandler" />
         <applicationConfigurable parentId="tools" instance="com.turbinekreuzberg.plugins.settings.AppSettingsConfigurable"
                                  id="org.intellij.sdk.settings.AppSettingsConfigurable"
                                  displayName="PYZ Plugin"/>

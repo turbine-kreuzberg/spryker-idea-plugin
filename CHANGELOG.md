@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.6.0] - 2022-05-06
+### Added
+- Navigation in Twig files
+
 ## [0.5.1] - 2022-04-08
 ### Added
 - Navigation in OMS XML files: compatibility for merchant-oms, custom state-machines and sub-process includes without extension
