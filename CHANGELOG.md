@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.6.1] - 2022-05-09
+### Changed
+- Updated Readme
+
 ## [0.6.0] - 2022-05-06
 ### Added
 - Navigation in Twig files
