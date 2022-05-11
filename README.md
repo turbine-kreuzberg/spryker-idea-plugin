@@ -11,6 +11,7 @@ A collection of little helpers that improve your daily work with Spryker
 - Resolve usages of gateway controller actions in Zed stub calls
 - Navigate from OMS XML files to included sub-processes and the definitions of commands/conditions 
 - Navigate from Twig files to included, embedded and extended files and widgets
+- Show XML definitions of transfer objects
 
 ## How to use
 - To extend files on project level, use the context menu item "Extend in PYZ". It will appear for files located in one of the Spryker vendor directories only.
@@ -19,6 +20,7 @@ A collection of little helpers that improve your daily work with Spryker
 - You can configure the PYZ directory and the base-namespace in Settings->Tools->PYZ Plugin.
 - In OMS XML files you can click command and condition names (e.g. "Oms/SendOrderConfirmation") to get to the definition in either OmsDependencyProvider or any OmsDependencyInjector. You can also click the name of a subprocess to open the file (e.g. "DummySubprocess/DummyRefund01.xml").
 - In Twig files you can click the names of included files (e.g. molecules, atoms, widgets etc...) to jump directly to the file. For widgets it will try to find a twig file as well as the php file for you to choose from.
+- For transfer objects (e.g. ItemTransfer.php) PYZ tries to resolve definitions and extensions in all *.transfer.xml files. Click on the class name to see a list of all usages.
 <!-- Plugin description end -->
 
 ## About
