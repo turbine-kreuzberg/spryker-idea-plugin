@@ -30,18 +30,21 @@ public class TransferObjectGotoHandler implements GotoDeclarationHandler {
             return null;
         }
 
-        String searchTerm = sourceElement.getText().replace("Transfer", "");
+        String transferName = sourceElement.getText().replace("Transfer", "");
+        String searchTerm = "transfer name=\"" + transferName + "\"";
         PsiFile[] psiFiles = CacheManager.getInstance(sourceElement.getProject()).getFilesWithWord(
-                "transfer name=\"" + searchTerm + "\"",
+                searchTerm,
                 UsageSearchContext.ANY,
                 GlobalSearchScope.allScope(sourceElement.getProject()),
-                false
+                true
         );
 
         PsiFile[] resolvedFiles = new PsiFile[0];
         for (PsiFile psiFile:psiFiles) {
             if (psiFile.getFileType() instanceof XmlFileType && psiFile.getName().endsWith(".transfer.xml")) {
-                resolvedFiles = ArrayUtil.append(resolvedFiles, psiFile);
+                if (psiFile.getContainingFile() != null && psiFile.getContainingFile().getText().contains(searchTerm)) {
+                    resolvedFiles = ArrayUtil.append(resolvedFiles, psiFile);
+                }
             }
         }
 
@@ -71,11 +74,25 @@ public class TransferObjectGotoHandler implements GotoDeclarationHandler {
             return false;
         }
 
-        if ((sourceElement.getParent() instanceof ClassReferenceImpl) || (sourceElement.getParent() instanceof PhpDocTypeImpl) || (sourceElement.getPrevSibling().getPrevSibling().getText().equals("class"))) {
+        if ((sourceElement.getParent() instanceof ClassReferenceImpl)
+                || (sourceElement.getParent() instanceof PhpDocTypeImpl)
+                || isClassName(sourceElement)) {
             return true;
         }
 
         return false;
+    }
+
+    private boolean isClassName(PsiElement sourceElement) {
+        if (sourceElement.getPrevSibling() == null) {
+            return false;
+        }
+
+        if (sourceElement.getPrevSibling().getPrevSibling() == null) {
+            return false;
+        }
+
+        return sourceElement.getPrevSibling().getPrevSibling().getText().equals("class");
     }
 
     @Override

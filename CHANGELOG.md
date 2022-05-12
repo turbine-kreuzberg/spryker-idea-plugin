@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.7.1] - 2022-05-12
+### Fixed
+- Show XML definitions: limit to definitions and extensions
+
 ## [0.7.0] - 2022-05-11
 ### Added
 - Show XML definitions of transfer objects
