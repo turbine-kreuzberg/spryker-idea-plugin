@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.7.2] - 2022-05-13
+### Added
+- Show XML definitions: navigation from transfer.xml files to transfer objects, definitions and extensions
+
 ## [0.7.1] - 2022-05-12
 ### Fixed
 - Show XML definitions: limit to definitions and extensions
