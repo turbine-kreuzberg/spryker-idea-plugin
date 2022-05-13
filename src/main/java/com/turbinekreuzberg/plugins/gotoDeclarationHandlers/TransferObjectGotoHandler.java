@@ -17,6 +17,7 @@ import com.intellij.util.ArrayUtil;
 import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.impl.PhpDocTypeImpl;
 import com.jetbrains.php.lang.psi.elements.impl.ClassReferenceImpl;
+import com.turbinekreuzberg.plugins.settings.AppSettingsState;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,6 +25,10 @@ import org.jetbrains.annotations.Nullable;
 public class TransferObjectGotoHandler implements GotoDeclarationHandler {
     @Override
     public PsiElement @Nullable [] getGotoDeclarationTargets(@Nullable PsiElement sourceElement, int offset, Editor editor) {
+
+        if (!AppSettingsState.getInstance().transferObjectGotoHandlingFeatureActive) {
+            return null;
+        }
 
         if (sourceElement == null) {
             return null;

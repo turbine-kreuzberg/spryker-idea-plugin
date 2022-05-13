@@ -8,6 +8,7 @@ import com.intellij.psi.search.*;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.util.Processor;
 import com.jetbrains.php.lang.psi.elements.impl.MethodImpl;
+import com.turbinekreuzberg.plugins.settings.AppSettingsState;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +17,10 @@ public class PathToStubReferencesSearcher extends QueryExecutorBase<PsiReference
 
     @Override
     public void processQuery(ReferencesSearch.@NotNull SearchParameters queryParameters, @NotNull Processor<? super PsiReference> consumer) {
+        if (!AppSettingsState.getInstance().zedStubGatewayControllerFeatureActive) {
+            return;
+        }
+
         ApplicationManager.getApplication().runReadAction(() -> {
             PsiElement elementToSearch = queryParameters.getElementToSearch();
             if (elementToSearch instanceof MethodImpl && ((MethodImpl) elementToSearch).getName().endsWith("Action")) {

@@ -12,6 +12,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ArrayUtil;
 import com.jetbrains.twig.TwigFileType;
 import com.jetbrains.twig.elements.TwigElementTypes;
+import com.turbinekreuzberg.plugins.settings.AppSettingsState;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,10 @@ import org.jetbrains.annotations.Nullable;
 public class TwigGotoHandler implements GotoDeclarationHandler {
     @Override
     public PsiElement @Nullable [] getGotoDeclarationTargets(@Nullable PsiElement sourceElement, int offset, Editor editor) {
+
+        if (!AppSettingsState.getInstance().twigGotoHandlingFeatureActive) {
+            return null;
+        }
 
         if (sourceElement == null) {
             return null;

@@ -16,6 +16,12 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
 
     public String pyzDirectory = "/src/Pyz/";
     public String pyzNamespace = "Pyz";
+    public boolean extendInPyzFeatureActive = true;
+    public boolean viewOnGithubFeatureActive = true;
+    public boolean zedStubGatewayControllerFeatureActive = true;
+    public boolean omsNavigationFeatureActive = true;
+    public boolean twigGotoHandlingFeatureActive = true;
+    public boolean transferObjectGotoHandlingFeatureActive = true;
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);

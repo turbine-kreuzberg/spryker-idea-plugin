@@ -75,6 +75,11 @@ public class ExtendInPyzAction extends AnAction {
 
     @Override
     public void update(@NotNull AnActionEvent actionEvent) {
+        if (!AppSettingsState.getInstance().extendInPyzFeatureActive) {
+            actionEvent.getPresentation().setVisible(false);
+            return;
+        }
+
         VirtualFile vFile = actionEvent.getData(PlatformDataKeys.VIRTUAL_FILE);
         if (vFile == null) {
             actionEvent.getPresentation().setVisible(false);

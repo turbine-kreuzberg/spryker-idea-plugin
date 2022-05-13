@@ -12,7 +12,7 @@ public class AppSettingsConfigurable implements Configurable {
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "PYZ Plugin";
+        return "PYZ Plugin Settings";
     }
 
     @Override
@@ -32,6 +32,12 @@ public class AppSettingsConfigurable implements Configurable {
         AppSettingsState settings = AppSettingsState.getInstance();
         boolean modified = !mySettingsComponent.getPyzDirectoryText().equals(settings.pyzDirectory);
         modified |= !mySettingsComponent.getPyzNamespaceText().equals(settings.pyzNamespace);
+        modified |= mySettingsComponent.getExtendInPyzFeatureActive() != settings.extendInPyzFeatureActive;
+        modified |= mySettingsComponent.getViewOnGithubFeatureActive() != settings.viewOnGithubFeatureActive;
+        modified |= mySettingsComponent.getZedStubGatewayControllerFeatureActive() != settings.zedStubGatewayControllerFeatureActive;
+        modified |= mySettingsComponent.getOmsNavigationFeatureActive() != settings.omsNavigationFeatureActive;
+        modified |= mySettingsComponent.getTwigGotoHandlingFeatureActive() != settings.twigGotoHandlingFeatureActive;
+        modified |= mySettingsComponent.getTransferObjectGotoHandlingFeatureActive() != settings.transferObjectGotoHandlingFeatureActive;
         return modified;
     }
 
@@ -40,6 +46,12 @@ public class AppSettingsConfigurable implements Configurable {
         AppSettingsState settings = AppSettingsState.getInstance();
         settings.pyzDirectory = mySettingsComponent.getPyzDirectoryText();
         settings.pyzNamespace = mySettingsComponent.getPyzNamespaceText();
+        settings.extendInPyzFeatureActive = mySettingsComponent.getExtendInPyzFeatureActive();
+        settings.viewOnGithubFeatureActive = mySettingsComponent.getViewOnGithubFeatureActive();
+        settings.zedStubGatewayControllerFeatureActive = mySettingsComponent.getZedStubGatewayControllerFeatureActive();
+        settings.omsNavigationFeatureActive = mySettingsComponent.getOmsNavigationFeatureActive();
+        settings.twigGotoHandlingFeatureActive = mySettingsComponent.getTwigGotoHandlingFeatureActive();
+        settings.transferObjectGotoHandlingFeatureActive = mySettingsComponent.getTransferObjectGotoHandlingFeatureActive();
     }
 
     @Override
@@ -47,6 +59,12 @@ public class AppSettingsConfigurable implements Configurable {
         AppSettingsState settings = AppSettingsState.getInstance();
         mySettingsComponent.setPyzDirectoryText(settings.pyzDirectory);
         mySettingsComponent.setPyzNamespaceText(settings.pyzNamespace);
+        mySettingsComponent.setExtendInPyzFeatureActive(settings.extendInPyzFeatureActive);
+        mySettingsComponent.setViewOnGithubFeatureActive(settings.viewOnGithubFeatureActive);
+        mySettingsComponent.setZedStubGatewayControllerFeatureActive(settings.zedStubGatewayControllerFeatureActive);
+        mySettingsComponent.setOmsNavigationFeatureActive(settings.omsNavigationFeatureActive);
+        mySettingsComponent.setTwigGotoHandlingFeatureActive(settings.twigGotoHandlingFeatureActive);
+        mySettingsComponent.setTransferObjectGotoHandlingFeatureActive(settings.transferObjectGotoHandlingFeatureActive);
     }
 
     @Override

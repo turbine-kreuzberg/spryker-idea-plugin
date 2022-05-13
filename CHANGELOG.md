@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.7.3] - 2022-05-17
+### Added
+- Make all features configurable
+
 ## [0.7.2] - 2022-05-13
 ### Added
 - Show XML definitions: navigation from transfer.xml files to transfer objects, definitions and extensions

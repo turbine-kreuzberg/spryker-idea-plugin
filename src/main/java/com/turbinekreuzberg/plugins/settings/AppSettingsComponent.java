@@ -1,5 +1,6 @@
 package com.turbinekreuzberg.plugins.settings;
 
+import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
@@ -11,11 +12,28 @@ public class AppSettingsComponent {
     private final JPanel myMainPanel;
     private final JBTextField pyzDirectoryText = new JBTextField();
     private final JBTextField pyzNamespaceText = new JBTextField();
+    private final JBCheckBox extendInPyzFeatureActiveCheckbox = new JBCheckBox("Extend-in-PYZ");
+    private final JBCheckBox viewOnGithubFeatureActiveCheckbox = new JBCheckBox("View-on-GitHub");
+    private final JBCheckBox zedStubGatewayControllerFeatureActiveCheckbox = new JBCheckBox("Zed stub <> gateway controller navigation");
+    private final JBCheckBox omsNavigationFeatureActiveCheckbox = new JBCheckBox("State machine navigation");
+    private final JBCheckBox twigGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Twig goto-handling");
+    private final JBCheckBox transferObjectGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Transfer object goto-handling");
 
     public AppSettingsComponent() {
         myMainPanel = FormBuilder.createFormBuilder()
+                .addComponent(new JLabel("Active features"))
+                .addVerticalGap(10)
+                .addComponent(extendInPyzFeatureActiveCheckbox, 1)
+                .addComponent(viewOnGithubFeatureActiveCheckbox, 1)
+                .addComponent(zedStubGatewayControllerFeatureActiveCheckbox, 1)
+                .addComponent(omsNavigationFeatureActiveCheckbox, 1)
+                .addComponent(twigGotoHandlingFeatureActiveCheckbox, 1)
+                .addComponent(transferObjectGotoHandlingFeatureActiveCheckbox, 1)
+                .addVerticalGap(10)
+                .addSeparator()
+                .addVerticalGap(10)
                 .addLabeledComponent(new JBLabel("PYZ directory (default is '/src/Pyz/')"), pyzDirectoryText, 1, false)
-                .addLabeledComponent(new JBLabel("PYZ namespace (default is 'Pyz')"), pyzNamespaceText, 2, false)
+                .addLabeledComponent(new JBLabel("PYZ namespace (default is 'Pyz')"), pyzNamespaceText, 1, false)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -44,5 +62,53 @@ public class AppSettingsComponent {
 
     public void setPyzNamespaceText(@NotNull String newText) {
         pyzNamespaceText.setText(newText);
+    }
+
+    public boolean getExtendInPyzFeatureActive() {
+        return extendInPyzFeatureActiveCheckbox.isSelected();
+    }
+
+    public void setExtendInPyzFeatureActive(boolean newStatus) {
+        extendInPyzFeatureActiveCheckbox.setSelected(newStatus);
+    }
+
+    public boolean getViewOnGithubFeatureActive() {
+        return viewOnGithubFeatureActiveCheckbox.isSelected();
+    }
+
+    public void setViewOnGithubFeatureActive(boolean newStatus) {
+        viewOnGithubFeatureActiveCheckbox.setSelected(newStatus);
+    }
+
+    public boolean getZedStubGatewayControllerFeatureActive() {
+        return zedStubGatewayControllerFeatureActiveCheckbox.isSelected();
+    }
+
+    public void setZedStubGatewayControllerFeatureActive(boolean newStatus) {
+        zedStubGatewayControllerFeatureActiveCheckbox.setSelected(newStatus);
+    }
+
+    public boolean getOmsNavigationFeatureActive() {
+        return omsNavigationFeatureActiveCheckbox.isSelected();
+    }
+
+    public void setOmsNavigationFeatureActive(boolean newStatus) {
+        omsNavigationFeatureActiveCheckbox.setSelected(newStatus);
+    }
+
+    public boolean getTwigGotoHandlingFeatureActive() {
+        return twigGotoHandlingFeatureActiveCheckbox.isSelected();
+    }
+
+    public void setTwigGotoHandlingFeatureActive(boolean newStatus) {
+        twigGotoHandlingFeatureActiveCheckbox.setSelected(newStatus);
+    }
+
+    public boolean getTransferObjectGotoHandlingFeatureActive() {
+        return transferObjectGotoHandlingFeatureActiveCheckbox.isSelected();
+    }
+
+    public void setTransferObjectGotoHandlingFeatureActive(boolean newStatus) {
+        transferObjectGotoHandlingFeatureActiveCheckbox.setSelected(newStatus);
     }
 }

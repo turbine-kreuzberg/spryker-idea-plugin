@@ -24,6 +24,7 @@ A collection of little helpers that improve your daily work with Spryker.
 - For transfer objects PYZ tries to resolve definitions and extensions in *.transfer.xml files. To see a list of definitions and extensions:
   - Click a transfer object's class name (e.g. in "class ItemTransfer" or in "new ItemTransfer()") or
   - Click a transfer object's name in any *.transfer.xml file.
+- All features can be switched on and off in Settings->Tools->PYZ Plugin
 <!-- Plugin description end -->
 
 ## About

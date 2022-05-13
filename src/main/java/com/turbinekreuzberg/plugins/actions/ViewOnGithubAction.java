@@ -11,6 +11,7 @@ import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import com.turbinekreuzberg.plugins.settings.AppSettingsState;
 import com.turbinekreuzberg.plugins.utils.SprykerRelativeClassPathCreator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -81,6 +82,11 @@ public class ViewOnGithubAction extends AnAction {
 
     @Override
     public void update(@NotNull AnActionEvent actionEvent) {
+        if (!AppSettingsState.getInstance().viewOnGithubFeatureActive) {
+            actionEvent.getPresentation().setVisible(false);
+            return;
+        }
+
         VirtualFile vFile = actionEvent.getData(PlatformDataKeys.VIRTUAL_FILE);
         if (vFile == null) {
             actionEvent.getPresentation().setVisible(false);
