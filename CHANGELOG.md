@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.7.4] - 2023-01-02
+### Added
+- Navigation in Twig files: resolve default twig includes
+
 ## [0.7.3] - 2022-05-17
 ### Added
 - Make all features configurable

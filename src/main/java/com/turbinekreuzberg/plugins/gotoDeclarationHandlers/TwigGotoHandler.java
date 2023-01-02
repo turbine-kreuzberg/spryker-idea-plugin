@@ -34,7 +34,7 @@ public class TwigGotoHandler implements GotoDeclarationHandler {
             return null;
         }
 
-        String includedFileName = sourceElement.getText();
+        String includedFileName = this.getFilename(sourceElement);
 
         if (includedFileName.contains("Widget")) {
             PsiFile[] foundPhpFiles = FilenameIndex.getFilesByName(
@@ -62,7 +62,7 @@ public class TwigGotoHandler implements GotoDeclarationHandler {
         if (foundTwigFiles.length > 0) {
             PsiFile[] resolvedFiles = new PsiFile[0];
             for (PsiFile psiFile:foundTwigFiles) {
-                if (psiFile.getContainingDirectory() != sourceElement.getContainingFile().getContainingDirectory()) {
+                if (!this.isSameFile(sourceElement, psiFile) && this.matchesModule(sourceElement, psiFile)) {
                     resolvedFiles = ArrayUtil.append(resolvedFiles, psiFile);
                 }
             }
@@ -71,6 +71,40 @@ public class TwigGotoHandler implements GotoDeclarationHandler {
         }
 
         return null;
+    }
+
+    private String getFilename(PsiElement sourceElement) {
+        if (!sourceElement.getText().endsWith(".twig")) {
+            return sourceElement.getText();
+        }
+
+        String[] pathParts = getSanitizedPathParts(sourceElement);
+
+        return ArrayUtil.getLastElement(pathParts);
+    }
+
+    private @Nullable String getModuleName(PsiElement sourceElement) {
+        if (!sourceElement.getText().endsWith(".twig")) {
+            return null;
+        }
+
+        String[] pathParts = getSanitizedPathParts(sourceElement);
+
+        return ArrayUtil.getFirstElement(pathParts);
+    }
+
+    private static String[] getSanitizedPathParts(PsiElement sourceElement) {
+        return StringUtils.split(sourceElement.getText().replace(".twig", "").replace("@", ""), "/");
+    }
+
+    private boolean isSameFile(PsiElement sourceElement, PsiFile psiFile) {
+        return sourceElement.getContainingFile().getContainingDirectory() == psiFile.getContainingDirectory();
+    }
+
+    private boolean matchesModule(PsiElement sourceElement, PsiFile psiFile) {
+        String moduleName = this.getModuleName(sourceElement);
+
+        return moduleName == null || psiFile.getVirtualFile().getPath().contains( "/" + moduleName + "/");
     }
 
     private boolean isResolvable(PsiElement sourceElement) {
@@ -82,6 +116,10 @@ public class TwigGotoHandler implements GotoDeclarationHandler {
         IElementType[] resolvableParentElementTypes = {TwigElementTypes.INCLUDE_TAG, TwigElementTypes.EMBED_TAG, TwigElementTypes.EXTENDS_TAG, TwigElementTypes.TAG};
         if (!ArrayUtil.contains(parentElementType, resolvableParentElementTypes)) {
             return false;
+        }
+
+        if (sourceElement.getText().endsWith(".twig")) {
+            return true;
         }
 
         if (sourceElement.getPrevSibling() == null) {
