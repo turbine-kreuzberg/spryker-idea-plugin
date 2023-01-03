@@ -98,7 +98,7 @@ public class TwigGotoHandler implements GotoDeclarationHandler {
     }
 
     private boolean isSameFile(PsiElement sourceElement, PsiFile psiFile) {
-        return sourceElement.getContainingFile().getContainingDirectory() == psiFile.getContainingDirectory();
+        return sourceElement.getContainingFile().getVirtualFile().getPath().equals(psiFile.getVirtualFile().getPath());
     }
 
     private boolean matchesModule(PsiElement sourceElement, PsiFile psiFile) {

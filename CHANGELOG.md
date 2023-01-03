@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.7.5] - 2023-01-03
+### Fixed
+- Fixed resolving files in same directory 
+
 ## [0.7.4] - 2023-01-02
 ### Added
 - Navigation in Twig files: resolve default twig includes
