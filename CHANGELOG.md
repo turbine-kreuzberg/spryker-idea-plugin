@@ -1,6 +1,9 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.7.6] - 2023-03-03
+### Update dependencies
+
 ## [0.7.5] - 2023-01-03
 ### Fixed
 - Fixed resolving files in same directory 
