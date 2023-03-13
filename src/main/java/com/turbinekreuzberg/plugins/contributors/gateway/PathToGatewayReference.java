@@ -17,8 +17,9 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
-public class PathToGatewayReference extends PsiReferenceBase {
+public class PathToGatewayReference extends PsiReferenceBase<PsiElement> {
     public PathToGatewayReference(@NotNull PsiElement element, TextRange rangeInElement, boolean soft) {
         super(element, rangeInElement, soft);
     }
@@ -47,17 +48,16 @@ public class PathToGatewayReference extends PsiReferenceBase {
 
     @Override
     public @Nullable PsiElement resolve() {
-        String[] urlParts = getUrlParts();
-
-        String moduleName = urlParts[1];
-        String targetMethod = urlParts[3] + "Action";
+        String packageName = getPackageName();
+        String moduleName = getModuleName();
+        String targetMethodName = getTargetMethodName();
 
         String[] paths = {
-            AppSettingsState.getInstance().pyzDirectory + "Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
-            "/src/Pyz/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
-            "/vendor/spryker/" + moduleName + "/src/Spryker/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
-            "/vendor/spryker-shop/" + moduleName + "/src/Spryker/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
-            "/vendor/spryker-eco/" + moduleName + "/src/Spryker/Zed/" + StringUtils.capitalize(moduleName) + "/Communication/Controller/GatewayController.php",
+            AppSettingsState.getInstance().pyzDirectory + "Zed/" + moduleName + "/Communication/Controller/GatewayController.php",
+            "/src/Pyz/Zed/" + moduleName + "/Communication/Controller/GatewayController.php",
+            "/vendor/spryker/" + packageName + "/src/Spryker/Zed/" + moduleName + "/Communication/Controller/GatewayController.php",
+            "/vendor/spryker-shop/" + packageName + "/src/Spryker/Zed/" + moduleName + "/Communication/Controller/GatewayController.php",
+            "/vendor/spryker-eco/" + packageName + "/src/Spryker/Zed/" + moduleName + "/Communication/Controller/GatewayController.php",
         };
 
         for (String path:paths) {
@@ -70,7 +70,7 @@ public class PathToGatewayReference extends PsiReferenceBase {
                 Collection <MethodImpl> methodCollection = PsiTreeUtil.findChildrenOfType(targetFile, MethodImpl.class);
 
                 for (MethodImpl method: methodCollection) {
-                    if (targetMethod.equals(method.getName())) {
+                    if (targetMethodName.equals(method.getName())) {
                         return method;
                     }
                 }
@@ -81,18 +81,31 @@ public class PathToGatewayReference extends PsiReferenceBase {
     }
 
     @NotNull
-    private String[] getUrlParts() {
-        String url = getCanonicalText();
+    private String getPackageName() {
+        String[] urlParts = getCanonicalText().split("/");
 
-        StringBuilder stringBuilder = new StringBuilder(url);
+        return urlParts[1];
+    }
 
-        for (int i = 0; i < stringBuilder.length(); i++) {
-            if (stringBuilder.charAt(i) == '-') {
-                stringBuilder.deleteCharAt(i);
-                stringBuilder.replace(i, i+1, String.valueOf(Character.toUpperCase(stringBuilder.charAt(i))));
-            }
-        }
+    @NotNull
+    private String getModuleName() {
+        String camelCasedPackageName = convertKebabCaseToCamelCase(getPackageName());
 
-       return stringBuilder.toString().split("/");
+        return StringUtils.capitalize(camelCasedPackageName);
+    }
+
+    @NotNull
+    private String getTargetMethodName() {
+        String[] urlParts = getCanonicalText().split("/");
+        String camelCasedTargetMethodName = convertKebabCaseToCamelCase(urlParts[3]);
+
+        return camelCasedTargetMethodName + "Action";
+    }
+
+    @NotNull
+    private String convertKebabCaseToCamelCase(String kebabCasedString) {
+        return Pattern.compile("-([a-z])")
+                .matcher(kebabCasedString)
+                .replaceAll(mr -> mr.group(1).toUpperCase());
     }
 }
