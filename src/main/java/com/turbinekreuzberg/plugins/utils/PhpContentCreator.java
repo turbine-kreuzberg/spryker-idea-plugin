@@ -28,7 +28,7 @@ public class PhpContentCreator {
 
         if (!AppSettingsState.getInstance().fileDocBlockText.isBlank()) {
             contentWithClassName = contentWithClassName.replace(
-                "{{fileDocBlock}}", AppSettingsState.getInstance().fileDocBlockText
+                "{{fileDocBlock}}", AppSettingsState.getInstance().fileDocBlockText.trim()
             );
         }
 
