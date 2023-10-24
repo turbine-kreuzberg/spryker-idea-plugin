@@ -1,5 +1,7 @@
 <?php
 
+{{fileDocBlock}}
+
 namespace {{namespace}};
 
 use {{sprykerNamespace}}\{{className}} as Spryker{{className}};

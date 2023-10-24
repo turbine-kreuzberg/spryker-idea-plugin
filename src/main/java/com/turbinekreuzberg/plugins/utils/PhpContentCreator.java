@@ -26,6 +26,12 @@ public class PhpContentCreator {
         contentWithClassName = contentWithClassName.replace("{{type}}", getType(file));
         contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
 
+        if (!AppSettingsState.getInstance().fileDocBlockText.isBlank()) {
+            contentWithClassName = contentWithClassName.replace(
+                "{{fileDocBlock}}", AppSettingsState.getInstance().fileDocBlockText
+            );
+        }
+
         return contentWithClassName.replace("{{namespace}}", AppSettingsState.getInstance().pyzNamespace + "\\" + namespace);
     }
 

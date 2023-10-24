@@ -30,7 +30,8 @@ public class AppSettingsConfigurable implements Configurable {
     @Override
     public boolean isModified() {
         AppSettingsState settings = AppSettingsState.getInstance();
-        boolean modified = !mySettingsComponent.getPyzDirectoryText().equals(settings.pyzDirectory);
+        boolean modified = !mySettingsComponent.getFileDocBlockText().equals(settings.fileDocBlockText);
+        modified |= !mySettingsComponent.getPyzDirectoryText().equals(settings.pyzDirectory);
         modified |= !mySettingsComponent.getPyzNamespaceText().equals(settings.pyzNamespace);
         modified |= mySettingsComponent.getExtendInPyzFeatureActive() != settings.extendInPyzFeatureActive;
         modified |= mySettingsComponent.getViewOnGithubFeatureActive() != settings.viewOnGithubFeatureActive;
@@ -44,6 +45,7 @@ public class AppSettingsConfigurable implements Configurable {
     @Override
     public void apply() {
         AppSettingsState settings = AppSettingsState.getInstance();
+        settings.fileDocBlockText = mySettingsComponent.getFileDocBlockText();
         settings.pyzDirectory = mySettingsComponent.getPyzDirectoryText();
         settings.pyzNamespace = mySettingsComponent.getPyzNamespaceText();
         settings.extendInPyzFeatureActive = mySettingsComponent.getExtendInPyzFeatureActive();
@@ -57,6 +59,7 @@ public class AppSettingsConfigurable implements Configurable {
     @Override
     public void reset() {
         AppSettingsState settings = AppSettingsState.getInstance();
+        mySettingsComponent.setFileDocBlockText(settings.fileDocBlockText);
         mySettingsComponent.setPyzDirectoryText(settings.pyzDirectory);
         mySettingsComponent.setPyzNamespaceText(settings.pyzNamespace);
         mySettingsComponent.setExtendInPyzFeatureActive(settings.extendInPyzFeatureActive);
