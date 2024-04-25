@@ -9,7 +9,7 @@ import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.util.Processor;
 import com.jetbrains.php.lang.psi.elements.impl.MethodImpl;
 import com.turbinekreuzberg.plugins.settings.AppSettingsState;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class PathToStubReferencesSearcher extends QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters> {

@@ -13,7 +13,7 @@ import com.intellij.util.ArrayUtil;
 import com.jetbrains.twig.TwigFileType;
 import com.jetbrains.twig.elements.TwigElementTypes;
 import com.turbinekreuzberg.plugins.settings.AppSettingsState;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

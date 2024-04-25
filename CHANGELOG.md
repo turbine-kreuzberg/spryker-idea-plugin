@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.7.8] - 2024-04-25
+### Fixed
+- Fixed deprecation message, updated dependencies
+
 ## [0.7.7] - 2023-03-13
 ### Fixed
 - Fixed resolving gateway references in vendor namespaces 

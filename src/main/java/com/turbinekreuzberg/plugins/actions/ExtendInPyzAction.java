@@ -1,5 +1,6 @@
 package com.turbinekreuzberg.plugins.actions;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -25,6 +26,11 @@ public class ExtendInPyzAction extends AnAction {
     SprykerRelativeClassPathCreator sprykerRelativeClassPathCreator;
     public ExtendInPyzAction() {
         sprykerRelativeClassPathCreator = new SprykerRelativeClassPathCreator();
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override
