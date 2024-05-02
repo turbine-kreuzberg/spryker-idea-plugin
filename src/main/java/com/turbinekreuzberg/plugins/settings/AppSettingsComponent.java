@@ -3,6 +3,7 @@ package com.turbinekreuzberg.plugins.settings;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
+import com.intellij.ui.components.JBTextArea;
 import com.intellij.util.ui.FormBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ public class AppSettingsComponent {
     private final JBCheckBox omsNavigationFeatureActiveCheckbox = new JBCheckBox("State machine navigation");
     private final JBCheckBox twigGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Twig goto-handling");
     private final JBCheckBox transferObjectGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Transfer object goto-handling");
+    private final JBTextArea fileDocBlockText = new JBTextArea();
 
     public AppSettingsComponent() {
         myMainPanel = FormBuilder.createFormBuilder()
@@ -34,6 +36,12 @@ public class AppSettingsComponent {
                 .addVerticalGap(10)
                 .addLabeledComponent(new JBLabel("PYZ directory (default is '/src/Pyz/')"), pyzDirectoryText, 1, false)
                 .addLabeledComponent(new JBLabel("PYZ namespace (default is 'Pyz')"), pyzNamespaceText, 1, false)
+                .addVerticalGap(10)
+                .addSeparator()
+                .addVerticalGap(10)
+                .addLabeledComponent(new JBLabel("File doc block for generated classes"), fileDocBlockText, 1, true)
+                .addVerticalGap(10)
+                .addSeparator()
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -110,5 +118,13 @@ public class AppSettingsComponent {
 
     public void setTransferObjectGotoHandlingFeatureActive(boolean newStatus) {
         transferObjectGotoHandlingFeatureActiveCheckbox.setSelected(newStatus);
+    }
+
+    public String getFileDocBlockText() {
+        return fileDocBlockText.getText();
+    }
+
+    public void setFileDocBlockText(String newText) {
+        fileDocBlockText.setText(newText);
     }
 }
