@@ -8,6 +8,7 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.jetbrains.php</depends>
     <depends>com.jetbrains.twig</depends>
+    <depends>com.intellij.modules.java</depends>
 
     <actions>
         <action id="com.turbinekreuzberg.plugins.actions.ExtendInPyzAction"
@@ -30,6 +31,7 @@
         <referencesSearch implementation="com.turbinekreuzberg.plugins.search.PathToStubReferencesSearcher"/>
         <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.TwigGotoHandler" />
         <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.TransferObjectGotoHandler" />
+        <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.CodeceptionHelperGotoHandler" />
         <applicationConfigurable parentId="tools" instance="com.turbinekreuzberg.plugins.settings.AppSettingsConfigurable"
                                  id="org.intellij.sdk.settings.AppSettingsConfigurable"
                                  displayName="PYZ Plugin"/>
