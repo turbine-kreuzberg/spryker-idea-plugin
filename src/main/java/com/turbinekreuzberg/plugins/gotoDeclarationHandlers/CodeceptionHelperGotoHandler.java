@@ -5,7 +5,8 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.search.PsiShortNamesCache;
+import com.intellij.psi.search.FilenameIndex;
+import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.ArrayUtil;
 import com.turbinekreuzberg.plugins.settings.AppSettingsState;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +34,12 @@ public class CodeceptionHelperGotoHandler implements GotoDeclarationHandler {
         String mainNamespace = this.extractNamespace(sourceElement.getText());
 
         PsiFile[] filteredFiles = {};
-        PsiFile[] files = PsiShortNamesCache.getInstance(sourceElement.getProject()).getFilesByName(helperClassName);
+
+        PsiFile[] files = FilenameIndex.getFilesByName(
+                sourceElement.getProject(),
+                helperClassName,
+                GlobalSearchScope.allScope(sourceElement.getProject())
+        );
         for (PsiFile file : files) {
             if (file.getVirtualFile().getCanonicalPath().contains(mainNamespace)) {
                 filteredFiles = ArrayUtil.append(filteredFiles, file);
