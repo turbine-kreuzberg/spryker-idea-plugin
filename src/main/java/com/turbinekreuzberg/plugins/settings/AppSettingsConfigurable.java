@@ -38,6 +38,7 @@ public class AppSettingsConfigurable implements Configurable {
         modified |= mySettingsComponent.getOmsNavigationFeatureActive() != settings.omsNavigationFeatureActive;
         modified |= mySettingsComponent.getTwigGotoHandlingFeatureActive() != settings.twigGotoHandlingFeatureActive;
         modified |= mySettingsComponent.getTransferObjectGotoHandlingFeatureActive() != settings.transferObjectGotoHandlingFeatureActive;
+        modified |= mySettingsComponent.getCodeceptionHelperNavigationFeatureActiveCheckbox() != settings.codeceptionHelperNavigationFeatureActive;
         return modified;
     }
 
@@ -52,6 +53,7 @@ public class AppSettingsConfigurable implements Configurable {
         settings.omsNavigationFeatureActive = mySettingsComponent.getOmsNavigationFeatureActive();
         settings.twigGotoHandlingFeatureActive = mySettingsComponent.getTwigGotoHandlingFeatureActive();
         settings.transferObjectGotoHandlingFeatureActive = mySettingsComponent.getTransferObjectGotoHandlingFeatureActive();
+        settings.codeceptionHelperNavigationFeatureActive = mySettingsComponent.getCodeceptionHelperNavigationFeatureActiveCheckbox();
     }
 
     @Override
@@ -65,6 +67,7 @@ public class AppSettingsConfigurable implements Configurable {
         mySettingsComponent.setOmsNavigationFeatureActive(settings.omsNavigationFeatureActive);
         mySettingsComponent.setTwigGotoHandlingFeatureActive(settings.twigGotoHandlingFeatureActive);
         mySettingsComponent.setTransferObjectGotoHandlingFeatureActive(settings.transferObjectGotoHandlingFeatureActive);
+        mySettingsComponent.setCodeceptionHelperNavigationFeatureActiveCheckbox(settings.codeceptionHelperNavigationFeatureActive);
     }
 
     @Override

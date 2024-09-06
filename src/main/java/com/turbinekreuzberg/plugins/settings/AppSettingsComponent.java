@@ -18,6 +18,7 @@ public class AppSettingsComponent {
     private final JBCheckBox omsNavigationFeatureActiveCheckbox = new JBCheckBox("State machine navigation");
     private final JBCheckBox twigGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Twig goto-handling");
     private final JBCheckBox transferObjectGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Transfer object goto-handling");
+    private final JBCheckBox codeceptionHelperNavigationFeatureActiveCheckbox = new JBCheckBox("Codeception helper navigation");
 
     public AppSettingsComponent() {
         myMainPanel = FormBuilder.createFormBuilder()
@@ -29,6 +30,7 @@ public class AppSettingsComponent {
                 .addComponent(omsNavigationFeatureActiveCheckbox, 1)
                 .addComponent(twigGotoHandlingFeatureActiveCheckbox, 1)
                 .addComponent(transferObjectGotoHandlingFeatureActiveCheckbox, 1)
+                .addComponent(codeceptionHelperNavigationFeatureActiveCheckbox, 1)
                 .addVerticalGap(10)
                 .addSeparator()
                 .addVerticalGap(10)
@@ -110,5 +112,13 @@ public class AppSettingsComponent {
 
     public void setTransferObjectGotoHandlingFeatureActive(boolean newStatus) {
         transferObjectGotoHandlingFeatureActiveCheckbox.setSelected(newStatus);
+    }
+
+    public boolean getCodeceptionHelperNavigationFeatureActiveCheckbox() {
+        return codeceptionHelperNavigationFeatureActiveCheckbox.isSelected();
+    }
+
+    public void setCodeceptionHelperNavigationFeatureActiveCheckbox(boolean newStatus) {
+        codeceptionHelperNavigationFeatureActiveCheckbox.setSelected(newStatus);
     }
 }
