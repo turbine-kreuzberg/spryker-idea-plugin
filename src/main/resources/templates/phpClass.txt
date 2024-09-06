@@ -6,5 +6,5 @@ use {{sprykerNamespace}}\{{className}} as Spryker{{className}};
 
 {{type}} {{className}} extends Spryker{{className}}
 {
-
+    {{method}}
 }

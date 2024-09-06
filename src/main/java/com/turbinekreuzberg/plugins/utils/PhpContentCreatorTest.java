@@ -15,7 +15,7 @@ public class PhpContentCreatorTest extends LightJavaCodeInsightFixtureTestCase {
         String expectedFileContent = getFileContent("ExpectedExtendedExampleFacade.php");
 
         // Act
-        String createdFileContent = new PhpContentCreator().create(baseClass, "Zed/Example");
+        String createdFileContent = new PhpContentCreator().create(baseClass, "Zed/Example", "");
 
         // Assert
         assertEquals(expectedFileContent, createdFileContent);
@@ -27,7 +27,7 @@ public class PhpContentCreatorTest extends LightJavaCodeInsightFixtureTestCase {
         String expectedFileContent = getFileContent("ExpectedExtendedExampleFacadeInterface.php");
 
         // Act
-        String createdFileContent = new PhpContentCreator().create(baseClass, "Zed/Example");
+        String createdFileContent = new PhpContentCreator().create(baseClass, "Zed/Example", "");
 
         // Assert
         assertEquals(expectedFileContent, createdFileContent);
@@ -39,7 +39,7 @@ public class PhpContentCreatorTest extends LightJavaCodeInsightFixtureTestCase {
         String expectedFileContent = getFileContent("ExpectedExtendedExampleTrait.php");
 
         // Act
-        String createdFileContent = new PhpContentCreator().create(baseClass, "Zed/Example");
+        String createdFileContent = new PhpContentCreator().create(baseClass, "Zed/Example", "");
 
         // Assert
         assertEquals(expectedFileContent, createdFileContent);
@@ -51,7 +51,7 @@ public class PhpContentCreatorTest extends LightJavaCodeInsightFixtureTestCase {
         String expectedFileContent = getFileContent("ExpectedExtendedAbstractExample.php");
 
         // Act
-        String createdFileContent = new PhpContentCreator().create(baseClass, "Zed/Example");
+        String createdFileContent = new PhpContentCreator().create(baseClass, "Zed/Example", "");
 
         // Assert
         assertEquals(expectedFileContent, createdFileContent);

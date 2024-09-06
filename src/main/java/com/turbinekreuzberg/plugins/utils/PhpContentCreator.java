@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class PhpContentCreator {
-    public String create(PsiFile file, String relativePath) {
+    public String create(PsiFile file, String relativePath, String method) {
         InputStream inputStream = ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "templates", "phpClass.txt");
         String content = null;
         try {
@@ -25,6 +25,7 @@ public class PhpContentCreator {
 
         contentWithClassName = contentWithClassName.replace("{{type}}", getType(file));
         contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
+        contentWithClassName = contentWithClassName.replace("{{method}}", method);
 
         return contentWithClassName.replace("{{namespace}}", AppSettingsState.getInstance().pyzNamespace + "\\" + namespace);
     }
