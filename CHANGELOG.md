@@ -1,9 +1,13 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.9.0] - 2024-09-06
+### Added
+- Extend methods in PYZ
+
 ## [0.8.0] - 2024-09-05
 ### Added
-- Added codeception helper navigation
+- Codeception helper navigation
 
 ## [0.7.8] - 2024-04-25
 ### Fixed

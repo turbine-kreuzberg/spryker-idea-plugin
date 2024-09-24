@@ -7,12 +7,14 @@ A collection of little helpers that improve your daily work with Spryker.
 
 ## Features
 - Extend Spryker core classes, interfaces and xml files on project level (right-click -> Extend in PYZ / CTRL-ALT-E)
+- Extend Spryker core class methods on project level (right-click on method name inside Spryker core class -> Extend in PYZ / CTRL-ALT-E)
 - Open Spryker files on github.com (right-click -> View on GitHub / CTRL-ALT-G)
 - Goto-handling for Zed stub calls and their gateway controller actions (URLs are clickable)  
 - Resolve usages of gateway controller actions in Zed stub calls
 - Navigate from OMS XML files to included sub-processes and the definitions of commands/conditions 
 - Navigate from Twig files to included, embedded and extended files and widgets
 - Navigate from transfer object classes and instantiations to XML definitions (and vice versa)
+- Navigate from codeception.yml to helper classes
 
 ## How to use
 - To extend files on project level, use the context menu item "Extend in PYZ". It will appear for files located in one of the Spryker vendor directories only.
