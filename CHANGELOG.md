@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.9.1] - 2024-09-06
+### Added
+- Tests
+
 ## [0.9.0] - 2024-09-06
 ### Added
 - Extend methods in PYZ
