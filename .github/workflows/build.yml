@@ -224,6 +224,12 @@ jobs:
             | xargs -I '{}' \
           curl -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/$GITHUB_REPOSITORY/releases/{}
 
+      # Download plugin artifact provided by the previous job
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: plugin-artifact
+
       # Create new release draft - which is not publicly visible and requires manual acceptance
       - name: Create Release Draft
         id: createDraft
@@ -235,13 +241,4 @@ jobs:
           name: v${{ needs.build.outputs.version }}
           body: ${{ needs.build.outputs.changelog }}
           draft: true
-          files: ./${{ needs.build.outputs.artifact }}
-
-      # Download plugin artifact provided by the previous job
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: plugin-artifact
-
-      # Note: The softprops/action-gh-release action already handles the upload
-      # We don't need a separate upload step as the files parameter in the previous step handles this
+          files: ${{ needs.build.outputs.artifact }}
