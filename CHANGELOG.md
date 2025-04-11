@@ -1,7 +1,13 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
-## [0.9.1] - 2024-09-06
+## [0.10.0] - 2025-04-11
+### Added
+Navigation to transfer file definitions:
+- set the cursor to the right position
+- add file location to select popup 
+
+## [0.9.1] - 2025-03-14
 ### Added
 - Tests
 
