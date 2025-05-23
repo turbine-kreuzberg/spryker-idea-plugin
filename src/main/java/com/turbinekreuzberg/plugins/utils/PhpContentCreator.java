@@ -1,9 +1,10 @@
 package com.turbinekreuzberg.plugins.utils;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.ResourceUtil;
 import com.jetbrains.php.lang.psi.elements.impl.PhpNamespaceImpl;
-import com.turbinekreuzberg.plugins.settings.AppSettingsState;
+import com.turbinekreuzberg.plugins.settings.SettingsManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.io.InputStream;
 
 public class PhpContentCreator {
     public String create(PsiFile file, String relativePath, String method) {
+        Project project = file.getProject();
         InputStream inputStream = ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "templates", "phpClass.txt");
         String content = null;
         try {
@@ -27,7 +29,7 @@ public class PhpContentCreator {
         contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
         contentWithClassName = contentWithClassName.replace("{{method}}", method);
 
-        return contentWithClassName.replace("{{namespace}}", AppSettingsState.getInstance().pyzNamespace + "\\" + namespace);
+        return contentWithClassName.replace("{{namespace}}", SettingsManager.getPyzNamespace(project) + "\\" + namespace);
     }
 
     @NotNull

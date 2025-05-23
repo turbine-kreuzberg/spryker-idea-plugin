@@ -3,6 +3,7 @@ package com.turbinekreuzberg.plugins.gotoDeclarationHandlers;
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
@@ -12,7 +13,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ArrayUtil;
 import com.jetbrains.twig.TwigFileType;
 import com.jetbrains.twig.elements.TwigElementTypes;
-import com.turbinekreuzberg.plugins.settings.AppSettingsState;
+import com.turbinekreuzberg.plugins.settings.SettingsManager;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -22,11 +23,12 @@ public class TwigGotoHandler implements GotoDeclarationHandler {
     @Override
     public PsiElement @Nullable [] getGotoDeclarationTargets(@Nullable PsiElement sourceElement, int offset, Editor editor) {
 
-        if (!AppSettingsState.getInstance().twigGotoHandlingFeatureActive) {
+        if (sourceElement == null) {
             return null;
         }
-
-        if (sourceElement == null) {
+        
+        Project project = sourceElement.getProject();
+        if (!SettingsManager.isFeatureEnabled(project, SettingsManager.Feature.TWIG_GOTO_HANDLING)) {
             return null;
         }
 
@@ -38,25 +40,25 @@ public class TwigGotoHandler implements GotoDeclarationHandler {
 
         if (includedFileName.contains("Widget")) {
             PsiFile[] foundPhpFiles = FilenameIndex.getFilesByName(
-                    sourceElement.getProject(),
+                    project,
                     includedFileName + ".php",
-                    GlobalSearchScope.allScope(sourceElement.getProject())
+                    GlobalSearchScope.allScope(project)
             );
 
             String twigFileName = String.join("-", StringUtils.splitByCharacterTypeCamelCase(includedFileName.replace("Widget", ""))).toLowerCase();
             PsiFile[] foundTwigFiles = FilenameIndex.getFilesByName(
-                    sourceElement.getProject(),
+                    project,
                     twigFileName + ".twig",
-                    GlobalSearchScope.allScope(sourceElement.getProject())
+                    GlobalSearchScope.allScope(project)
             );
 
             return ArrayUtil.mergeArrays(foundPhpFiles, foundTwigFiles);
         }
 
         PsiFile[] foundTwigFiles = FilenameIndex.getFilesByName(
-            sourceElement.getProject(),
+            project,
             includedFileName + ".twig",
-            GlobalSearchScope.allScope(sourceElement.getProject())
+            GlobalSearchScope.allScope(project)
         );
 
         if (foundTwigFiles.length > 0) {

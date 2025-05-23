@@ -1,5 +1,6 @@
 package com.turbinekreuzberg.plugins.contributors.oms;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -9,7 +10,7 @@ import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.UsageSearchContext;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.impl.StringLiteralExpressionImpl;
-import com.turbinekreuzberg.plugins.settings.AppSettingsState;
+import com.turbinekreuzberg.plugins.settings.SettingsManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,20 +47,21 @@ public class OmsXmlToDependencyReference extends PsiReferenceBase {
 
     @Override
     public @Nullable PsiElement resolve() {
+        Project project = getElement().getProject();
         String commandName = "'" + getCanonicalText() + "'";
 
         String[] relativeFilePaths = {
-            AppSettingsState.getInstance().pyzDirectory + "Zed/Oms/OmsDependencyProvider.php",
-            AppSettingsState.getInstance().pyzDirectory + "Zed/MerchantOms/MerchantOmsDependencyProvider.php",
+            SettingsManager.getPyzDirectory(project) + "Zed/Oms/OmsDependencyProvider.php",
+            SettingsManager.getPyzDirectory(project) + "Zed/MerchantOms/MerchantOmsDependencyProvider.php",
         };
 
         // search in oms and merchant-oms dependency providers
         for (String relativeFilePath:relativeFilePaths) {
-            Path fullPath = Paths.get(getElement().getProject().getBasePath() + relativeFilePath);
+            Path fullPath = Paths.get(project.getBasePath() + relativeFilePath);
             VirtualFile virtualFile = VfsUtil.findFile(fullPath, true);
 
             if (virtualFile != null) {
-                PsiManager psiManager = PsiManager.getInstance(getElement().getProject());
+                PsiManager psiManager = PsiManager.getInstance(project);
                 PsiFile targetFile = psiManager.findFile(virtualFile);
                 StringLiteralExpressionImpl result = this.searchForUsageInFile(commandName, targetFile);
                 if (result != null) {
@@ -69,7 +71,7 @@ public class OmsXmlToDependencyReference extends PsiReferenceBase {
         }
 
         // search in oms dependency injectors
-        PsiFile[] injectorPsiFiles = FilenameIndex.getFilesByName(getElement().getProject(), "OmsDependencyInjector.php", getElement().getResolveScope());
+        PsiFile[] injectorPsiFiles = FilenameIndex.getFilesByName(project, "OmsDependencyInjector.php", getElement().getResolveScope());
         for (PsiFile injectorPsiFile:injectorPsiFiles) {
             StringLiteralExpressionImpl result = this.searchForUsageInFile(commandName, injectorPsiFile);
             if (result != null) {
@@ -78,7 +80,7 @@ public class OmsXmlToDependencyReference extends PsiReferenceBase {
         }
 
         // still not found? search everywhere
-        PsiFile[] psiFiles = CacheManager.getInstance(getElement().getProject()).getFilesWithWord(
+        PsiFile[] psiFiles = CacheManager.getInstance(project).getFilesWithWord(
             commandName,
             UsageSearchContext.IN_STRINGS,
             getElement().getResolveScope(),

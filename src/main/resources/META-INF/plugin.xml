@@ -31,9 +31,17 @@
         <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.TwigGotoHandler" />
         <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.TransferObjectGotoHandler" />
         <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.CodeceptionHelperGotoHandler" />
+        
+        <!-- Application-level settings -->
         <applicationConfigurable parentId="tools" instance="com.turbinekreuzberg.plugins.settings.AppSettingsConfigurable"
-                                 id="org.intellij.sdk.settings.AppSettingsConfigurable"
+                                 id="com.turbinekreuzberg.plugins.settings.AppSettingsConfigurable"
                                  displayName="PYZ Plugin"/>
         <applicationService serviceImplementation="com.turbinekreuzberg.plugins.settings.AppSettingsState"/>
+        
+        <!-- Project-level settings -->
+        <projectConfigurable parentId="tools" instance="com.turbinekreuzberg.plugins.settings.ProjectSettingsConfigurable"
+                            id="com.turbinekreuzberg.plugins.settings.ProjectSettingsConfigurable"
+                            displayName="PYZ Plugin Project Settings"/>
+        <projectService serviceImplementation="com.turbinekreuzberg.plugins.settings.ProjectSettingsState"/>
     </extensions>
 </idea-plugin>

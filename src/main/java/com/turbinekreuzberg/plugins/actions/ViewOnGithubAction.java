@@ -12,7 +12,7 @@ import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import com.turbinekreuzberg.plugins.settings.AppSettingsState;
+import com.turbinekreuzberg.plugins.settings.SettingsManager;
 import com.turbinekreuzberg.plugins.utils.SprykerRelativeClassPathCreator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -88,7 +88,8 @@ public class ViewOnGithubAction extends AnAction {
 
     @Override
     public void update(@NotNull AnActionEvent actionEvent) {
-        if (!AppSettingsState.getInstance().viewOnGithubFeatureActive) {
+        Project project = actionEvent.getProject();
+        if (project == null || !SettingsManager.isFeatureEnabled(project, SettingsManager.Feature.VIEW_ON_GITHUB)) {
             actionEvent.getPresentation().setVisible(false);
             return;
         }

@@ -23,7 +23,7 @@ import com.intellij.psi.search.UsageSearchContext;
 import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.impl.PhpDocTypeImpl;
 import com.jetbrains.php.lang.psi.elements.impl.ClassReferenceImpl;
-import com.turbinekreuzberg.plugins.settings.AppSettingsState;
+import com.turbinekreuzberg.plugins.settings.SettingsManager;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,11 +38,12 @@ public class TransferObjectGotoHandler implements GotoDeclarationHandler {
     
     @Override
     public PsiElement @Nullable [] getGotoDeclarationTargets(@Nullable PsiElement sourceElement, int offset, Editor editor) {
-        if (!AppSettingsState.getInstance().transferObjectGotoHandlingFeatureActive) {
+        if (sourceElement == null) {
             return null;
         }
-
-        if (sourceElement == null) {
+        
+        Project project = sourceElement.getProject();
+        if (!SettingsManager.isFeatureEnabled(project, SettingsManager.Feature.TRANSFER_OBJECT_GOTO_HANDLING)) {
             return null;
         }
 
@@ -54,10 +55,10 @@ public class TransferObjectGotoHandler implements GotoDeclarationHandler {
         String transferObjectName = rawTransferObjectName.replace("Transfer", "").replace("[]", "");
         String searchTerm = "transfer name=\"" + transferObjectName + "\"";
 
-        PsiFile[] psiFiles = CacheManager.getInstance(sourceElement.getProject()).getFilesWithWord(
+        PsiFile[] psiFiles = CacheManager.getInstance(project).getFilesWithWord(
                 searchTerm,
                 UsageSearchContext.ANY,
-                GlobalSearchScope.allScope(sourceElement.getProject()),
+                GlobalSearchScope.allScope(project),
                 true
         );
 
@@ -85,9 +86,9 @@ public class TransferObjectGotoHandler implements GotoDeclarationHandler {
         }
 
         PsiFile[] classFile = FilenameIndex.getFilesByName(
-            sourceElement.getProject(),
+            project,
             transferObjectName + "Transfer.php",
-            GlobalSearchScope.allScope(sourceElement.getProject())
+            GlobalSearchScope.allScope(project)
         );
         
         for (PsiFile file : classFile) {
@@ -190,7 +191,7 @@ public class TransferObjectGotoHandler implements GotoDeclarationHandler {
 
                         int srcIndex = path.indexOf("/src/");
                         if (srcIndex >= 0) {
-                            String namespace = AppSettingsState.getInstance().getState().pyzNamespace;
+                            String namespace = SettingsManager.getPyzNamespace(file.getProject());
                             if (namespace == null || namespace.isEmpty()) {
                                 namespace = "Pyz";
                             }

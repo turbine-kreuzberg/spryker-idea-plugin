@@ -21,7 +21,7 @@ import com.jetbrains.php.lang.psi.PhpPsiElementFactory;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.impl.MethodImpl;
-import com.turbinekreuzberg.plugins.settings.AppSettingsState;
+import com.turbinekreuzberg.plugins.settings.SettingsManager;
 import com.turbinekreuzberg.plugins.utils.SprykerRelativeClassPathCreator;
 import com.turbinekreuzberg.plugins.utils.PhpContentCreator;
 import com.turbinekreuzberg.plugins.utils.GenericContentCreator;
@@ -62,7 +62,7 @@ public class ExtendInPyzAction extends AnAction {
 
     private void processFile(Project project, VirtualFile selectedVirtualFile, String method) {
         String relativeClassPath = sprykerRelativeClassPathCreator.getRelativeClassPath(selectedVirtualFile);
-        String targetPath = project.getBasePath() + AppSettingsState.getInstance().pyzDirectory + relativeClassPath;
+        String targetPath = project.getBasePath() + SettingsManager.getPyzDirectory(project) + relativeClassPath;
 
         PsiManager psiManager = PsiManager.getInstance(project);
         PsiFile selectedFile = psiManager.findFile(selectedVirtualFile);
@@ -117,7 +117,8 @@ public class ExtendInPyzAction extends AnAction {
 
     @Override
     public void update(@NotNull AnActionEvent actionEvent) {
-        if (!AppSettingsState.getInstance().extendInPyzFeatureActive) {
+        Project project = actionEvent.getProject();
+        if (project == null || !SettingsManager.isFeatureEnabled(project, SettingsManager.Feature.EXTEND_IN_PYZ)) {
             actionEvent.getPresentation().setVisible(false);
             return;
         }

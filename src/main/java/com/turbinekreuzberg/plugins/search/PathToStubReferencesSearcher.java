@@ -2,13 +2,14 @@ package com.turbinekreuzberg.plugins.search;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.QueryExecutorBase;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.search.*;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.util.Processor;
 import com.jetbrains.php.lang.psi.elements.impl.MethodImpl;
-import com.turbinekreuzberg.plugins.settings.AppSettingsState;
+import com.turbinekreuzberg.plugins.settings.SettingsManager;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,12 +18,17 @@ public class PathToStubReferencesSearcher extends QueryExecutorBase<PsiReference
 
     @Override
     public void processQuery(ReferencesSearch.@NotNull SearchParameters queryParameters, @NotNull Processor<? super PsiReference> consumer) {
-        if (!AppSettingsState.getInstance().zedStubGatewayControllerFeatureActive) {
+        PsiElement elementToSearch = queryParameters.getElementToSearch();
+        if (elementToSearch == null) {
+            return;
+        }
+        
+        Project project = elementToSearch.getProject();
+        if (!SettingsManager.isFeatureEnabled(project, SettingsManager.Feature.ZED_STUB_GATEWAY_CONTROLLER)) {
             return;
         }
 
         ApplicationManager.getApplication().runReadAction(() -> {
-            PsiElement elementToSearch = queryParameters.getElementToSearch();
             if (elementToSearch instanceof MethodImpl && ((MethodImpl) elementToSearch).getName().endsWith("Action")) {
                 String moduleName = convertCamelCaseToKebabCase(getModuleName((MethodImpl) elementToSearch));
                 String methodName = convertCamelCaseToKebabCase(getMethodName((MethodImpl) elementToSearch));

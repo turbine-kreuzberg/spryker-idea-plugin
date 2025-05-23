@@ -3,12 +3,13 @@ package com.turbinekreuzberg.plugins.gotoDeclarationHandlers;
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.ArrayUtil;
-import com.turbinekreuzberg.plugins.settings.AppSettingsState;
+import com.turbinekreuzberg.plugins.settings.SettingsManager;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -18,11 +19,12 @@ public class CodeceptionHelperGotoHandler implements GotoDeclarationHandler {
     @Override
     public PsiElement @Nullable [] getGotoDeclarationTargets(@Nullable PsiElement sourceElement, int offset, Editor editor) {
 
-        if (!AppSettingsState.getInstance().codeceptionHelperNavigationFeatureActive) {
+        if (sourceElement == null) {
             return null;
         }
-
-        if (sourceElement == null) {
+        
+        Project project = sourceElement.getProject();
+        if (!SettingsManager.isFeatureEnabled(project, SettingsManager.Feature.CODECEPTION_HELPER_NAVIGATION)) {
             return null;
         }
 
@@ -36,9 +38,9 @@ public class CodeceptionHelperGotoHandler implements GotoDeclarationHandler {
         PsiFile[] filteredFiles = {};
 
         PsiFile[] files = FilenameIndex.getFilesByName(
-                sourceElement.getProject(),
+                project,
                 helperClassName,
-                GlobalSearchScope.allScope(sourceElement.getProject())
+                GlobalSearchScope.allScope(project)
         );
         for (PsiFile file : files) {
             if (file.getVirtualFile().getCanonicalPath().contains(mainNamespace)) {

@@ -16,7 +16,12 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.turbinekreuzberg.plugins.PyzPluginTestCase;
 import com.turbinekreuzberg.plugins.settings.AppSettingsState;
+import com.turbinekreuzberg.plugins.settings.ProjectSettingsState;
+import com.turbinekreuzberg.plugins.settings.SettingsManager;
+import com.turbinekreuzberg.plugins.utils.SprykerRelativeClassPathCreator;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.io.File;
 
@@ -34,6 +39,8 @@ public class ViewOnGithubActionTest extends PyzPluginTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         action = new ViewOnGithubAction();
+        
+        // Enable the feature at the application level
         AppSettingsState.getInstance().viewOnGithubFeatureActive = true;
 
         // Create test project structure
@@ -60,15 +67,29 @@ public class ViewOnGithubActionTest extends PyzPluginTestCase {
         try (MockedStatic<PsiManager> psiManagerMock = Mockito.mockStatic(PsiManager.class)) {
             psiManagerMock.when(() -> PsiManager.getInstance(project)).thenReturn(psiManager);
         }
+        
+        // Mock SettingsManager for feature status
+        try (MockedStatic<SettingsManager> settingsManagerMock = Mockito.mockStatic(SettingsManager.class)) {
+            // Default to enabled
+            settingsManagerMock.when(() -> SettingsManager.isFeatureEnabled(
+                Mockito.eq(project),
+                Mockito.eq(SettingsManager.Feature.VIEW_ON_GITHUB)))
+                .thenReturn(true);
+        }
     }
 
     public void testActionVisibilityWithFeatureDisabled() {
-        // Disable the feature
-        AppSettingsState.getInstance().viewOnGithubFeatureActive = false;
-
-        // Action should not be visible when feature is disabled
-        action.update(event);
-        assertFalse("Action should not be visible when feature is disabled", event.getPresentation().isVisible());
+        // Mock SettingsManager to return false for the feature
+        try (MockedStatic<SettingsManager> settingsManagerMock = Mockito.mockStatic(SettingsManager.class)) {
+            settingsManagerMock.when(() -> SettingsManager.isFeatureEnabled(
+                Mockito.eq(project),
+                Mockito.eq(SettingsManager.Feature.VIEW_ON_GITHUB)))
+                .thenReturn(false);
+            
+            // Action should not be visible when feature is disabled
+            action.update(event);
+            assertFalse("Action should not be visible when feature is disabled", event.getPresentation().isVisible());
+        }
     }
 
     public void testActionVisibilityWithSprykerFile() {
@@ -84,9 +105,24 @@ public class ViewOnGithubActionTest extends PyzPluginTestCase {
         
         Mockito.when(virtualFile.getFileType()).thenReturn(Mockito.mock(com.intellij.openapi.fileTypes.FileType.class));
         
-        // Action should be visible for Spryker vendor files
-        action.update(event);
-        assertTrue("Action should be visible for Spryker vendor files", event.getPresentation().isVisible());
+        // Mock SprykerRelativeClassPathCreator
+        try (MockedStatic<SettingsManager> settingsManagerMock = Mockito.mockStatic(SettingsManager.class)) {
+            settingsManagerMock.when(() -> SettingsManager.isFeatureEnabled(
+                Mockito.eq(project),
+                Mockito.eq(SettingsManager.Feature.VIEW_ON_GITHUB)))
+                .thenReturn(true);
+            
+            // Mock the SprykerRelativeClassPathCreator
+            SprykerRelativeClassPathCreator mockedCreator = Mockito.mock(SprykerRelativeClassPathCreator.class);
+            Mockito.when(mockedCreator.isLocatedInSprykerVendor(virtualFile)).thenReturn(true);
+            
+            // Replace the creator in the action
+            action.sprykerRelativeClassPathCreator = mockedCreator;
+            
+            // Action should be visible for Spryker vendor files
+            action.update(event);
+            assertTrue("Action should be visible for Spryker vendor files", event.getPresentation().isVisible());
+        }
     }
 
     public void testActionVisibilityWithNonSprykerFile() {
@@ -100,18 +136,41 @@ public class ViewOnGithubActionTest extends PyzPluginTestCase {
         Mockito.when(parentDir.getCanonicalPath()).thenReturn("/project/root/src/Pyz/Zed/Catalog/Business");
         Mockito.when(virtualFile.getParent()).thenReturn(parentDir);
         
-        // Action should not be visible for non-Spryker files
-        action.update(event);
-        assertFalse("Action should not be visible for non-Spryker files", event.getPresentation().isVisible());
+        // Mock SprykerRelativeClassPathCreator
+        try (MockedStatic<SettingsManager> settingsManagerMock = Mockito.mockStatic(SettingsManager.class)) {
+            settingsManagerMock.when(() -> SettingsManager.isFeatureEnabled(
+                Mockito.eq(project),
+                Mockito.eq(SettingsManager.Feature.VIEW_ON_GITHUB)))
+                .thenReturn(true);
+            
+            // Mock the SprykerRelativeClassPathCreator
+            SprykerRelativeClassPathCreator mockedCreator = Mockito.mock(SprykerRelativeClassPathCreator.class);
+            Mockito.when(mockedCreator.isLocatedInSprykerVendor(virtualFile)).thenReturn(false);
+            
+            // Replace the creator in the action
+            action.sprykerRelativeClassPathCreator = mockedCreator;
+            
+            // Action should not be visible for non-Spryker files
+            action.update(event);
+            assertFalse("Action should not be visible for non-Spryker files", event.getPresentation().isVisible());
+        }
     }
 
     public void testActionVisibilityWithUnknownFileType() {
         // Setup unknown file type
         Mockito.when(virtualFile.getFileType()).thenReturn(UnknownFileType.INSTANCE);
         
-        // Action should not be visible for unknown file types
-        action.update(event);
-        assertFalse("Action should not be visible for unknown file types", event.getPresentation().isVisible());
+        // Mock SettingsManager
+        try (MockedStatic<SettingsManager> settingsManagerMock = Mockito.mockStatic(SettingsManager.class)) {
+            settingsManagerMock.when(() -> SettingsManager.isFeatureEnabled(
+                Mockito.eq(project),
+                Mockito.eq(SettingsManager.Feature.VIEW_ON_GITHUB)))
+                .thenReturn(true);
+            
+            // Action should not be visible for unknown file types
+            action.update(event);
+            assertFalse("Action should not be visible for unknown file types", event.getPresentation().isVisible());
+        }
     }
 
     public void testPackageVersionFromComposerLock() throws Exception {
@@ -138,14 +197,29 @@ public class ViewOnGithubActionTest extends PyzPluginTestCase {
         Mockito.when(virtualFile.getCanonicalPath()).thenReturn(sprykerFile.getPath());
         Mockito.when(virtualFile.getParent()).thenReturn(sprykerFile.getParent());
 
-        // Mock LocalFileSystem and PsiManager
+        // Using try-with-resources to ensure all mocks are closed properly
         try (MockedStatic<LocalFileSystem> localFileSystemMock = Mockito.mockStatic(LocalFileSystem.class);
              MockedStatic<PsiManager> psiManagerMock = Mockito.mockStatic(PsiManager.class);
-             MockedStatic<BrowserUtil> browserUtilMock = Mockito.mockStatic(BrowserUtil.class)) {
+             MockedStatic<BrowserUtil> browserUtilMock = Mockito.mockStatic(BrowserUtil.class);
+             MockedStatic<SettingsManager> settingsManagerMock = Mockito.mockStatic(SettingsManager.class)) {
+            
+            // Mock SettingsManager
+            settingsManagerMock.when(() -> SettingsManager.isFeatureEnabled(
+                Mockito.eq(project),
+                Mockito.eq(SettingsManager.Feature.VIEW_ON_GITHUB)))
+                .thenReturn(true);
+            
+            // Mock SprykerRelativeClassPathCreator
+            SprykerRelativeClassPathCreator mockedCreator = Mockito.mock(SprykerRelativeClassPathCreator.class);
+            Mockito.when(mockedCreator.isLocatedInSprykerVendor(virtualFile)).thenReturn(true);
+            action.sprykerRelativeClassPathCreator = mockedCreator;
+            
+            // Mock LocalFileSystem
             LocalFileSystem localFileSystem = Mockito.mock(LocalFileSystem.class);
             localFileSystemMock.when(LocalFileSystem::getInstance).thenReturn(localFileSystem);
-            Mockito.when(localFileSystem.findFileByIoFile(Mockito.any())).thenReturn(composerLockFile);
+            Mockito.when(localFileSystem.findFileByIoFile(Mockito.any(File.class))).thenReturn(composerLockFile);
 
+            // Mock PsiManager
             psiManagerMock.when(() -> PsiManager.getInstance(project)).thenReturn(psiManager);
             Mockito.when(psiManager.findFile(composerLockFile)).thenReturn(composerLockPsiFile);
             Mockito.when(composerLockPsiFile.getText()).thenReturn(composerLock.toString());

@@ -1,5 +1,6 @@
 package com.turbinekreuzberg.plugins.contributors.gateway;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -9,7 +10,7 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiReferenceBase;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.impl.MethodImpl;
-import com.turbinekreuzberg.plugins.settings.AppSettingsState;
+import com.turbinekreuzberg.plugins.settings.SettingsManager;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,12 +49,13 @@ public class PathToGatewayReference extends PsiReferenceBase<PsiElement> {
 
     @Override
     public @Nullable PsiElement resolve() {
+        Project project = getElement().getProject();
         String packageName = getPackageName();
         String moduleName = getModuleName();
         String targetMethodName = getTargetMethodName();
 
         String[] paths = {
-            AppSettingsState.getInstance().pyzDirectory + "Zed/" + moduleName + "/Communication/Controller/GatewayController.php",
+            SettingsManager.getPyzDirectory(project) + "Zed/" + moduleName + "/Communication/Controller/GatewayController.php",
             "/src/Pyz/Zed/" + moduleName + "/Communication/Controller/GatewayController.php",
             "/vendor/spryker/" + packageName + "/src/Spryker/Zed/" + moduleName + "/Communication/Controller/GatewayController.php",
             "/vendor/spryker-shop/" + packageName + "/src/Spryker/Zed/" + moduleName + "/Communication/Controller/GatewayController.php",
@@ -61,11 +63,11 @@ public class PathToGatewayReference extends PsiReferenceBase<PsiElement> {
         };
 
         for (String path:paths) {
-            Path pyzPath = Paths.get(getElement().getProject().getBasePath() + path);
+            Path pyzPath = Paths.get(project.getBasePath() + path);
             VirtualFile virtualFile = VfsUtil.findFile(pyzPath, true);
 
             if (virtualFile != null) {
-                PsiManager psiManager = PsiManager.getInstance(getElement().getProject());
+                PsiManager psiManager = PsiManager.getInstance(project);
                 PsiFile targetFile = psiManager.findFile(virtualFile);
                 Collection <MethodImpl> methodCollection = PsiTreeUtil.findChildrenOfType(targetFile, MethodImpl.class);
 

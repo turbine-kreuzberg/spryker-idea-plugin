@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.11.0] - 2025-05-23
+### Added
+- All settings can be overridden on project level (Settings -> Tools -> PYZ Plugin Project Settings)
+ 
 ## [0.10.0] - 2025-04-11
 ### Added
 Navigation to transfer file definitions:
