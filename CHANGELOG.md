@@ -4,6 +4,7 @@
 ## [0.11.0] - 2025-05-23
 ### Added
 - All settings can be overridden on project level (Settings -> Tools -> PYZ Plugin Project Settings)
+- Changed platformType from IU to PS to properly target PhpStorm
  
 ## [0.10.0] - 2025-04-11
 ### Added
