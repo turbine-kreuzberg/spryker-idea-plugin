@@ -1,1 +1,1 @@
-rootProject.name = "spryker-idea-plugin"
+rootProject.name = "PYZ"

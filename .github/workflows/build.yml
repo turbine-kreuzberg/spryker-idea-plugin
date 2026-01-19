@@ -129,10 +129,12 @@ jobs:
           CHANGELOG="${CHANGELOG//$'\r'/'%0D'}"
           ARTIFACT="${NAME}-${VERSION}.zip"
 
-          echo "::set-output name=version::$VERSION"
-          echo "::set-output name=name::$NAME"
-          echo "::set-output name=changelog::$CHANGELOG"
-          echo "::set-output name=artifact::$ARTIFACT"
+          {
+            echo "version=$VERSION"
+            echo "name=$NAME"
+            echo "changelog=$CHANGELOG"
+            echo "artifact=$ARTIFACT"
+          } >> "$GITHUB_OUTPUT"
 
       # Build artifact using buildPlugin Gradle task
       - name: Build Plugin
