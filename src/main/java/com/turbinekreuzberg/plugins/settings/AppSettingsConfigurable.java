@@ -32,6 +32,8 @@ public class AppSettingsConfigurable implements Configurable {
         AppSettingsState settings = AppSettingsState.getInstance();
         boolean modified = !mySettingsComponent.getPyzDirectoryText().equals(settings.pyzDirectory);
         modified |= !mySettingsComponent.getPyzNamespaceText().equals(settings.pyzNamespace);
+        modified |= !mySettingsComponent.getPyzTestDirectoryText().equals(settings.pyzTestDirectory);
+        modified |= !mySettingsComponent.getPyzTestNamespaceText().equals(settings.pyzTestNamespace);
         modified |= mySettingsComponent.getExtendInPyzFeatureActive() != settings.extendInPyzFeatureActive;
         modified |= mySettingsComponent.getViewOnGithubFeatureActive() != settings.viewOnGithubFeatureActive;
         modified |= mySettingsComponent.getZedStubGatewayControllerFeatureActive() != settings.zedStubGatewayControllerFeatureActive;
@@ -47,6 +49,8 @@ public class AppSettingsConfigurable implements Configurable {
         AppSettingsState settings = AppSettingsState.getInstance();
         settings.pyzDirectory = mySettingsComponent.getPyzDirectoryText();
         settings.pyzNamespace = mySettingsComponent.getPyzNamespaceText();
+        settings.pyzTestDirectory = mySettingsComponent.getPyzTestDirectoryText();
+        settings.pyzTestNamespace = mySettingsComponent.getPyzTestNamespaceText();
         settings.extendInPyzFeatureActive = mySettingsComponent.getExtendInPyzFeatureActive();
         settings.viewOnGithubFeatureActive = mySettingsComponent.getViewOnGithubFeatureActive();
         settings.zedStubGatewayControllerFeatureActive = mySettingsComponent.getZedStubGatewayControllerFeatureActive();
@@ -61,6 +65,8 @@ public class AppSettingsConfigurable implements Configurable {
         AppSettingsState settings = AppSettingsState.getInstance();
         mySettingsComponent.setPyzDirectoryText(settings.pyzDirectory);
         mySettingsComponent.setPyzNamespaceText(settings.pyzNamespace);
+        mySettingsComponent.setPyzTestDirectoryText(settings.pyzTestDirectory);
+        mySettingsComponent.setPyzTestNamespaceText(settings.pyzTestNamespace);
         mySettingsComponent.setExtendInPyzFeatureActive(settings.extendInPyzFeatureActive);
         mySettingsComponent.setViewOnGithubFeatureActive(settings.viewOnGithubFeatureActive);
         mySettingsComponent.setZedStubGatewayControllerFeatureActive(settings.zedStubGatewayControllerFeatureActive);

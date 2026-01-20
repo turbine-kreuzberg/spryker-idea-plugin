@@ -62,7 +62,15 @@ public class ExtendInPyzAction extends AnAction {
 
     private void processFile(Project project, VirtualFile selectedVirtualFile, String method) {
         String relativeClassPath = sprykerRelativeClassPathCreator.getRelativeClassPath(selectedVirtualFile);
-        String targetPath = project.getBasePath() + SettingsManager.getPyzDirectory(project) + relativeClassPath;
+
+        String pyzDirectoryPath;
+        if (selectedVirtualFile.getPath().contains("/tests/")) {
+            pyzDirectoryPath = SettingsManager.getPyzTestDirectory(project);
+        } else {
+            pyzDirectoryPath = SettingsManager.getPyzDirectory(project);
+        }
+
+        String targetPath = project.getBasePath() + pyzDirectoryPath + relativeClassPath;
 
         PsiManager psiManager = PsiManager.getInstance(project);
         PsiFile selectedFile = psiManager.findFile(selectedVirtualFile);

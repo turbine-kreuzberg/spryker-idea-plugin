@@ -41,6 +41,38 @@ public class SettingsManager {
         }
         return appSettings.pyzNamespace;
     }
+
+    /**
+     * Get the PYZ test directory setting, checking project settings first.
+     *
+     * @param project the current project
+     * @return the configured PYZ test directory
+     */
+    public static String getPyzTestDirectory(@NotNull Project project) {
+        ProjectSettingsState projectSettings = ProjectSettingsState.getInstance(project);
+        AppSettingsState appSettings = AppSettingsState.getInstance();
+
+        if (projectSettings.useProjectSettings && projectSettings.pyzTestDirectory != null) {
+            return projectSettings.pyzTestDirectory;
+        }
+        return appSettings.pyzTestDirectory;
+    }
+
+    /**
+     * Get the PYZ test namespace setting, checking project settings first.
+     *
+     * @param project the current project
+     * @return the configured PYZ test namespace
+     */
+    public static String getPyzTestNamespace(@NotNull Project project) {
+        ProjectSettingsState projectSettings = ProjectSettingsState.getInstance(project);
+        AppSettingsState appSettings = AppSettingsState.getInstance();
+
+        if (projectSettings.useProjectSettings && projectSettings.pyzTestNamespace != null) {
+            return projectSettings.pyzTestNamespace;
+        }
+        return appSettings.pyzTestNamespace;
+    }
     
     /**
      * Check if a feature is enabled, checking project settings first.

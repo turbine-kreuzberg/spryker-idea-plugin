@@ -15,6 +15,8 @@ public class ProjectSettingsComponent {
     private final JBCheckBox useProjectSettingsCheckbox = new JBCheckBox("Use project-specific settings");
     private final JBTextField pyzDirectoryText = new JBTextField();
     private final JBTextField pyzNamespaceText = new JBTextField();
+    private final JBTextField pyzTestDirectoryText = new JBTextField();
+    private final JBTextField pyzTestNamespaceText = new JBTextField();
     private final JBCheckBox extendInPyzFeatureActiveCheckbox = new JBCheckBox("Extend in PYZ feature active");
     private final JBCheckBox viewOnGithubFeatureActiveCheckbox = new JBCheckBox("View on Github feature active");
     private final JBCheckBox zedStubGatewayControllerFeatureActiveCheckbox = new JBCheckBox("Zed stub gateway controller feature active");
@@ -40,6 +42,8 @@ public class ProjectSettingsComponent {
                 .addVerticalGap(10)
                 .addLabeledComponent(new JBLabel("PYZ directory (default is '/src/Pyz/')"), pyzDirectoryText, 1, false)
                 .addLabeledComponent(new JBLabel("PYZ namespace (default is 'Pyz')"), pyzNamespaceText, 1, false)
+                .addLabeledComponent(new JBLabel("PYZ test directory (default is '/tests/PyzTest/')"), pyzTestDirectoryText, 1, false)
+                .addLabeledComponent(new JBLabel("PYZ test namespace (default is 'PyzTest')"), pyzTestNamespaceText, 1, false)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
 
@@ -59,6 +63,8 @@ public class ProjectSettingsComponent {
     private void setControlsEnabled(boolean enabled) {
         pyzDirectoryText.setEnabled(enabled);
         pyzNamespaceText.setEnabled(enabled);
+        pyzTestDirectoryText.setEnabled(enabled);
+        pyzTestNamespaceText.setEnabled(enabled);
         extendInPyzFeatureActiveCheckbox.setEnabled(enabled);
         viewOnGithubFeatureActiveCheckbox.setEnabled(enabled);
         zedStubGatewayControllerFeatureActiveCheckbox.setEnabled(enabled);
@@ -100,6 +106,22 @@ public class ProjectSettingsComponent {
 
     public void setPyzNamespaceText(String pyzNamespace) {
         pyzNamespaceText.setText(pyzNamespace);
+    }
+
+    public String getPyzTestDirectoryText() {
+        return pyzTestDirectoryText.getText();
+    }
+
+    public void setPyzTestDirectoryText(String pyzTestDirectory) {
+        pyzTestDirectoryText.setText(pyzTestDirectory);
+    }
+
+    public String getPyzTestNamespaceText() {
+        return pyzTestNamespaceText.getText();
+    }
+
+    public void setPyzTestNamespaceText(String pyzTestNamespace) {
+        pyzTestNamespaceText.setText(pyzTestNamespace);
     }
 
     public boolean getExtendInPyzFeatureActive() {

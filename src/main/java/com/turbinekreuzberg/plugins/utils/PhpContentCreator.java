@@ -23,13 +23,21 @@ public class PhpContentCreator {
 
         String contentWithClassName = content.replace("{{className}}", file.getVirtualFile().getNameWithoutExtension());
         String namespace = relativePath.replace("/", "\\");
+        namespace = namespace.replace("\\_support", "");
         String sprykerNamespace = ((PhpNamespaceImpl) file.getFirstChild().getLastChild()).getPresentation().getPresentableText();
 
         contentWithClassName = contentWithClassName.replace("{{type}}", getType(file));
         contentWithClassName = contentWithClassName.replace("{{sprykerNamespace}}", sprykerNamespace);
         contentWithClassName = contentWithClassName.replace("{{method}}", method);
 
-        return contentWithClassName.replace("{{namespace}}", SettingsManager.getPyzNamespace(project) + "\\" + namespace);
+        String pyzNamespace;
+        if (file.getVirtualFile().getPath().contains("/tests/")) {
+            pyzNamespace = SettingsManager.getPyzTestNamespace(project);
+        } else {
+            pyzNamespace = SettingsManager.getPyzNamespace(project);
+        }
+
+        return contentWithClassName.replace("{{namespace}}", pyzNamespace + "\\" + namespace);
     }
 
     @NotNull

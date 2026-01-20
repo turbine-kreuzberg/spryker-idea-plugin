@@ -25,6 +25,8 @@ public class ProjectSettingsState implements PersistentStateComponent<ProjectSet
     // Settings (null means "use application setting")
     public String pyzDirectory = null;
     public String pyzNamespace = null;
+    public String pyzTestDirectory = null;
+    public String pyzTestNamespace = null;
     public Boolean extendInPyzFeatureActive = null;
     public Boolean viewOnGithubFeatureActive = null;
     public Boolean zedStubGatewayControllerFeatureActive = null;

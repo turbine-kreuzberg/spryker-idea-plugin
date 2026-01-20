@@ -56,6 +56,18 @@ public class ProjectSettingsConfigurable implements Configurable {
             } else {
                 modified |= !mySettingsComponent.getPyzNamespaceText().isEmpty();
             }
+
+            if (settings.pyzTestDirectory != null) {
+                modified |= !mySettingsComponent.getPyzTestDirectoryText().equals(settings.pyzTestDirectory);
+            } else {
+                modified |= !mySettingsComponent.getPyzTestDirectoryText().isEmpty();
+            }
+
+            if (settings.pyzTestNamespace != null) {
+                modified |= !mySettingsComponent.getPyzTestNamespaceText().equals(settings.pyzTestNamespace);
+            } else {
+                modified |= !mySettingsComponent.getPyzTestNamespaceText().isEmpty();
+            }
             
             // For boolean settings, we need to handle potential null values
             if (settings.extendInPyzFeatureActive != null) {
@@ -115,6 +127,8 @@ public class ProjectSettingsConfigurable implements Configurable {
         if (settings.useProjectSettings) {
             settings.pyzDirectory = mySettingsComponent.getPyzDirectoryText();
             settings.pyzNamespace = mySettingsComponent.getPyzNamespaceText();
+            settings.pyzTestDirectory = mySettingsComponent.getPyzTestDirectoryText();
+            settings.pyzTestNamespace = mySettingsComponent.getPyzTestNamespaceText();
             settings.extendInPyzFeatureActive = mySettingsComponent.getExtendInPyzFeatureActive();
             settings.viewOnGithubFeatureActive = mySettingsComponent.getViewOnGithubFeatureActive();
             settings.zedStubGatewayControllerFeatureActive = mySettingsComponent.getZedStubGatewayControllerFeatureActive();
@@ -127,6 +141,8 @@ public class ProjectSettingsConfigurable implements Configurable {
             // This ensures we fall back to application settings
             settings.pyzDirectory = null;
             settings.pyzNamespace = null;
+            settings.pyzTestDirectory = null;
+            settings.pyzTestNamespace = null;
             settings.extendInPyzFeatureActive = null;
             settings.viewOnGithubFeatureActive = null;
             settings.zedStubGatewayControllerFeatureActive = null;
@@ -159,6 +175,22 @@ public class ProjectSettingsConfigurable implements Configurable {
             // Use the application setting as default
             AppSettingsState appSettings = AppSettingsState.getInstance();
             mySettingsComponent.setPyzNamespaceText(appSettings.pyzNamespace);
+        }
+
+        if (settings.pyzTestDirectory != null) {
+            mySettingsComponent.setPyzTestDirectoryText(settings.pyzTestDirectory);
+        } else {
+            // Use the application setting as default
+            AppSettingsState appSettings = AppSettingsState.getInstance();
+            mySettingsComponent.setPyzTestDirectoryText(appSettings.pyzTestDirectory);
+        }
+
+        if (settings.pyzTestNamespace != null) {
+            mySettingsComponent.setPyzTestNamespaceText(settings.pyzTestNamespace);
+        } else {
+            // Use the application setting as default
+            AppSettingsState appSettings = AppSettingsState.getInstance();
+            mySettingsComponent.setPyzTestNamespaceText(appSettings.pyzTestNamespace);
         }
         
         // Set boolean features

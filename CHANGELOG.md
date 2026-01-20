@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.12.0] - 2026-01-20
+### Added
+- Extend files from SprykerTest
+
 ## [0.11.1] - 2026-01-19
 ### Added
 - Allow numbers in Spryker package names

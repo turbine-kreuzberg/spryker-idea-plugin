@@ -16,6 +16,8 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
 
     public String pyzDirectory = "/src/Pyz/";
     public String pyzNamespace = "Pyz";
+    public String pyzTestDirectory = "/tests/PyzTest/";
+    public String pyzTestNamespace = "PyzTest";
     public boolean extendInPyzFeatureActive = true;
     public boolean viewOnGithubFeatureActive = true;
     public boolean zedStubGatewayControllerFeatureActive = true;

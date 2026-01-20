@@ -12,6 +12,8 @@ public class AppSettingsComponent {
     private final JPanel myMainPanel;
     private final JBTextField pyzDirectoryText = new JBTextField();
     private final JBTextField pyzNamespaceText = new JBTextField();
+    private final JBTextField pyzTestDirectoryText = new JBTextField();
+    private final JBTextField pyzTestNamespaceText = new JBTextField();
     private final JBCheckBox extendInPyzFeatureActiveCheckbox = new JBCheckBox("Extend-in-PYZ");
     private final JBCheckBox viewOnGithubFeatureActiveCheckbox = new JBCheckBox("View-on-GitHub");
     private final JBCheckBox zedStubGatewayControllerFeatureActiveCheckbox = new JBCheckBox("Zed stub <> gateway controller navigation");
@@ -36,6 +38,8 @@ public class AppSettingsComponent {
                 .addVerticalGap(10)
                 .addLabeledComponent(new JBLabel("PYZ directory (default is '/src/Pyz/')"), pyzDirectoryText, 1, false)
                 .addLabeledComponent(new JBLabel("PYZ namespace (default is 'Pyz')"), pyzNamespaceText, 1, false)
+                .addLabeledComponent(new JBLabel("PYZ test directory (default is '/tests/PyzTest/')"), pyzTestDirectoryText, 1, false)
+                .addLabeledComponent(new JBLabel("PYZ test namespace (default is 'PyzTest')"), pyzTestNamespaceText, 1, false)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -64,6 +68,24 @@ public class AppSettingsComponent {
 
     public void setPyzNamespaceText(@NotNull String newText) {
         pyzNamespaceText.setText(newText);
+    }
+    
+    @NotNull
+    public String getPyzTestDirectoryText() {
+        return pyzTestDirectoryText.getText();
+    }
+
+    public void setPyzTestDirectoryText(@NotNull String newText) {
+        pyzTestDirectoryText.setText(newText);
+    }
+
+    @NotNull
+    public String getPyzTestNamespaceText() {
+        return pyzTestNamespaceText.getText();
+    }
+
+    public void setPyzTestNamespaceText(@NotNull String newText) {
+        pyzTestNamespaceText.setText(newText);
     }
 
     public boolean getExtendInPyzFeatureActive() {

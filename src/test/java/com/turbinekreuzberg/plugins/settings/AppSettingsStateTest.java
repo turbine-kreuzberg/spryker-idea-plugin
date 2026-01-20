@@ -16,6 +16,8 @@ public class AppSettingsStateTest extends PyzPluginTestCase {
         assertNotNull("Settings instance should be available", settings);
         assertEquals("Should have default PYZ directory", "/src/Pyz/", settings.pyzDirectory);
         assertEquals("Should have default PYZ namespace", "Pyz", settings.pyzNamespace);
+        assertEquals("Should have default PYZ test directory", "/tests/PyzTest/", settings.pyzTestDirectory);
+        assertEquals("Should have default PYZ test namespace", "PyzTest", settings.pyzTestNamespace);
     }
 
     public void testGetState() {
