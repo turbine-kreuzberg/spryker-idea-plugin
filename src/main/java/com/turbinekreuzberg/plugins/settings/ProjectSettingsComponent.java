@@ -19,6 +19,7 @@ public class ProjectSettingsComponent {
     private final JBTextField pyzTestNamespaceText = new JBTextField();
     private final JBCheckBox extendInPyzFeatureActiveCheckbox = new JBCheckBox("Extend in PYZ feature active");
     private final JBCheckBox viewOnGithubFeatureActiveCheckbox = new JBCheckBox("View on Github feature active");
+    private final JBCheckBox goToParentFeatureActiveCheckbox = new JBCheckBox("Go to parent feature active");
     private final JBCheckBox zedStubGatewayControllerFeatureActiveCheckbox = new JBCheckBox("Zed stub gateway controller feature active");
     private final JBCheckBox omsNavigationFeatureActiveCheckbox = new JBCheckBox("OMS navigation feature active");
     private final JBCheckBox twigGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Twig goto handling feature active");
@@ -32,6 +33,7 @@ public class ProjectSettingsComponent {
                 .addVerticalGap(10)
                 .addComponent(extendInPyzFeatureActiveCheckbox, 1)
                 .addComponent(viewOnGithubFeatureActiveCheckbox, 1)
+                .addComponent(goToParentFeatureActiveCheckbox, 1)
                 .addComponent(zedStubGatewayControllerFeatureActiveCheckbox, 1)
                 .addComponent(omsNavigationFeatureActiveCheckbox, 1)
                 .addComponent(twigGotoHandlingFeatureActiveCheckbox, 1)
@@ -67,6 +69,7 @@ public class ProjectSettingsComponent {
         pyzTestNamespaceText.setEnabled(enabled);
         extendInPyzFeatureActiveCheckbox.setEnabled(enabled);
         viewOnGithubFeatureActiveCheckbox.setEnabled(enabled);
+        goToParentFeatureActiveCheckbox.setEnabled(enabled);
         zedStubGatewayControllerFeatureActiveCheckbox.setEnabled(enabled);
         omsNavigationFeatureActiveCheckbox.setEnabled(enabled);
         twigGotoHandlingFeatureActiveCheckbox.setEnabled(enabled);
@@ -138,6 +141,12 @@ public class ProjectSettingsComponent {
 
     public void setViewOnGithubFeatureActive(boolean viewOnGithubFeatureActive) {
         viewOnGithubFeatureActiveCheckbox.setSelected(viewOnGithubFeatureActive);
+    }
+
+    public boolean getGoToParentFeatureActive() { return goToParentFeatureActiveCheckbox.isSelected(); }
+
+    public void setGoToParentFeatureActive(boolean goToParentFeatureActive) {
+        goToParentFeatureActiveCheckbox.setSelected(goToParentFeatureActive);
     }
 
     public boolean getZedStubGatewayControllerFeatureActive() {

@@ -36,6 +36,7 @@ public class AppSettingsConfigurable implements Configurable {
         modified |= !mySettingsComponent.getPyzTestNamespaceText().equals(settings.pyzTestNamespace);
         modified |= mySettingsComponent.getExtendInPyzFeatureActive() != settings.extendInPyzFeatureActive;
         modified |= mySettingsComponent.getViewOnGithubFeatureActive() != settings.viewOnGithubFeatureActive;
+        modified |= mySettingsComponent.getGoToParentFeatureActive() != settings.goToParentFeatureActive;
         modified |= mySettingsComponent.getZedStubGatewayControllerFeatureActive() != settings.zedStubGatewayControllerFeatureActive;
         modified |= mySettingsComponent.getOmsNavigationFeatureActive() != settings.omsNavigationFeatureActive;
         modified |= mySettingsComponent.getTwigGotoHandlingFeatureActive() != settings.twigGotoHandlingFeatureActive;
@@ -53,6 +54,7 @@ public class AppSettingsConfigurable implements Configurable {
         settings.pyzTestNamespace = mySettingsComponent.getPyzTestNamespaceText();
         settings.extendInPyzFeatureActive = mySettingsComponent.getExtendInPyzFeatureActive();
         settings.viewOnGithubFeatureActive = mySettingsComponent.getViewOnGithubFeatureActive();
+        settings.goToParentFeatureActive = mySettingsComponent.getGoToParentFeatureActive();
         settings.zedStubGatewayControllerFeatureActive = mySettingsComponent.getZedStubGatewayControllerFeatureActive();
         settings.omsNavigationFeatureActive = mySettingsComponent.getOmsNavigationFeatureActive();
         settings.twigGotoHandlingFeatureActive = mySettingsComponent.getTwigGotoHandlingFeatureActive();
@@ -69,6 +71,7 @@ public class AppSettingsConfigurable implements Configurable {
         mySettingsComponent.setPyzTestNamespaceText(settings.pyzTestNamespace);
         mySettingsComponent.setExtendInPyzFeatureActive(settings.extendInPyzFeatureActive);
         mySettingsComponent.setViewOnGithubFeatureActive(settings.viewOnGithubFeatureActive);
+        mySettingsComponent.setGoToParentFeatureActive(settings.goToParentFeatureActive);
         mySettingsComponent.setZedStubGatewayControllerFeatureActive(settings.zedStubGatewayControllerFeatureActive);
         mySettingsComponent.setOmsNavigationFeatureActive(settings.omsNavigationFeatureActive);
         mySettingsComponent.setTwigGotoHandlingFeatureActive(settings.twigGotoHandlingFeatureActive);
