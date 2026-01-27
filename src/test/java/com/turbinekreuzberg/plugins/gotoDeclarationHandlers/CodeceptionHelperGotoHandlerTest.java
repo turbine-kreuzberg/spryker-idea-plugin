@@ -25,7 +25,7 @@ public class CodeceptionHelperGotoHandlerTest extends PyzPluginTestCase {
         // Create mock codeception.yml with helper reference
         PsiElement element = findElementAtText(
             createTestFile(
-                "codeception.yml",
+                "tests/codeception.acceptance.yml",
                 yamlLanguage,
                 "paths:\n" +
                 "    tests: tests\n" +
@@ -70,7 +70,7 @@ public class CodeceptionHelperGotoHandlerTest extends PyzPluginTestCase {
         // Create mock codeception.yml with helper reference
         PsiElement element = findElementAtText(
             createTestFile(
-                "codeception.yml",
+                "tests/codeception.yml",
                 yamlLanguage,
                 "paths:\n" +
                 "    tests: tests\n" +
@@ -98,7 +98,7 @@ public class CodeceptionHelperGotoHandlerTest extends PyzPluginTestCase {
         // Create mock codeception.yml with non-helper reference
         PsiElement element = findElementAtText(
             createTestFile(
-                "codeception.yml",
+                "tests/codeception.yml",
                 yamlLanguage,
                 "paths:\n" +
                 "    tests: tests\n" +
@@ -120,5 +120,33 @@ public class CodeceptionHelperGotoHandlerTest extends PyzPluginTestCase {
         // Test navigation for non-helper reference
         PsiElement[] targets = handler.getGotoDeclarationTargets(element, 0, null);
         assertNull("Should not provide navigation for non-helper reference", targets);
+    }
+
+    public void testFileInSrcDirectory() {
+        // Create mock codeception.yml in src directory (should be ignored)
+        PsiElement element = findElementAtText(
+            createTestFile(
+                "src/codeception.yml",
+                yamlLanguage,
+                "paths:\n" +
+                "    tests: tests\n" +
+                "    output: tests/_output\n" +
+                "    data: tests/_data\n" +
+                "    support: tests/_support\n" +
+                "    envs: tests/_envs\n" +
+                "suites:\n" +
+                "    Acceptance:\n" +
+                "        path: Acceptance\n" +
+                "        modules:\n" +
+                "            enabled:\n" +
+                "                - \\PyzTest\\Acceptance\\ConfigHelper\n"
+            ),
+            "ConfigHelper"
+        );
+        assertNotNull("Should find helper reference", element);
+
+        // Test navigation for file in src directory
+        PsiElement[] targets = handler.getGotoDeclarationTargets(element, 0, null);
+        assertNull("Should not provide navigation for files in src directory", targets);
     }
 }

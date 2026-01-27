@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.14.1] - 2026-01-27
+### Added
+- Allow Codeception helper navigation for any yml file in tests directory
+
 ## [0.14.0] - 2026-01-27
 ### Added
 - Twig go to glossary key navigation

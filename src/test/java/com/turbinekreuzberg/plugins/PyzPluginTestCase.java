@@ -28,7 +28,7 @@ public abstract class PyzPluginTestCase extends BasePlatformTestCase {
      * Creates a test file with the given content and language.
      */
     protected PsiFile createTestFile(String relativePath, Language language, String content) {
-        return myFixture.configureByText(relativePath, content);
+        return myFixture.addFileToProject(relativePath, content);
     }
     
     /**
