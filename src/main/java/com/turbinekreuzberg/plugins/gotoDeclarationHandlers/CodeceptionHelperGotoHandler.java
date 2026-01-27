@@ -52,7 +52,7 @@ public class CodeceptionHelperGotoHandler implements GotoDeclarationHandler {
     }
 
     private @Nullable String resolveHelperClassName(PsiElement sourceElement) {
-        if (sourceElement.getContainingFile().getName().equals("codeception.yml") && sourceElement.getText().endsWith("Helper")) {
+        if (sourceElement.getContainingFile().getName().endsWith(".yml") && sourceElement.getContainingFile().getVirtualFile().getPath().contains("/tests/") && sourceElement.getText().endsWith("Helper")) {
             return StringUtils.substringAfterLast(sourceElement.getText(), "\\") + ".php";
         }
 
