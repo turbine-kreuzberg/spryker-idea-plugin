@@ -35,6 +35,7 @@
         <psi.referenceContributor implementation="com.turbinekreuzberg.plugins.contributors.oms.OmsXmlToDependencyControllerContributor"/>
         <referencesSearch implementation="com.turbinekreuzberg.plugins.search.PathToStubReferencesSearcher"/>
         <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.TwigGotoHandler" />
+        <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.TwigGlossaryKeyGotoHandler" />
         <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.TransferObjectGotoHandler" />
         <gotoDeclarationHandler implementation="com.turbinekreuzberg.plugins.gotoDeclarationHandlers.CodeceptionHelperGotoHandler" />
         

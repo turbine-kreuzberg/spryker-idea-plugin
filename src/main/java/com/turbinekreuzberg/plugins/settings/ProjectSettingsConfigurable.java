@@ -117,6 +117,12 @@ public class ProjectSettingsConfigurable implements Configurable {
             } else {
                 modified |= mySettingsComponent.getCodeceptionHelperNavigationFeatureActiveCheckbox() != AppSettingsState.getInstance().codeceptionHelperNavigationFeatureActive;
             }
+
+            if (settings.twigGlossaryKeyGotoHandlingFeatureActive != null) {
+                modified |= mySettingsComponent.getTwigGlossaryKeyGotoHandlingFeatureActive() != settings.twigGlossaryKeyGotoHandlingFeatureActive;
+            } else {
+                modified |= mySettingsComponent.getTwigGlossaryKeyGotoHandlingFeatureActive() != AppSettingsState.getInstance().twigGlossaryKeyGotoHandlingFeatureActive;
+            }
         }
         
         return modified;
@@ -143,6 +149,7 @@ public class ProjectSettingsConfigurable implements Configurable {
             settings.twigGotoHandlingFeatureActive = mySettingsComponent.getTwigGotoHandlingFeatureActive();
             settings.transferObjectGotoHandlingFeatureActive = mySettingsComponent.getTransferObjectGotoHandlingFeatureActive();
             settings.codeceptionHelperNavigationFeatureActive = mySettingsComponent.getCodeceptionHelperNavigationFeatureActiveCheckbox();
+            settings.twigGlossaryKeyGotoHandlingFeatureActive = mySettingsComponent.getTwigGlossaryKeyGotoHandlingFeatureActive();
         } else {
             // If project settings are disabled, reset all project-specific settings to null
             // This ensures we fall back to application settings
@@ -158,6 +165,7 @@ public class ProjectSettingsConfigurable implements Configurable {
             settings.twigGotoHandlingFeatureActive = null;
             settings.transferObjectGotoHandlingFeatureActive = null;
             settings.codeceptionHelperNavigationFeatureActive = null;
+            settings.twigGlossaryKeyGotoHandlingFeatureActive = null;
         }
     }
 
@@ -250,6 +258,12 @@ public class ProjectSettingsConfigurable implements Configurable {
             settings.codeceptionHelperNavigationFeatureActive != null ? 
             settings.codeceptionHelperNavigationFeatureActive : 
             appSettings.codeceptionHelperNavigationFeatureActive
+        );
+
+        mySettingsComponent.setTwigGlossaryKeyGotoHandlingFeatureActive(
+            settings.twigGlossaryKeyGotoHandlingFeatureActive != null ?
+            settings.twigGlossaryKeyGotoHandlingFeatureActive :
+            appSettings.twigGlossaryKeyGotoHandlingFeatureActive
         );
     }
 

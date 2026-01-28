@@ -22,6 +22,7 @@ public class AppSettingsComponent {
     private final JBCheckBox twigGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Twig goto-handling");
     private final JBCheckBox transferObjectGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Transfer object goto-handling");
     private final JBCheckBox codeceptionHelperNavigationFeatureActiveCheckbox = new JBCheckBox("Codeception helper navigation");
+    private final JBCheckBox twigGlossaryKeyGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Twig to glossary key goto-handling");
 
     public AppSettingsComponent() {
         myMainPanel = FormBuilder.createFormBuilder()
@@ -35,6 +36,7 @@ public class AppSettingsComponent {
                 .addComponent(twigGotoHandlingFeatureActiveCheckbox, 1)
                 .addComponent(transferObjectGotoHandlingFeatureActiveCheckbox, 1)
                 .addComponent(codeceptionHelperNavigationFeatureActiveCheckbox, 1)
+                .addComponent(twigGlossaryKeyGotoHandlingFeatureActiveCheckbox, 1)
                 .addVerticalGap(10)
                 .addSeparator()
                 .addVerticalGap(10)
@@ -152,5 +154,13 @@ public class AppSettingsComponent {
 
     public void setCodeceptionHelperNavigationFeatureActiveCheckbox(boolean newStatus) {
         codeceptionHelperNavigationFeatureActiveCheckbox.setSelected(newStatus);
+    }
+
+    public boolean getTwigGlossaryKeyGotoHandlingFeatureActiveCheckbox() {
+        return twigGlossaryKeyGotoHandlingFeatureActiveCheckbox.isSelected();
+    }
+
+    public void setTwigGlossaryKeyGotoHandlingFeatureActiveCheckbox(boolean newStatus) {
+        twigGlossaryKeyGotoHandlingFeatureActiveCheckbox.setSelected(newStatus);
     }
 }

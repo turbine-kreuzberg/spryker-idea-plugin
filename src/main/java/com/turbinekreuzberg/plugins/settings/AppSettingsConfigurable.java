@@ -42,6 +42,7 @@ public class AppSettingsConfigurable implements Configurable {
         modified |= mySettingsComponent.getTwigGotoHandlingFeatureActive() != settings.twigGotoHandlingFeatureActive;
         modified |= mySettingsComponent.getTransferObjectGotoHandlingFeatureActive() != settings.transferObjectGotoHandlingFeatureActive;
         modified |= mySettingsComponent.getCodeceptionHelperNavigationFeatureActiveCheckbox() != settings.codeceptionHelperNavigationFeatureActive;
+        modified |= mySettingsComponent.getTwigGlossaryKeyGotoHandlingFeatureActiveCheckbox() != settings.twigGlossaryKeyGotoHandlingFeatureActive;
         return modified;
     }
 
@@ -60,6 +61,7 @@ public class AppSettingsConfigurable implements Configurable {
         settings.twigGotoHandlingFeatureActive = mySettingsComponent.getTwigGotoHandlingFeatureActive();
         settings.transferObjectGotoHandlingFeatureActive = mySettingsComponent.getTransferObjectGotoHandlingFeatureActive();
         settings.codeceptionHelperNavigationFeatureActive = mySettingsComponent.getCodeceptionHelperNavigationFeatureActiveCheckbox();
+        settings.twigGlossaryKeyGotoHandlingFeatureActive = mySettingsComponent.getTwigGlossaryKeyGotoHandlingFeatureActiveCheckbox();
     }
 
     @Override
@@ -77,6 +79,7 @@ public class AppSettingsConfigurable implements Configurable {
         mySettingsComponent.setTwigGotoHandlingFeatureActive(settings.twigGotoHandlingFeatureActive);
         mySettingsComponent.setTransferObjectGotoHandlingFeatureActive(settings.transferObjectGotoHandlingFeatureActive);
         mySettingsComponent.setCodeceptionHelperNavigationFeatureActiveCheckbox(settings.codeceptionHelperNavigationFeatureActive);
+        mySettingsComponent.setTwigGlossaryKeyGotoHandlingFeatureActiveCheckbox(settings.twigGlossaryKeyGotoHandlingFeatureActive);
     }
 
     @Override

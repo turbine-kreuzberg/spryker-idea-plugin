@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.14.0] - 2026-01-27
+### Added
+- Twig go to glossary key navigation
+
 ## [0.13.0] - 2026-01-23
 ### Added
 - Go to parent file in Spryker namespace

@@ -114,6 +114,8 @@ public class SettingsManager {
                 return appSettings.transferObjectGotoHandlingFeatureActive;
             case CODECEPTION_HELPER_NAVIGATION:
                 return appSettings.codeceptionHelperNavigationFeatureActive;
+            case TWIG_GLOSSARY_KEY_GOTO_HANDLING:
+                return appSettings.twigGlossaryKeyGotoHandlingFeatureActive;
             default:
                 return false;
         }
@@ -141,6 +143,8 @@ public class SettingsManager {
                 return projectSettings.transferObjectGotoHandlingFeatureActive;
             case CODECEPTION_HELPER_NAVIGATION:
                 return projectSettings.codeceptionHelperNavigationFeatureActive;
+            case TWIG_GLOSSARY_KEY_GOTO_HANDLING:
+                return projectSettings.twigGlossaryKeyGotoHandlingFeatureActive;
             default:
                 return null;
         }
@@ -157,6 +161,7 @@ public class SettingsManager {
         OMS_NAVIGATION,
         TWIG_GOTO_HANDLING,
         TRANSFER_OBJECT_GOTO_HANDLING,
-        CODECEPTION_HELPER_NAVIGATION
+        CODECEPTION_HELPER_NAVIGATION,
+        TWIG_GLOSSARY_KEY_GOTO_HANDLING
     }
 }

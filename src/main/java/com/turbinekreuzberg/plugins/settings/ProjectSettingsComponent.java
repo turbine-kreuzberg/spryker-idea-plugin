@@ -25,6 +25,7 @@ public class ProjectSettingsComponent {
     private final JBCheckBox twigGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Twig goto handling feature active");
     private final JBCheckBox transferObjectGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Transfer object goto handling feature active");
     private final JBCheckBox codeceptionHelperNavigationFeatureActiveCheckbox = new JBCheckBox("Codeception helper navigation feature active");
+    private final JBCheckBox twigGlossaryKeyGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Twig to glossary key goto handling feature active");
 
     public ProjectSettingsComponent() {
         JPanel settingsPanel = FormBuilder.createFormBuilder()
@@ -39,6 +40,7 @@ public class ProjectSettingsComponent {
                 .addComponent(twigGotoHandlingFeatureActiveCheckbox, 1)
                 .addComponent(transferObjectGotoHandlingFeatureActiveCheckbox, 1)
                 .addComponent(codeceptionHelperNavigationFeatureActiveCheckbox, 1)
+                .addComponent(twigGlossaryKeyGotoHandlingFeatureActiveCheckbox, 1)
                 .addVerticalGap(10)
                 .addSeparator()
                 .addVerticalGap(10)
@@ -75,6 +77,7 @@ public class ProjectSettingsComponent {
         twigGotoHandlingFeatureActiveCheckbox.setEnabled(enabled);
         transferObjectGotoHandlingFeatureActiveCheckbox.setEnabled(enabled);
         codeceptionHelperNavigationFeatureActiveCheckbox.setEnabled(enabled);
+        twigGlossaryKeyGotoHandlingFeatureActiveCheckbox.setEnabled(enabled);
     }
 
     public JPanel getPanel() {
@@ -187,5 +190,13 @@ public class ProjectSettingsComponent {
 
     public void setCodeceptionHelperNavigationFeatureActiveCheckbox(boolean codeceptionHelperNavigationFeatureActive) {
         codeceptionHelperNavigationFeatureActiveCheckbox.setSelected(codeceptionHelperNavigationFeatureActive);
+    }
+
+    public boolean getTwigGlossaryKeyGotoHandlingFeatureActive() {
+        return twigGlossaryKeyGotoHandlingFeatureActiveCheckbox.isSelected();
+    }
+
+    public void setTwigGlossaryKeyGotoHandlingFeatureActive(boolean twigGlossaryKeyGotoHandlingFeatureActive) {
+        twigGlossaryKeyGotoHandlingFeatureActiveCheckbox.setSelected(twigGlossaryKeyGotoHandlingFeatureActive);
     }
 }
