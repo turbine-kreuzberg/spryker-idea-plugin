@@ -33,6 +33,7 @@ public class AppSettingsStateTest extends PyzPluginTestCase {
         newState.pyzNamespace = "CustomPyz";
         newState.extendInPyzFeatureActive = false;
         newState.viewOnGithubFeatureActive = false;
+        newState.goToParentFeatureActive = false;
         newState.omsNavigationFeatureActive = false;
 
         // Load the new state
@@ -43,6 +44,7 @@ public class AppSettingsStateTest extends PyzPluginTestCase {
         assertEquals("PYZ namespace should be updated", "CustomPyz", settings.pyzNamespace);
         assertFalse("Extend feature should be disabled", settings.extendInPyzFeatureActive);
         assertFalse("GitHub feature should be disabled", settings.viewOnGithubFeatureActive);
+        assertFalse("Go to parent feature should be disabled", settings.goToParentFeatureActive);
         assertFalse("OMS navigation should be disabled", settings.omsNavigationFeatureActive);
     }
 
@@ -52,6 +54,9 @@ public class AppSettingsStateTest extends PyzPluginTestCase {
         source.pyzDirectory = "/test/Pyz/";
         source.pyzNamespace = "TestPyz";
         source.extendInPyzFeatureActive = false;
+        source.viewOnGithubFeatureActive = false;
+        source.goToParentFeatureActive = false;
+        source.omsNavigationFeatureActive = false;
 
         // Create target state
         AppSettingsState target = new AppSettingsState();
@@ -63,11 +68,15 @@ public class AppSettingsStateTest extends PyzPluginTestCase {
         assertEquals("PYZ directory should be copied", source.pyzDirectory, target.pyzDirectory);
         assertEquals("PYZ namespace should be copied", source.pyzNamespace, target.pyzNamespace);
         assertEquals("Feature state should be copied", source.extendInPyzFeatureActive, target.extendInPyzFeatureActive);
+        assertEquals("Feature state should be copied", source.viewOnGithubFeatureActive, target.viewOnGithubFeatureActive);
+        assertEquals("Feature state should be copied", source.goToParentFeatureActive, target.goToParentFeatureActive);
+        assertEquals("Feature state should be copied", source.omsNavigationFeatureActive, target.omsNavigationFeatureActive);
     }
 
     public void testFeatureDefaults() {
         assertTrue("Extend in PYZ feature should be enabled by default", settings.extendInPyzFeatureActive);
         assertTrue("View on GitHub feature should be enabled by default", settings.viewOnGithubFeatureActive);
+        assertTrue("Go to parent feature should be enabled by default", settings.goToParentFeatureActive);
         assertTrue("Zed stub gateway controller feature should be enabled by default", settings.zedStubGatewayControllerFeatureActive);
         assertTrue("OMS navigation feature should be enabled by default", settings.omsNavigationFeatureActive);
         assertTrue("Twig goto handling feature should be enabled by default", settings.twigGotoHandlingFeatureActive);

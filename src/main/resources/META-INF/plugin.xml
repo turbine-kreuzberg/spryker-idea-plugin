@@ -22,6 +22,12 @@
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="com.turbinekreuzberg.plugins.actions.ExtendInPyzAction"/>
             <keyboard-shortcut first-keystroke="control alt g" keymap="$default" />
         </action>
+        <action id="com.turbinekreuzberg.plugins.actions.GoToParentAction"
+                class="com.turbinekreuzberg.plugins.actions.GoToParentAction" text="Go to Parent" icon="AllIcons.Actions.MoveUp">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="com.turbinekreuzberg.plugins.actions.ViewOnGithubAction"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="com.turbinekreuzberg.plugins.actions.ViewOnGithubAction"/>
+            <keyboard-shortcut first-keystroke="control alt p" keymap="$default" />
+        </action>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">

@@ -16,6 +16,7 @@ public class AppSettingsComponent {
     private final JBTextField pyzTestNamespaceText = new JBTextField();
     private final JBCheckBox extendInPyzFeatureActiveCheckbox = new JBCheckBox("Extend-in-PYZ");
     private final JBCheckBox viewOnGithubFeatureActiveCheckbox = new JBCheckBox("View-on-GitHub");
+    private final JBCheckBox goToParentFeatureActiveCheckbox = new JBCheckBox("Go-to-parent");
     private final JBCheckBox zedStubGatewayControllerFeatureActiveCheckbox = new JBCheckBox("Zed stub <> gateway controller navigation");
     private final JBCheckBox omsNavigationFeatureActiveCheckbox = new JBCheckBox("State machine navigation");
     private final JBCheckBox twigGotoHandlingFeatureActiveCheckbox = new JBCheckBox("Twig goto-handling");
@@ -28,6 +29,7 @@ public class AppSettingsComponent {
                 .addVerticalGap(10)
                 .addComponent(extendInPyzFeatureActiveCheckbox, 1)
                 .addComponent(viewOnGithubFeatureActiveCheckbox, 1)
+                .addComponent(goToParentFeatureActiveCheckbox, 1)
                 .addComponent(zedStubGatewayControllerFeatureActiveCheckbox, 1)
                 .addComponent(omsNavigationFeatureActiveCheckbox, 1)
                 .addComponent(twigGotoHandlingFeatureActiveCheckbox, 1)
@@ -102,6 +104,14 @@ public class AppSettingsComponent {
 
     public void setViewOnGithubFeatureActive(boolean newStatus) {
         viewOnGithubFeatureActiveCheckbox.setSelected(newStatus);
+    }
+
+    public boolean getGoToParentFeatureActive() {
+        return goToParentFeatureActiveCheckbox.isSelected();
+    }
+
+    public void setGoToParentFeatureActive(boolean newStatus) {
+        goToParentFeatureActiveCheckbox.setSelected(newStatus);
     }
 
     public boolean getZedStubGatewayControllerFeatureActive() {

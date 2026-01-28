@@ -1,6 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 # PYZ Plugin Changelog
 
+## [0.13.0] - 2026-01-23
+### Added
+- Go to parent file in Spryker namespace
+
 ## [0.12.0] - 2026-01-20
 ### Added
 - Extend files from SprykerTest

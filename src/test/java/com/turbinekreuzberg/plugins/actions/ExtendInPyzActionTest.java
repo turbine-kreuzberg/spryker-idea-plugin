@@ -1,27 +1,18 @@
 package com.turbinekreuzberg.plugins.actions;
 
 import com.intellij.lang.Language;
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.actionSystem.Presentation;
-import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ContentEntry;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootModificationUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.testFramework.MapDataContext;
 import com.turbinekreuzberg.plugins.PyzPluginTestCase;
 import com.turbinekreuzberg.plugins.settings.AppSettingsState;
-import com.turbinekreuzberg.plugins.utils.SprykerRelativeClassPathCreator;
-import java.lang.reflect.Field;
 
 public class ExtendInPyzActionTest extends PyzPluginTestCase {
     private Language phpLanguage;

@@ -4,7 +4,7 @@ import com.intellij.mock.MockFileTypeManager;
 import com.intellij.mock.MockVirtualFile;
 import com.turbinekreuzberg.plugins.PyzPluginTestCase;
 
-public class SprykerRelativeClassPathCreatorTest extends PyzPluginTestCase {
+public class SprykerPathUtilsTest extends PyzPluginTestCase {
 
     public void testGetRelativePathForFileInSprykerVendor() {
         MockVirtualFile vFile = MockVirtualFile.file("PHP.UNKNOWN");
@@ -13,7 +13,7 @@ public class SprykerRelativeClassPathCreatorTest extends PyzPluginTestCase {
         vFile.setText("<?php ");
         vFile.setParent(vFileDir);
 
-        assertEquals("Zed/blah.txt", (new SprykerRelativeClassPathCreator()).getRelativeClassPath(vFile));
+        assertEquals("Zed/blah.txt", (new SprykerPathUtils()).getRelativeClassPath(vFile));
     }
 
     public void testGetEmptyStringForFileNotInSprykerVendor() {
@@ -23,7 +23,7 @@ public class SprykerRelativeClassPathCreatorTest extends PyzPluginTestCase {
         vFile.setText("<?php ");
         vFile.setParent(vFileDir);
 
-        assertEquals("", (new SprykerRelativeClassPathCreator()).getRelativeClassPath(vFile));
+        assertEquals("", (new SprykerPathUtils()).getRelativeClassPath(vFile));
     }
 
     public void testIsFileNotLocatedInSprykerVendor() {
@@ -33,7 +33,7 @@ public class SprykerRelativeClassPathCreatorTest extends PyzPluginTestCase {
         vFile.setText("<?php ");
         vFile.setParent(vFileDir);
 
-        assertFalse((new SprykerRelativeClassPathCreator()).isLocatedInSprykerVendor(vFile));
+        assertFalse((new SprykerPathUtils()).isLocatedInSprykerVendor(vFile));
     }
 
     public void testIsFileLocatedInSprykerVendor() {
@@ -43,6 +43,6 @@ public class SprykerRelativeClassPathCreatorTest extends PyzPluginTestCase {
         vFile.setText("<?php ");
         vFile.setParent(vFileDir);
 
-        assertTrue((new SprykerRelativeClassPathCreator()).isLocatedInSprykerVendor(vFile));
+        assertTrue((new SprykerPathUtils()).isLocatedInSprykerVendor(vFile));
     }
 }

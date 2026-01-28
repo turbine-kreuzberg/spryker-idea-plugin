@@ -81,6 +81,12 @@ public class ProjectSettingsConfigurable implements Configurable {
             } else {
                 modified |= mySettingsComponent.getViewOnGithubFeatureActive() != AppSettingsState.getInstance().viewOnGithubFeatureActive;
             }
+
+            if (settings.goToParentFeatureActive != null) {
+                modified |= mySettingsComponent.getGoToParentFeatureActive() != settings.goToParentFeatureActive;
+            } else {
+                modified |= mySettingsComponent.getGoToParentFeatureActive() != AppSettingsState.getInstance().goToParentFeatureActive;
+            }
             
             if (settings.zedStubGatewayControllerFeatureActive != null) {
                 modified |= mySettingsComponent.getZedStubGatewayControllerFeatureActive() != settings.zedStubGatewayControllerFeatureActive;
@@ -131,6 +137,7 @@ public class ProjectSettingsConfigurable implements Configurable {
             settings.pyzTestNamespace = mySettingsComponent.getPyzTestNamespaceText();
             settings.extendInPyzFeatureActive = mySettingsComponent.getExtendInPyzFeatureActive();
             settings.viewOnGithubFeatureActive = mySettingsComponent.getViewOnGithubFeatureActive();
+            settings.goToParentFeatureActive = mySettingsComponent.getGoToParentFeatureActive();
             settings.zedStubGatewayControllerFeatureActive = mySettingsComponent.getZedStubGatewayControllerFeatureActive();
             settings.omsNavigationFeatureActive = mySettingsComponent.getOmsNavigationFeatureActive();
             settings.twigGotoHandlingFeatureActive = mySettingsComponent.getTwigGotoHandlingFeatureActive();
@@ -145,6 +152,7 @@ public class ProjectSettingsConfigurable implements Configurable {
             settings.pyzTestNamespace = null;
             settings.extendInPyzFeatureActive = null;
             settings.viewOnGithubFeatureActive = null;
+            settings.goToParentFeatureActive = null;
             settings.zedStubGatewayControllerFeatureActive = null;
             settings.omsNavigationFeatureActive = null;
             settings.twigGotoHandlingFeatureActive = null;
@@ -206,6 +214,12 @@ public class ProjectSettingsConfigurable implements Configurable {
             settings.viewOnGithubFeatureActive != null ? 
             settings.viewOnGithubFeatureActive : 
             appSettings.viewOnGithubFeatureActive
+        );
+
+        mySettingsComponent.setGoToParentFeatureActive(
+            settings.goToParentFeatureActive != null ?
+            settings.goToParentFeatureActive :
+            appSettings.goToParentFeatureActive
         );
         
         mySettingsComponent.setZedStubGatewayControllerFeatureActive(

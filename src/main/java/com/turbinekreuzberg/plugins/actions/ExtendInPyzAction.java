@@ -15,14 +15,12 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.impl.file.PsiDirectoryFactory;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.psi.PhpPsiElementFactory;
 import com.jetbrains.php.lang.psi.elements.Method;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.impl.MethodImpl;
 import com.turbinekreuzberg.plugins.settings.SettingsManager;
-import com.turbinekreuzberg.plugins.utils.SprykerRelativeClassPathCreator;
+import com.turbinekreuzberg.plugins.utils.SprykerPathUtils;
 import com.turbinekreuzberg.plugins.utils.PhpContentCreator;
 import com.turbinekreuzberg.plugins.utils.GenericContentCreator;
 import org.apache.commons.lang3.StringUtils;
@@ -32,9 +30,9 @@ import java.io.IOException;
 
 public class ExtendInPyzAction extends AnAction {
 
-    SprykerRelativeClassPathCreator sprykerRelativeClassPathCreator;
+    SprykerPathUtils sprykerPathUtils;
     public ExtendInPyzAction() {
-        sprykerRelativeClassPathCreator = new SprykerRelativeClassPathCreator();
+        sprykerPathUtils = new SprykerPathUtils();
     }
 
     @Override
@@ -61,7 +59,7 @@ public class ExtendInPyzAction extends AnAction {
     }
 
     private void processFile(Project project, VirtualFile selectedVirtualFile, String method) {
-        String relativeClassPath = sprykerRelativeClassPathCreator.getRelativeClassPath(selectedVirtualFile);
+        String relativeClassPath = sprykerPathUtils.getRelativeClassPath(selectedVirtualFile);
 
         String pyzDirectoryPath;
         if (selectedVirtualFile.getPath().contains("/tests/")) {
@@ -146,7 +144,7 @@ public class ExtendInPyzAction extends AnAction {
     }
 
     private boolean isNotFileInSprykerVendor(@NotNull VirtualFile vFile) {
-        return vFile.getFileType() == UnknownFileType.INSTANCE || !sprykerRelativeClassPathCreator.isLocatedInSprykerVendor(vFile);
+        return vFile.getFileType() == UnknownFileType.INSTANCE || !sprykerPathUtils.isLocatedInSprykerVendor(vFile);
     }
 
     @NotNull

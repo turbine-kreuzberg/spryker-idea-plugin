@@ -13,7 +13,7 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.turbinekreuzberg.plugins.settings.SettingsManager;
-import com.turbinekreuzberg.plugins.utils.SprykerRelativeClassPathCreator;
+import com.turbinekreuzberg.plugins.utils.SprykerPathUtils;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
@@ -23,9 +23,9 @@ import java.net.URI;
 
 public class ViewOnGithubAction extends AnAction {
 
-    SprykerRelativeClassPathCreator sprykerRelativeClassPathCreator;
+    SprykerPathUtils sprykerPathUtils;
     public ViewOnGithubAction() {
-        sprykerRelativeClassPathCreator = new SprykerRelativeClassPathCreator();
+        sprykerPathUtils = new SprykerPathUtils();
     }
 
     @Override
@@ -109,6 +109,6 @@ public class ViewOnGithubAction extends AnAction {
     }
 
     private boolean isNotFileInSprykerVendor(@NotNull VirtualFile vFile) {
-        return vFile.getFileType() == UnknownFileType.INSTANCE || !sprykerRelativeClassPathCreator.isLocatedInSprykerVendor(vFile);
+        return vFile.getFileType() == UnknownFileType.INSTANCE || !sprykerPathUtils.isLocatedInSprykerVendor(vFile);
     }
 }

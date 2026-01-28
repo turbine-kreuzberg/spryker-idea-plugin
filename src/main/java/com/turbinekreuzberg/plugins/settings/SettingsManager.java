@@ -102,6 +102,8 @@ public class SettingsManager {
                 return appSettings.extendInPyzFeatureActive;
             case VIEW_ON_GITHUB:
                 return appSettings.viewOnGithubFeatureActive;
+            case GO_TO_PARENT:
+                return appSettings.goToParentFeatureActive;
             case ZED_STUB_GATEWAY_CONTROLLER:
                 return appSettings.zedStubGatewayControllerFeatureActive;
             case OMS_NAVIGATION:
@@ -127,6 +129,8 @@ public class SettingsManager {
                 return projectSettings.extendInPyzFeatureActive;
             case VIEW_ON_GITHUB:
                 return projectSettings.viewOnGithubFeatureActive;
+            case GO_TO_PARENT:
+                return projectSettings.goToParentFeatureActive;
             case ZED_STUB_GATEWAY_CONTROLLER:
                 return projectSettings.zedStubGatewayControllerFeatureActive;
             case OMS_NAVIGATION:
@@ -148,6 +152,7 @@ public class SettingsManager {
     public enum Feature {
         EXTEND_IN_PYZ,
         VIEW_ON_GITHUB,
+        GO_TO_PARENT,
         ZED_STUB_GATEWAY_CONTROLLER,
         OMS_NAVIGATION,
         TWIG_GOTO_HANDLING,

@@ -1,6 +1,5 @@
 package com.turbinekreuzberg.plugins.actions;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.intellij.ide.BrowserUtil;
@@ -16,12 +15,9 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.turbinekreuzberg.plugins.PyzPluginTestCase;
 import com.turbinekreuzberg.plugins.settings.AppSettingsState;
-import com.turbinekreuzberg.plugins.settings.ProjectSettingsState;
 import com.turbinekreuzberg.plugins.settings.SettingsManager;
-import com.turbinekreuzberg.plugins.utils.SprykerRelativeClassPathCreator;
+import com.turbinekreuzberg.plugins.utils.SprykerPathUtils;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.io.File;
 
@@ -105,19 +101,19 @@ public class ViewOnGithubActionTest extends PyzPluginTestCase {
         
         Mockito.when(virtualFile.getFileType()).thenReturn(Mockito.mock(com.intellij.openapi.fileTypes.FileType.class));
         
-        // Mock SprykerRelativeClassPathCreator
+        // Mock SprykerPathUtils
         try (MockedStatic<SettingsManager> settingsManagerMock = Mockito.mockStatic(SettingsManager.class)) {
             settingsManagerMock.when(() -> SettingsManager.isFeatureEnabled(
                 Mockito.eq(project),
                 Mockito.eq(SettingsManager.Feature.VIEW_ON_GITHUB)))
                 .thenReturn(true);
             
-            // Mock the SprykerRelativeClassPathCreator
-            SprykerRelativeClassPathCreator mockedCreator = Mockito.mock(SprykerRelativeClassPathCreator.class);
-            Mockito.when(mockedCreator.isLocatedInSprykerVendor(virtualFile)).thenReturn(true);
+            // Mock the SprykerPathUtils
+            SprykerPathUtils sprykerPathUtilsMock = Mockito.mock(SprykerPathUtils.class);
+            Mockito.when(sprykerPathUtilsMock.isLocatedInSprykerVendor(virtualFile)).thenReturn(true);
             
             // Replace the creator in the action
-            action.sprykerRelativeClassPathCreator = mockedCreator;
+            action.sprykerPathUtils = sprykerPathUtilsMock;
             
             // Action should be visible for Spryker vendor files
             action.update(event);
@@ -136,19 +132,19 @@ public class ViewOnGithubActionTest extends PyzPluginTestCase {
         Mockito.when(parentDir.getCanonicalPath()).thenReturn("/project/root/src/Pyz/Zed/Catalog/Business");
         Mockito.when(virtualFile.getParent()).thenReturn(parentDir);
         
-        // Mock SprykerRelativeClassPathCreator
+        // Mock SprykerPathUtils
         try (MockedStatic<SettingsManager> settingsManagerMock = Mockito.mockStatic(SettingsManager.class)) {
             settingsManagerMock.when(() -> SettingsManager.isFeatureEnabled(
                 Mockito.eq(project),
                 Mockito.eq(SettingsManager.Feature.VIEW_ON_GITHUB)))
                 .thenReturn(true);
             
-            // Mock the SprykerRelativeClassPathCreator
-            SprykerRelativeClassPathCreator mockedCreator = Mockito.mock(SprykerRelativeClassPathCreator.class);
-            Mockito.when(mockedCreator.isLocatedInSprykerVendor(virtualFile)).thenReturn(false);
+            // Mock the SprykerPathUtils
+            SprykerPathUtils sprykerPathUtilsMock = Mockito.mock(SprykerPathUtils.class);
+            Mockito.when(sprykerPathUtilsMock.isLocatedInSprykerVendor(virtualFile)).thenReturn(false);
             
             // Replace the creator in the action
-            action.sprykerRelativeClassPathCreator = mockedCreator;
+            action.sprykerPathUtils = sprykerPathUtilsMock;
             
             // Action should not be visible for non-Spryker files
             action.update(event);
@@ -209,10 +205,10 @@ public class ViewOnGithubActionTest extends PyzPluginTestCase {
                 Mockito.eq(SettingsManager.Feature.VIEW_ON_GITHUB)))
                 .thenReturn(true);
             
-            // Mock SprykerRelativeClassPathCreator
-            SprykerRelativeClassPathCreator mockedCreator = Mockito.mock(SprykerRelativeClassPathCreator.class);
-            Mockito.when(mockedCreator.isLocatedInSprykerVendor(virtualFile)).thenReturn(true);
-            action.sprykerRelativeClassPathCreator = mockedCreator;
+            // Mock SprykerPathUtils
+            SprykerPathUtils sprykerPathUtilsMock = Mockito.mock(SprykerPathUtils.class);
+            Mockito.when(sprykerPathUtilsMock.isLocatedInSprykerVendor(virtualFile)).thenReturn(true);
+            action.sprykerPathUtils = sprykerPathUtilsMock;
             
             // Mock LocalFileSystem
             LocalFileSystem localFileSystem = Mockito.mock(LocalFileSystem.class);

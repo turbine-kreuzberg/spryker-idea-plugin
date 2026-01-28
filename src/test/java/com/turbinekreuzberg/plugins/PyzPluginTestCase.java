@@ -7,7 +7,7 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.testFramework.MapDataContext;
+import com.intellij.openapi.actionSystem.impl.SimpleDataContext;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 
 /**
@@ -35,9 +35,10 @@ public abstract class PyzPluginTestCase extends BasePlatformTestCase {
      * Creates an AnActionEvent for testing actions.
      */
     protected AnActionEvent createActionEvent(PsiFile file) {
-        MapDataContext context = new MapDataContext();
-        context.put(CommonDataKeys.PSI_FILE, file);
-        context.put(CommonDataKeys.PROJECT, getProject());
+        DataContext context = SimpleDataContext.builder()
+            .add(CommonDataKeys.PSI_FILE, file)
+            .add(CommonDataKeys.PROJECT, getProject())
+            .build();
         return AnActionEvent.createFromDataContext("", null, context);
     }
     

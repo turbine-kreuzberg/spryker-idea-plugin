@@ -27,8 +27,10 @@ public class ProjectSettingsState implements PersistentStateComponent<ProjectSet
     public String pyzNamespace = null;
     public String pyzTestDirectory = null;
     public String pyzTestNamespace = null;
+    public String[] sprykerNamespaces = null;
     public Boolean extendInPyzFeatureActive = null;
     public Boolean viewOnGithubFeatureActive = null;
+    public Boolean goToParentFeatureActive = null;
     public Boolean zedStubGatewayControllerFeatureActive = null;
     public Boolean omsNavigationFeatureActive = null;
     public Boolean twigGotoHandlingFeatureActive = null;

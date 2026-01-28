@@ -45,6 +45,12 @@ public class AppSettingsComponentTest extends PyzPluginTestCase {
         settingsComponent.setViewOnGithubFeatureActive(false);
         assertFalse("GitHub feature should be disabled", settingsComponent.getViewOnGithubFeatureActive());
 
+        // Test goToParent feature toggle
+        settingsComponent.setGoToParentFeatureActive(true);
+        assertTrue("GoToParent feature should be enabled", settingsComponent.getGoToParentFeatureActive());
+        settingsComponent.setGoToParentFeatureActive(false);
+        assertFalse("GoToParent feature should be disabled", settingsComponent.getGoToParentFeatureActive());
+
         // Test Zed stub gateway controller feature toggle
         settingsComponent.setZedStubGatewayControllerFeatureActive(true);
         assertTrue("Zed stub feature should be enabled", settingsComponent.getZedStubGatewayControllerFeatureActive());

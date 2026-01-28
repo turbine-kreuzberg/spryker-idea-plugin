@@ -20,6 +20,7 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
     public String pyzTestNamespace = "PyzTest";
     public boolean extendInPyzFeatureActive = true;
     public boolean viewOnGithubFeatureActive = true;
+    public boolean goToParentFeatureActive = true;
     public boolean zedStubGatewayControllerFeatureActive = true;
     public boolean omsNavigationFeatureActive = true;
     public boolean twigGotoHandlingFeatureActive = true;
