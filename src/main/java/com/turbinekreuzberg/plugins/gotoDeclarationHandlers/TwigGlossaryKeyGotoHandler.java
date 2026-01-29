@@ -1,14 +1,17 @@
 package com.turbinekreuzberg.plugins.gotoDeclarationHandlers;
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler;
+import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.FakePsiElement;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
@@ -17,6 +20,9 @@ import com.turbinekreuzberg.plugins.settings.SettingsManager;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.util.Arrays;
 
 public class TwigGlossaryKeyGotoHandler implements GotoDeclarationHandler {
     @Override
@@ -35,14 +41,13 @@ public class TwigGlossaryKeyGotoHandler implements GotoDeclarationHandler {
             return null;
         }
 
-        String glossaryKey = sourceElement.getText();
+        String glossaryKey = resolveGlossaryKey(sourceElement);
+        if (glossaryKey == null) {
+            return null;
+        }
         PsiElement[] targetElements = {};
 
-        PsiFile[] files = FilenameIndex.getFilesByName(
-                project,
-                "glossary.csv",
-                GlobalSearchScope.allScope(project)
-        );
+        PsiFile[] files = findGlossaryCsvFiles(project);
         
         for (PsiFile file : files) {
             String fileText = file.getViewProvider().getDocument().getText();
@@ -58,6 +63,36 @@ public class TwigGlossaryKeyGotoHandler implements GotoDeclarationHandler {
         }
 
         return targetElements.length > 0 ? targetElements : null;
+    }
+
+    private @Nullable String resolveGlossaryKey(@NotNull PsiElement sourceElement) {
+        if (sourceElement.getParent() == null) {
+            return null;
+        }
+
+        if (sourceElement.getParent().getText().trim().contains("trans")) {
+            return sourceElement.getText();
+        }
+
+        return null;
+    }
+
+    private PsiFile[] findGlossaryCsvFiles(Project project) {
+        GlobalSearchScope scope = GlobalSearchScope.projectScope(project);
+        java.util.List<PsiFile> filesList = new java.util.ArrayList<>();
+        PsiManager psiManager = PsiManager.getInstance(project);
+
+        for (VirtualFile vFile : FilenameIndex.getAllFilesByExt(project, "csv", scope)) {
+            String lowerName = vFile.getName().toLowerCase();
+            if (lowerName.contains("glossary")) {
+                PsiFile psiFile = psiManager.findFile(vFile);
+                if (psiFile != null) {
+                    filesList.add(psiFile);
+                }
+            }
+        }
+        
+        return filesList.toArray(PsiFile.EMPTY_ARRAY);
     }
 
     public static PsiElement findLineElementContaining(PsiFile file, String glossaryKey) {
@@ -98,6 +133,36 @@ public class TwigGlossaryKeyGotoHandler implements GotoDeclarationHandler {
                     @Override
                     public PsiFile getContainingFile() {
                         return file;
+                    }
+
+                    @Override
+                    public @Nullable String getName() {
+                        VirtualFile vf = file.getVirtualFile();
+                        return vf != null ? vf.getName() : file.getName();
+                    }
+
+                    @Override
+                    public ItemPresentation getPresentation() {
+                        VirtualFile vf = file.getVirtualFile();
+                        String fileName = vf != null ? vf.getName() : file.getName();
+                        String location = vf != null ? vf.getPath() : null;
+
+                        return new ItemPresentation() {
+                            @Override
+                            public @NotNull String getPresentableText() {
+                                return fileName;
+                            }
+
+                            @Override
+                            public @Nullable String getLocationString() {
+                                return location;
+                            }
+
+                            @Override
+                            public @Nullable Icon getIcon(boolean unused) {
+                                return file.getIcon(0);
+                            }
+                        };
                     }
                 };
             }
