@@ -20,6 +20,7 @@ public class PyzSettingsTest extends PyzPluginTestCase {
         assertEquals("Pyz", settings.pyzNamespace);
         assertTrue("Extend in PYZ feature should be enabled by default", settings.extendInPyzFeatureActive);
         assertTrue("View on GitHub feature should be enabled by default", settings.viewOnGithubFeatureActive);
+        assertTrue("Go to parent feature should be enabled by default", settings.goToParentFeatureActive);
     }
 
     public void testSettingsModification() throws ConfigurationException {
@@ -28,12 +29,14 @@ public class PyzSettingsTest extends PyzPluginTestCase {
         settings.pyzNamespace = "CustomPyz";
         settings.extendInPyzFeatureActive = false;
         settings.viewOnGithubFeatureActive = false;
+        settings.goToParentFeatureActive = false;
         
         // Verify modifications
         assertEquals("/custom/Pyz/", settings.pyzDirectory);
         assertEquals("CustomPyz", settings.pyzNamespace);
         assertFalse("Extend in PYZ feature should be disabled", settings.extendInPyzFeatureActive);
         assertFalse("View on GitHub feature should be disabled", settings.viewOnGithubFeatureActive);
+        assertFalse("Go to parent feature should be disabled", settings.goToParentFeatureActive);
         
         // Test settings persistence
         configurable.createComponent(); // Initialize component
@@ -50,6 +53,8 @@ public class PyzSettingsTest extends PyzPluginTestCase {
         settings.pyzDirectory = "/custom/Pyz/";
         settings.pyzNamespace = "CustomPyz";
         settings.extendInPyzFeatureActive = false;
+        settings.viewOnGithubFeatureActive = false;
+        settings.goToParentFeatureActive = false;
         
         // Reset the UI component to match current settings
         configurable.reset();
@@ -62,6 +67,8 @@ public class PyzSettingsTest extends PyzPluginTestCase {
         assertEquals("/custom/Pyz/", settings.pyzDirectory);
         assertEquals("CustomPyz", settings.pyzNamespace);
         assertFalse(settings.extendInPyzFeatureActive);
+        assertFalse(settings.viewOnGithubFeatureActive);
+        assertFalse(settings.goToParentFeatureActive);
     }
 
     public void testFeatureToggling() {
@@ -94,6 +101,24 @@ public class PyzSettingsTest extends PyzPluginTestCase {
         assertFalse("Codeception helper navigation should be disabled", settings.codeceptionHelperNavigationFeatureActive);
         settings.codeceptionHelperNavigationFeatureActive = true;
         assertTrue("Codeception helper navigation should be enabled", settings.codeceptionHelperNavigationFeatureActive);
+
+        // Test extend in pyz feature
+        settings.extendInPyzFeatureActive = false;
+        assertFalse("Extend in pyz feature should be disabled", settings.extendInPyzFeatureActive);
+        settings.extendInPyzFeatureActive = true;
+        assertTrue("Extend in pyz feature should be enabled", settings.extendInPyzFeatureActive);
+
+        // Test view on github feature
+        settings.viewOnGithubFeatureActive = false;
+        assertFalse("View on github feature should be disabled", settings.viewOnGithubFeatureActive);
+        settings.viewOnGithubFeatureActive = true;
+        assertTrue("View on github feature should be enabled", settings.viewOnGithubFeatureActive);
+
+        // Test goToParent feature
+        settings.goToParentFeatureActive = false;
+        assertFalse("GoToParent feature should be disabled", settings.goToParentFeatureActive);
+        settings.goToParentFeatureActive = true;
+        assertTrue("GoToParent feature should be enabled", settings.goToParentFeatureActive);
     }
     
     @Override
