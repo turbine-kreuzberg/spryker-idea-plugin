@@ -26,6 +26,7 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
     public boolean twigGotoHandlingFeatureActive = true;
     public boolean transferObjectGotoHandlingFeatureActive = true;
     public boolean codeceptionHelperNavigationFeatureActive = true;
+    public boolean twigGlossaryKeyGotoHandlingFeatureActive = true;
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);

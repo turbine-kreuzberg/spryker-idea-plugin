@@ -36,6 +36,7 @@ public class ProjectSettingsState implements PersistentStateComponent<ProjectSet
     public Boolean twigGotoHandlingFeatureActive = null;
     public Boolean transferObjectGotoHandlingFeatureActive = null;
     public Boolean codeceptionHelperNavigationFeatureActive = null;
+    public Boolean twigGlossaryKeyGotoHandlingFeatureActive = null;
 
     // We cannot have a non-serializable field that is not marked as transient
     // The Project reference is obtained through the service locator instead

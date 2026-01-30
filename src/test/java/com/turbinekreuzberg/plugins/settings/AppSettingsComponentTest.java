@@ -80,6 +80,12 @@ public class AppSettingsComponentTest extends PyzPluginTestCase {
         assertTrue("Codeception helper navigation should be enabled", settingsComponent.getCodeceptionHelperNavigationFeatureActiveCheckbox());
         settingsComponent.setCodeceptionHelperNavigationFeatureActiveCheckbox(false);
         assertFalse("Codeception helper navigation should be disabled", settingsComponent.getCodeceptionHelperNavigationFeatureActiveCheckbox());
+
+        // Test Twig glossary key goto handling feature toggle
+        settingsComponent.setTwigGlossaryKeyGotoHandlingFeatureActiveCheckbox(true);
+        assertTrue("Twig glossary key goto handling should be enabled", settingsComponent.getTwigGlossaryKeyGotoHandlingFeatureActiveCheckbox());
+        settingsComponent.setTwigGlossaryKeyGotoHandlingFeatureActiveCheckbox(false);
+        assertFalse("Twig glossary key goto handling should be disabled", settingsComponent.getTwigGlossaryKeyGotoHandlingFeatureActiveCheckbox());
     }
 
     @Override
