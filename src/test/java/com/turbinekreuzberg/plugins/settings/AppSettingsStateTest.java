@@ -82,6 +82,7 @@ public class AppSettingsStateTest extends PyzPluginTestCase {
         assertTrue("Twig goto handling feature should be enabled by default", settings.twigGotoHandlingFeatureActive);
         assertTrue("Transfer object goto handling feature should be enabled by default", settings.transferObjectGotoHandlingFeatureActive);
         assertTrue("Codeception helper navigation feature should be enabled by default", settings.codeceptionHelperNavigationFeatureActive);
+        assertTrue("Twig glossary key goto handling feature should be enabled by default", settings.twigGlossaryKeyGotoHandlingFeatureActive);
     }
 
     @Override
